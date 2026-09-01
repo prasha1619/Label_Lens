@@ -100,15 +100,15 @@ def extract_lower_declaration_text(
     *,
     top_ratio: float = 0.66,
     bottom_ratio: float = 0.94,
-    scale: int = 4,
+    scale: int = 2,
 ) -> OCRResultSchema | None:
-    """OCR the lower declaration strip at high resolution.
+    """OCR the lower declaration strip at usable resolution.
 
     MRP, unit sale price, batch, and date declarations are commonly printed in
     a narrow band near the bottom of toiletries and food packs. On a full-pack
     image their glyphs can be only a few pixels high, even when the overall
-    image passes blur checks. Cropping and enlarging that band preserves the
-    evidence without accepting a price from an arbitrary part of the label.
+    image passes blur checks. A modest enlargement preserves the evidence
+    without creating a multi-million-pixel OCR request on the hosted service.
     """
     temp_path = None
     try:

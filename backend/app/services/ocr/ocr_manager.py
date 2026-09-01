@@ -97,16 +97,19 @@ class TesseractOCRService(BaseOCRService):
     def extract_text(self, image_path: str) -> OCRResultSchema:
         start_time = time.time()
         with Image.open(image_path) as img:
-            # Small label text benefits substantially from a modest upscale. Sparse
-            # text mode is more reliable for declarations arranged in uneven blocks.
+            # The preprocessor already normalizes the image. Upscaling a tall
+            # camera frame here quadrupled the pixels Tesseract had to inspect
+            # and made a Render free-instance scan take minutes.
             image = img.convert("RGB")
-            scale = 2 if max(image.size) < 1800 else 1
-            if scale > 1:
-                image = image.resize((image.width * scale, image.height * scale), Image.Resampling.LANCZOS)
+            scale = 1
             data = self._pytesseract.image_to_data(
                 image,
                 output_type=self._pytesseract.Output.DICT,
-                config="--oem 1 --psm 11 -c preserve_interword_spaces=1",
+                # Product labels are dense text blocks, not sparse documents.
+                # PSM 6 is substantially faster and preserves the line layout
+                # needed by the declaration extractors.
+                config="--oem 1 --psm 6 -c preserve_interword_spaces=1",
+                timeout=25,
             )
             
         # ``line_num`` starts again for every Tesseract block.  Grouping only by
@@ -237,25 +240,24 @@ class OCRManager:
         # Camera frames of tall packs frequently contain text rotated by 90°.
         # OCR confidence alone is not a reliable orientation signal: a sideways
         # page can receive a high confidence score while producing gibberish.
-        # Search the two useful right-angle orientations for portrait captures,
+        # Search one useful right-angle orientation for portrait captures,
         # then choose by text coherence.  Crop OCR disables this search because
         # repeating it for every detector box was the major latency source.
         rotated_results: List[OCRResultSchema] = [result] if result else []
-        initial_quality = self._result_quality(result) if result else 0.0
-        # Do not pay for two extra OCR calls when the first portrait read is
-        # already coherent.  Sideways/gibberish output normally has no label
-        # vocabulary and scores below this threshold despite a deceptively high
-        # engine confidence.
+        # Do not pay for an extra OCR call when Tesseract has found a viable
+        # read. This recovery path is reserved for genuinely weak results;
+        # lexical scoring alone was too strict for valid small labels.
         try_rotation_search = (
             allow_rotation
-            and initial_quality < 0.72
+            and result is not None
+            and (result.total_lines < 3 or result.mean_confidence < 0.42)
             and image_path
             and os.path.exists(image_path)
         )
         if try_rotation_search:
             with Image.open(image_path) as source:
                 width, height = source.size
-            angles = (90, 270) if height > width else ()
+            angles = (90,) if height > width else ()
             for angle in angles:
                 rotated_path = None
                 try:
