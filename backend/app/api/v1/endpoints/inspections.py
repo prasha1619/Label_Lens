@@ -146,7 +146,7 @@ def format_inspection_response(inspection: Inspection) -> InspectionResponse:
     )
 
 @router.post("", response_model=InspectionResponse, status_code=status.HTTP_201_CREATED)
-async def create_inspection(
+def create_inspection(
     files: Optional[List[UploadFile]] = File(None),
     file: Optional[UploadFile] = File(None),
     product_category: str = Form("packaged_commodity"),
@@ -158,6 +158,11 @@ async def create_inspection(
     """
     Uploads 1 or more packaged product label images (multi-panel: PDP front, back, side)
     and executes the end-to-end Legal Metrology cross-panel compliance pipeline.
+
+    This endpoint intentionally remains synchronous. FastAPI therefore runs the
+    CPU-heavy OCR/vision pipeline in its request worker pool instead of on the
+    shared asyncio event loop, keeping History, dashboard, and health requests
+    responsive while a live scan is in progress.
     """
     # Collect all uploaded files (support both `files` multi-upload and `file` single-upload)
     uploaded_files: List[UploadFile] = []
