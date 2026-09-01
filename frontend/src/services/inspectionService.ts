@@ -1,4 +1,4 @@
-import { request } from './api';
+import { request, API_BASE } from './api';
 import { 
   InspectionResponse, 
   InspectionListResponse, 
@@ -94,7 +94,7 @@ export const inspectionService = {
   },
 
   getReportDownloadUrl(id: string): string {
-    return `/api/v1/inspections/${id}/report`;
+    return `${API_BASE}/inspections/${id}/report`;
   },
 
   getImageUrl(id: string, annotated: boolean = true, imageIndex: number = 0, imageId?: string): string {
@@ -102,7 +102,7 @@ export const inspectionService = {
     params.append('annotated', annotated.toString());
     params.append('image_index', imageIndex.toString());
     if (imageId) params.append('image_id', imageId);
-    return `/api/v1/inspections/${id}/image?${params.toString()}`;
+    return `${API_BASE}/inspections/${id}/image?${params.toString()}`;
   }
 };
 

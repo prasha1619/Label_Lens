@@ -1,4 +1,4 @@
-import { request } from './api';
+import { request, API_BASE } from './api';
 import { DemoSample, InspectionResponse } from '../types/inspection';
 
 export const demoService = {
@@ -13,6 +13,6 @@ export const demoService = {
   },
 
   getDemoSampleImageUrl(sampleKey: string): string {
-    return `/api/v1/demo/samples/${sampleKey}/image`;
+    return `${API_BASE}/demo/samples/${sampleKey}/image`;
   }
 };
