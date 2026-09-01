@@ -162,25 +162,28 @@ class OCRManager:
         self._setup_engines()
 
     def _setup_engines(self):
-        # Initialise all supported engines, then honor an explicit configured preference.
-        easy = EasyOCRService()
-        paddle = PaddleOCRService()
-        tess = TesseractOCRService()
-        available_engines = {
-            "easyocr": easy,
-            "paddleocr": paddle,
-            "tesseract": tess,
+        preference = settings.OCR_ENGINE.lower()
+        engine_factories = {
+            "easyocr": EasyOCRService,
+            "paddleocr": PaddleOCRService,
+            "tesseract": TesseractOCRService,
         }
 
-        preference = settings.OCR_ENGINE.lower()
-        preferred_order = ["paddleocr", "easyocr", "tesseract"]
-        if preference in available_engines:
-            preferred_order.remove(preference)
-            preferred_order.insert(0, preference)
-        elif preference not in {"auto", "fallback"}:
+        # Do not initialise every engine at startup: neural engines can download
+        # large model files and exceed a small production instance's memory cap.
+        if preference in engine_factories:
+            preferred_order = [preference]
+        elif preference in {"auto", "fallback"}:
+            preferred_order = ["paddleocr", "easyocr", "tesseract"]
+        else:
             logger.warning(f"Unknown OCR_ENGINE '{settings.OCR_ENGINE}'; using auto selection.")
+            preferred_order = ["paddleocr", "easyocr", "tesseract"]
 
-        self.engines = [available_engines[name] for name in preferred_order if available_engines[name].is_available()]
+        self.engines = []
+        for name in preferred_order:
+            engine = engine_factories[name]()
+            if engine.is_available():
+                self.engines.append(engine)
         if self.engines:
             logger.info(f"{self.engines[0].engine_name} set as primary OCR engine.")
 

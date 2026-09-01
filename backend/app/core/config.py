@@ -72,7 +72,9 @@ class Settings(BaseSettings):
     CONFIDENCE_THRESHOLD: float = 0.50
     
     # OCR Engine: "paddleocr", "easyocr", "tesseract", or "fallback"
-    OCR_ENGINE: str = os.getenv("OCR_ENGINE", "paddleocr")
+    # Tesseract is the production default: it is packaged with the service and
+    # avoids downloading multi-hundred-MB neural OCR weights during startup.
+    OCR_ENGINE: str = os.getenv("OCR_ENGINE", "tesseract" if os.getenv("ENVIRONMENT", "development").lower() == "production" else "paddleocr")
     
     # File Limits
     MAX_UPLOAD_SIZE_MB: int = 15
