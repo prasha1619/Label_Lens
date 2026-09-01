@@ -109,29 +109,42 @@ class TesseractOCRService(BaseOCRService):
                 config="--oem 1 --psm 11 -c preserve_interword_spaces=1",
             )
             
+        # ``line_num`` starts again for every Tesseract block.  Grouping only by
+        # it silently concatenated unrelated declarations into one giant line
+        # (the garbled value shown in the audit screen).  Keep the complete
+        # layout identity instead.
         lines_dict = {}
         for i in range(len(data['text'])):
             word = data['text'][i].strip()
             conf = float(data['conf'][i])
             if not word or conf < 0:
                 continue
-            line_num = data['line_num'][i]
+            line_key = (
+                int(data['block_num'][i]),
+                int(data['par_num'][i]),
+                int(data['line_num'][i]),
+            )
             x, y, w, h = (int(data['left'][i] / scale), int(data['top'][i] / scale),
                           int(data['width'][i] / scale), int(data['height'][i] / scale))
             bbox = [x, y, x + w, y + h]
             
-            if line_num not in lines_dict:
-                lines_dict[line_num] = {"words": [], "bboxes": [], "confs": []}
-            lines_dict[line_num]["words"].append(word)
-            lines_dict[line_num]["bboxes"].append(bbox)
-            lines_dict[line_num]["confs"].append(conf / 100.0)
+            if line_key not in lines_dict:
+                lines_dict[line_key] = {"words": [], "bboxes": [], "confs": []}
+            lines_dict[line_key]["words"].append(word)
+            lines_dict[line_key]["bboxes"].append(bbox)
+            lines_dict[line_key]["confs"].append(conf / 100.0)
 
         lines: List[OCRLine] = []
         confidences = []
         full_text_parts = []
         
-        for idx, line_num in enumerate(sorted(lines_dict.keys())):
-            item = lines_dict[line_num]
+        # Sort by location, rather than Tesseract's internal block order, so
+        # downstream field extraction sees declarations in label reading order.
+        ordered_items = sorted(
+            lines_dict.values(),
+            key=lambda item: (min(box[1] for box in item["bboxes"]), min(box[0] for box in item["bboxes"])),
+        )
+        for idx, item in enumerate(ordered_items):
             line_text = " ".join(item["words"])
             min_x = min(b[0] for b in item["bboxes"])
             min_y = min(b[1] for b in item["bboxes"])
@@ -206,7 +219,13 @@ class OCRManager:
             return self.engines[0].engine_name
         return "Built-in Metrology OCR Engine"
 
-    def extract(self, image_path: str, preprocessed_path: Optional[str] = None) -> OCRResultSchema:
+    def extract(
+        self,
+        image_path: str,
+        preprocessed_path: Optional[str] = None,
+        *,
+        allow_rotation: bool = True,
+    ) -> OCRResultSchema:
         paths_to_try = []
         if preprocessed_path and os.path.exists(preprocessed_path):
             paths_to_try.append(preprocessed_path)
@@ -214,14 +233,30 @@ class OCRManager:
             paths_to_try.append(image_path)
 
         result = self._extract_from_paths(paths_to_try)
-        if result and self._result_quality(result) >= 0.38:
-            return result
 
-        # A package label is often photographed sideways. Retry only low-quality OCR
-        # output at the three alternate orientations; this avoids slowing normal scans.
+        # Camera frames of tall packs frequently contain text rotated by 90°.
+        # OCR confidence alone is not a reliable orientation signal: a sideways
+        # page can receive a high confidence score while producing gibberish.
+        # Search the two useful right-angle orientations for portrait captures,
+        # then choose by text coherence.  Crop OCR disables this search because
+        # repeating it for every detector box was the major latency source.
         rotated_results: List[OCRResultSchema] = [result] if result else []
-        if image_path and os.path.exists(image_path):
-            for angle in (90, 180, 270):
+        initial_quality = self._result_quality(result) if result else 0.0
+        # Do not pay for two extra OCR calls when the first portrait read is
+        # already coherent.  Sideways/gibberish output normally has no label
+        # vocabulary and scores below this threshold despite a deceptively high
+        # engine confidence.
+        try_rotation_search = (
+            allow_rotation
+            and initial_quality < 0.72
+            and image_path
+            and os.path.exists(image_path)
+        )
+        if try_rotation_search:
+            with Image.open(image_path) as source:
+                width, height = source.size
+            angles = (90, 270) if height > width else ()
+            for angle in angles:
                 rotated_path = None
                 try:
                     with Image.open(image_path) as image:
@@ -260,14 +295,32 @@ class OCRManager:
 
     @staticmethod
     def _result_quality(result: OCRResultSchema) -> float:
-        """Prefer coherent words over a high count of isolated OCR characters."""
+        """Prefer readable label text over a confident sideways character stream."""
         if not result.lines:
             return 0.0
+        words = re.findall(r"[A-Za-z]{3,}", result.raw_full_text)
         meaningful = [line for line in result.lines if len(re.sub(r"[^A-Za-z0-9]", "", line.text)) >= 3]
         meaningful_ratio = len(meaningful) / len(result.lines)
         mean_length = sum(len(re.sub(r"\s+", "", line.text)) for line in result.lines) / len(result.lines)
         length_score = min(mean_length / 12.0, 1.0)
-        return (result.mean_confidence * 0.45) + (meaningful_ratio * 0.35) + (length_score * 0.20)
+        # Common packaging words make this orientation-independent without
+        # adding another model or network call.
+        label_terms = {
+            "ingredients", "quantity", "net", "weight", "price", "mrp", "batch",
+            "manufactured", "expiry", "expire", "date", "consumer", "care",
+            "address", "flavour", "flavor", "contains", "product", "packed",
+            "lemon", "sugar", "salt", "india", "gram", "litre", "ml", "kg",
+        }
+        lexical_hits = sum(1 for word in words if word.lower() in label_terms)
+        lexical_score = min(lexical_hits / 3.0, 1.0)
+        word_score = min(len(words) / 8.0, 1.0)
+        return (
+            (result.mean_confidence * 0.25)
+            + (meaningful_ratio * 0.20)
+            + (length_score * 0.10)
+            + (word_score * 0.15)
+            + (lexical_score * 0.30)
+        )
 
     @staticmethod
     def _map_rotation_to_original(result: OCRResultSchema, angle: int, original_path: str) -> None:

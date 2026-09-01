@@ -50,7 +50,10 @@ def extract_region_text(
                 ) as temp_file:
                     temp_path = temp_file.name
                 image.crop((left, top, right, bottom)).save(temp_path)
-                result = ocr_manager.extract(temp_path)
+                # Full-image OCR has already handled orientation.  Searching
+                # rotations for every small detector crop is costly and makes
+                # a single camera scan take tens of seconds.
+                result = ocr_manager.extract(temp_path, allow_rotation=False)
                 elapsed_ms += result.processing_time_ms
                 engine_names.append(result.engine)
 
@@ -125,7 +128,7 @@ def extract_lower_declaration_text(
                 temp_path = temp_file.name
             band.save(temp_path)
 
-        result = ocr_manager.extract(temp_path)
+        result = ocr_manager.extract(temp_path, allow_rotation=False)
         if not result or not result.lines:
             return None
 

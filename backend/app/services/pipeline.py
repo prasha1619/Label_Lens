@@ -96,7 +96,16 @@ class InspectionPipeline:
             ocr_result = ocr_manager.extract(p_path, preprocessed_path=preprocessed_path)
             # A trained detector lets OCR focus on small declaration blocks as well as the
             # full package. Crop results come first so field extraction prefers this evidence.
-            region_ocr_result = extract_region_text(p_path, cv_detections.regions, ocr_manager)
+            # Detector-guided crop OCR is a recovery path, not a mandatory
+            # second pass.  On clear live camera scans it duplicates work for
+            # every bounding box and was responsible for long request times.
+            needs_region_recovery = (
+                ocr_result.total_lines < 4 or ocr_result.mean_confidence < 0.55
+            )
+            region_ocr_result = (
+                extract_region_text(p_path, cv_detections.regions, ocr_manager)
+                if needs_region_recovery else None
+            )
             if region_ocr_result:
                 combined_lines = region_ocr_result.lines + ocr_result.lines
                 for line_number, line in enumerate(combined_lines, start=1):
