@@ -1,0 +1,94 @@
+{
+  "raw_ocr_lines": [
+    {
+      "text": "SPICY CRUNCH POTATO CHIPS (DUO PACK)",
+      "confidence": 0.97,
+      "bbox": [
+        40,
+        35,
+        750,
+        75
+      ]
+    },
+    {
+      "text": "Generic Name: Potato Chips Snacks",
+      "confidence": 0.94,
+      "bbox": [
+        80,
+        220,
+        520,
+        250
+      ]
+    },
+    {
+      "text": "Net Quantity: 2 x 50 g (Total: 100 g)",
+      "confidence": 0.96,
+      "bbox": [
+        80,
+        290,
+        540,
+        320
+      ]
+    },
+    {
+      "text": "MRP: Rs. 40.00 (Incl. of all taxes)",
+      "confidence": 0.95,
+      "bbox": [
+        80,
+        360,
+        500,
+        390
+      ]
+    },
+    {
+      "text": "Month of Pkd: 04/2026",
+      "confidence": 0.91,
+      "bbox": [
+        80,
+        430,
+        380,
+        460
+      ]
+    },
+    {
+      "text": "Manufactured & Packed by: SnackTime Foods Pvt Ltd",
+      "confidence": 0.93,
+      "bbox": [
+        80,
+        570,
+        700,
+        600
+      ]
+    },
+    {
+      "text": "Country of Origin: India",
+      "confidence": 0.96,
+      "bbox": [
+        80,
+        710,
+        380,
+        740
+      ]
+    },
+    {
+      "text": "Consumer Care Helpline: 1800-444-1234",
+      "confidence": 0.94,
+      "bbox": [
+        80,
+        780,
+        520,
+        810
+      ]
+    },
+    {
+      "text": "Consumer Email: support@snacktimefoods.in",
+      "confidence": 0.95,
+      "bbox": [
+        80,
+        850,
+        560,
+        880
+      ]
+    }
+  ]
+}

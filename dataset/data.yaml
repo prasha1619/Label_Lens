@@ -1,0 +1,14 @@
+# Paths are relative to this file. Do not change class IDs after annotation begins.
+path: .
+train: images/train
+val: images/val
+
+names:
+  0: product_name
+  1: mrp
+  2: net_quantity
+  3: mfg_date
+  4: expiry_date
+  5: manufacturer
+  6: consumer_care
+  7: country_of_origin

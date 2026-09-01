@@ -1,0 +1,92 @@
+{
+  "category_id": "electronics_and_appliances",
+  "display_name": "Electronics & Electrical Appliances",
+  "description": "Compliance under Legal Metrology (PC) Rules and BIS Mandatory Registration Scheme.",
+  "rule_set_version": "LM-ELEC-2026.1",
+  "requirements": [
+    {
+      "rule_id": "LM_ELEC_01_PROD_NAME",
+      "field_name": "product_name",
+      "title": "Generic Name of Electronic Device",
+      "legal_reference": "Rule 6(1)(a), Legal Metrology (PC) Rules 2011",
+      "description": "Generic description of device (e.g. Wireless Charger, LED Lamp).",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Declare generic name of electronic device."
+    },
+    {
+      "rule_id": "LM_ELEC_02_NET_QTY",
+      "field_name": "net_quantity",
+      "title": "Package Unit Count (N / Units)",
+      "legal_reference": "Rule 6(1)(c), Legal Metrology (PC) Rules 2011",
+      "description": "Number of units/pieces contained in package (e.g., 1 N, 2 Units).",
+      "is_mandatory": true,
+      "min_confidence_pass": 70,
+      "min_confidence_warning": 50,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Declare package unit count (e.g., '1 N' or '1 Unit')."
+    },
+    {
+      "rule_id": "LM_ELEC_03_MRP",
+      "field_name": "mrp",
+      "title": "Maximum Retail Price (MRP)",
+      "legal_reference": "Rule 6(1)(e), Legal Metrology (PC) Rules 2011",
+      "description": "MRP inclusive of all taxes.",
+      "is_mandatory": true,
+      "min_confidence_pass": 70,
+      "min_confidence_warning": 50,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "State MRP in INR inclusive of all taxes."
+    },
+    {
+      "rule_id": "LM_ELEC_04_MFG_DATE",
+      "field_name": "mfg_date",
+      "title": "Month & Year of Import / Manufacture",
+      "legal_reference": "Rule 6(1)(d), Legal Metrology (PC) Rules 2011",
+      "description": "Month and year of manufacture or packaging/importation.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "MEDIUM",
+      "recommendation_template": "Print month and year of import or assembly."
+    },
+    {
+      "rule_id": "LM_ELEC_05_MANUFACTURER",
+      "field_name": "manufacturer",
+      "title": "Importer / Manufacturer Details",
+      "legal_reference": "Rule 6(1)(b), Legal Metrology (PC) Rules 2011",
+      "description": "Name and complete address of the manufacturer or importer in India.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Provide registered Indian importer or manufacturer details."
+    },
+    {
+      "rule_id": "LM_ELEC_06_COUNTRY_ORIGIN",
+      "field_name": "country_of_origin",
+      "title": "Country of Origin",
+      "legal_reference": "Rule 6(10), Legal Metrology (PC) Rules 2011",
+      "description": "Country of origin is mandatory on electronic packages and imported goods.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Specify Country of Origin clearly (e.g. 'Made in India', 'Country of Origin: Vietnam')."
+    },
+    {
+      "rule_id": "LM_ELEC_07_CONSUMER_CARE",
+      "field_name": "consumer_care",
+      "title": "Customer Support & Warranty Contact",
+      "legal_reference": "Rule 6(1)(da), Legal Metrology (PC) Rules 2011",
+      "description": "Customer care telephone number and email address.",
+      "is_mandatory": true,
+      "min_confidence_pass": 60,
+      "min_confidence_warning": 40,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Include active customer service helpline and support email."
+    }
+  ]
+}

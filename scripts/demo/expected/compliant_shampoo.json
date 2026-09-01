@@ -1,0 +1,104 @@
+{
+  "raw_ocr_lines": [
+    {
+      "text": "NATURE'S ESSENCE HERBAL SHAMPOO",
+      "confidence": 0.98,
+      "bbox": [
+        40,
+        35,
+        750,
+        75
+      ]
+    },
+    {
+      "text": "Generic Name: Herbal Hair Shampoo",
+      "confidence": 0.96,
+      "bbox": [
+        80,
+        220,
+        520,
+        250
+      ]
+    },
+    {
+      "text": "Net Quantity: 200 ml",
+      "confidence": 0.95,
+      "bbox": [
+        80,
+        282,
+        340,
+        312
+      ]
+    },
+    {
+      "text": "M.R.P. : Rs. 249.00 (Incl. of all taxes)",
+      "confidence": 0.97,
+      "bbox": [
+        80,
+        344,
+        580,
+        374
+      ]
+    },
+    {
+      "text": "Month & Year of Mfg: 06/2026",
+      "confidence": 0.93,
+      "bbox": [
+        80,
+        406,
+        450,
+        436
+      ]
+    },
+    {
+      "text": "Best Before: 24 Months from Mfd Date",
+      "confidence": 0.92,
+      "bbox": [
+        80,
+        468,
+        520,
+        498
+      ]
+    },
+    {
+      "text": "Manufactured by: Herbal Care India Pvt. Ltd.",
+      "confidence": 0.94,
+      "bbox": [
+        80,
+        592,
+        600,
+        622
+      ]
+    },
+    {
+      "text": "Address: Plot 42, Sector 5, Industrial Area, Haridwar, PIN 249403",
+      "confidence": 0.91,
+      "bbox": [
+        80,
+        654,
+        780,
+        684
+      ]
+    },
+    {
+      "text": "Country of Origin: India",
+      "confidence": 0.96,
+      "bbox": [
+        80,
+        716,
+        380,
+        746
+      ]
+    },
+    {
+      "text": "Helpline: 1800-200-4567 | Email: customercare@herbalindia.com",
+      "confidence": 0.95,
+      "bbox": [
+        80,
+        840,
+        750,
+        870
+      ]
+    }
+  ]
+}

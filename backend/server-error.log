@@ -1,0 +1,19 @@
+C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\torch\ao\nn\quantized\dynamic\modules\rnn.py:162: UserWarning: torch.quantize_per_tensor, torch.quantize_per_channel and other quantized tensor creation functions that produce tensors with dtype torch.quint8, torch.qint8, and torch.qint32 are deprecated and will be removed in a future PyTorch release. Please see https://github.com/pytorch/pytorch/issues/184982 for more information. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\aten\src\ATen\quantized\Quantizer.cpp:116.)
+  w_ih = torch.quantize_per_tensor(
+INFO: Could not find files for the given pattern(s).
+C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\paddle\utils\cpp_extension\extension_utils.py:712: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+Creating model: ('PP-LCNet_x1_0_doc_ori', None, None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\prash\.paddlex\official_models\PP-LCNet_x1_0_doc_ori`.
+Creating model: ('UVDoc', None, None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\prash\.paddlex\official_models\UVDoc`.
+Creating model: ('PP-LCNet_x1_0_textline_ori', None, None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\prash\.paddlex\official_models\PP-LCNet_x1_0_textline_ori`.
+Creating model: ('PP-OCRv6_medium_det', None, None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\prash\.paddlex\official_models\PP-OCRv6_medium_det`.
+Creating model: ('PP-OCRv6_medium_rec', None, None)
+Model files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\prash\.paddlex\official_models\PP-OCRv6_medium_rec`.
+INFO:     Started server process [17928]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)

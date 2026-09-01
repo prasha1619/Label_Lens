@@ -1,0 +1,84 @@
+{
+  "raw_ocr_lines": [
+    {
+      "text": "CRUNCHY GOLD BUTTER COOKIES",
+      "confidence": 0.97,
+      "bbox": [
+        40,
+        35,
+        680,
+        75
+      ]
+    },
+    {
+      "text": "Generic Name: Butter Cookies Biscuits",
+      "confidence": 0.95,
+      "bbox": [
+        80,
+        220,
+        550,
+        250
+      ]
+    },
+    {
+      "text": "Net Weight: 100 g",
+      "confidence": 0.96,
+      "bbox": [
+        80,
+        295,
+        320,
+        325
+      ]
+    },
+    {
+      "text": "MRP: Rs. 30.00 (Inclusive of all taxes)",
+      "confidence": 0.95,
+      "bbox": [
+        80,
+        370,
+        550,
+        400
+      ]
+    },
+    {
+      "text": "Date of Manufacture: 05/2026",
+      "confidence": 0.92,
+      "bbox": [
+        80,
+        445,
+        430,
+        475
+      ]
+    },
+    {
+      "text": "Manufactured by: Crunchy Bakes Foods Ltd.",
+      "confidence": 0.93,
+      "bbox": [
+        80,
+        595,
+        620,
+        625
+      ]
+    },
+    {
+      "text": "Factory Address: 12 Bakery Road, Food Park, Pune, Maharashtra - 411028",
+      "confidence": 0.9,
+      "bbox": [
+        80,
+        670,
+        820,
+        700
+      ]
+    },
+    {
+      "text": "Country of Origin: India",
+      "confidence": 0.95,
+      "bbox": [
+        80,
+        745,
+        380,
+        775
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #080c1d;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom dashboard styles */
+.bg-dashboard-dark {
+  background-color: #080c1d;
+}
+
+.bg-sidebar-dark {
+  background: linear-gradient(180deg, #090e24 0%, #060918 100%);
+}
+
+.card-bg {
+  background: #0f172a;
+  background: linear-gradient(145deg, #111a36 0%, #0c1328 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.card-bg-subtle {
+  background: rgba(18, 26, 56, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070a18;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e294b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #314275;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+.auth-input { @apply w-full rounded-xl border border-[#263765] bg-[#080f25] px-3 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/15; }

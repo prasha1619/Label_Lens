@@ -1,0 +1,92 @@
+{
+  "category_id": "cosmetics_and_toiletries",
+  "display_name": "Cosmetics & Toiletries",
+  "description": "Rules under Legal Metrology (PC) and Drugs and Cosmetics Rules (Part XV).",
+  "rule_set_version": "LM-COSM-2026.1",
+  "requirements": [
+    {
+      "rule_id": "LM_COS_01_PROD_NAME",
+      "field_name": "product_name",
+      "title": "Cosmetic Product Name",
+      "legal_reference": "Rule 6(1)(a), Legal Metrology (PC) Rules 2011",
+      "description": "Clear statement of identity and nature of the cosmetic.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Ensure cosmetic generic name (e.g., Shampoo, Body Lotion) is visible."
+    },
+    {
+      "rule_id": "LM_COS_02_NET_QTY",
+      "field_name": "net_quantity",
+      "title": "Net Content (ml / g)",
+      "legal_reference": "Rule 6(1)(c), Legal Metrology (PC) Rules 2011",
+      "description": "Net weight (g) or volume (ml) in standard SI units.",
+      "is_mandatory": true,
+      "min_confidence_pass": 70,
+      "min_confidence_warning": 50,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Verify net volume/weight in standard metric units."
+    },
+    {
+      "rule_id": "LM_COS_03_MRP",
+      "field_name": "mrp",
+      "title": "Maximum Retail Price (MRP)",
+      "legal_reference": "Rule 6(1)(e), Legal Metrology (PC) Rules 2011",
+      "description": "MRP inclusive of all taxes.",
+      "is_mandatory": true,
+      "min_confidence_pass": 70,
+      "min_confidence_warning": 50,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Print MRP with tax inclusion notice."
+    },
+    {
+      "rule_id": "LM_COS_04_MFG_DATE",
+      "field_name": "mfg_date",
+      "title": "Date of Manufacture",
+      "legal_reference": "Rule 6(1)(d), Legal Metrology (PC) Rules 2011",
+      "description": "Month and Year of manufacture.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "MEDIUM",
+      "recommendation_template": "Indicate MFD Date (MM/YYYY) clearly."
+    },
+    {
+      "rule_id": "LM_COS_05_EXPIRY_DATE",
+      "field_name": "expiry_date",
+      "title": "Expiry / Best Before Date",
+      "legal_reference": "Drugs & Cosmetics Rules / LM PC Rules",
+      "description": "Date of expiry or 'Use before' statement.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "MEDIUM",
+      "recommendation_template": "Print 'Best before XX months from mfg' or expiry date."
+    },
+    {
+      "rule_id": "LM_COS_06_MANUFACTURER",
+      "field_name": "manufacturer",
+      "title": "Manufacturer Name & Address",
+      "legal_reference": "Rule 6(1)(b), Legal Metrology (PC) Rules 2011",
+      "description": "Name and principal address of the manufacturer.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "State complete manufacturer / packer postal address."
+    },
+    {
+      "rule_id": "LM_COS_07_CONSUMER_CARE",
+      "field_name": "consumer_care",
+      "title": "Consumer Care Information",
+      "legal_reference": "Rule 6(1)(da), Legal Metrology (PC) Rules 2011",
+      "description": "Consumer helpline, contact email, and address.",
+      "is_mandatory": true,
+      "min_confidence_pass": 60,
+      "min_confidence_warning": 40,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Ensure contact number and email for consumer grievances are printed."
+    }
+  ]
+}

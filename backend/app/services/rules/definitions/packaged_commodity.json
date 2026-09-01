@@ -1,0 +1,92 @@
+{
+  "category_id": "packaged_commodity",
+  "display_name": "General Packaged Commodities",
+  "description": "Standard compliance requirements under Legal Metrology (Packaged Commodities) Rules, 2011.",
+  "rule_set_version": "LM-PC-2026.1",
+  "requirements": [
+    {
+      "rule_id": "LM_PC_01_PROD_NAME",
+      "field_name": "product_name",
+      "title": "Common or Generic Name of Commodity",
+      "legal_reference": "Rule 6(1)(a), Legal Metrology (PC) Rules 2011",
+      "description": "Every package must bear the common or generic name of the commodity contained in the package.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Ensure commodity generic name is clearly printed in prominent lettering on Principal Display Panel."
+    },
+    {
+      "rule_id": "LM_PC_02_NET_QTY",
+      "field_name": "net_quantity",
+      "title": "Net Quantity in Standard Units of Measurement",
+      "legal_reference": "Rule 6(1)(c) & Rule 11, Legal Metrology (PC) Rules 2011",
+      "description": "Net quantity must be declared in standard SI metric units (g, kg, ml, L, m, or count/N) without non-standard abbreviations.",
+      "is_mandatory": true,
+      "min_confidence_pass": 70,
+      "min_confidence_warning": 50,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Verify net quantity declaration with standard SI units (g, kg, ml, L, N) and correct font size."
+    },
+    {
+      "rule_id": "LM_PC_03_MRP",
+      "field_name": "mrp",
+      "title": "Maximum Retail Price (MRP - Inclusive of all taxes)",
+      "legal_reference": "Rule 6(1)(e), Legal Metrology (PC) Rules 2011",
+      "description": "Retail sale price must be declared as 'Maximum or Max. Retail Price Rs./₹ ... incl. of all taxes'.",
+      "is_mandatory": true,
+      "min_confidence_pass": 70,
+      "min_confidence_warning": 50,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Print MRP clearly in Indian Rupees with explicit 'inclusive of all taxes' mention."
+    },
+    {
+      "rule_id": "LM_PC_04_MFG_DATE",
+      "field_name": "mfg_date",
+      "title": "Month and Year of Manufacture / Packing",
+      "legal_reference": "Rule 6(1)(d), Legal Metrology (PC) Rules 2011",
+      "description": "Month and year in which commodity is manufactured or pre-packed must be clearly indicated.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "MEDIUM",
+      "recommendation_template": "Ensure legible month and year of packaging (MM/YYYY) is embossed or printed."
+    },
+    {
+      "rule_id": "LM_PC_05_MANUFACTURER",
+      "field_name": "manufacturer",
+      "title": "Name and Complete Address of Manufacturer / Packer",
+      "legal_reference": "Rule 6(1)(b), Legal Metrology (PC) Rules 2011",
+      "description": "Complete name and address of manufacturer, packer, or importer must be printed.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Provide full corporate address including city, state, and postal PIN code."
+    },
+    {
+      "rule_id": "LM_PC_06_CONSUMER_CARE",
+      "field_name": "consumer_care",
+      "title": "Consumer Care Details (Phone, Email, Address)",
+      "legal_reference": "Rule 6(1)(da), Legal Metrology (PC) Rules 2011",
+      "description": "Name, address, telephone number, and email ID of person/office to be contacted in case of consumer complaints.",
+      "is_mandatory": true,
+      "min_confidence_pass": 60,
+      "min_confidence_warning": 40,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Provide complete consumer care helpline number, official grievance email, and postal address."
+    },
+    {
+      "rule_id": "LM_PC_07_COUNTRY_ORIGIN",
+      "field_name": "country_of_origin",
+      "title": "Country of Origin Declaration",
+      "legal_reference": "Rule 6(10), Legal Metrology (PC) Rules 2011",
+      "description": "Country of origin must be stated prominently on all imported and domestic pre-packaged products.",
+      "is_mandatory": false,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "LOW",
+      "recommendation_template": "Specify 'Country of Origin: [Country]' prominently on label."
+    }
+  ]
+}

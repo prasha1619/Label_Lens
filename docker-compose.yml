@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: labellens-db
+    environment:
+      POSTGRES_USER: labellens
+      POSTGRES_PASSWORD: labellens_password
+      POSTGRES_DB: labellens
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U labellens"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: labellens-backend
+    environment:
+      - DATABASE_URL=postgresql://labellens:labellens_password@postgres:5432/labellens
+      - ENVIRONMENT=production
+      - DEBUG=False
+      - MODEL_PATH=/models/legal_label_detector.pt
+      - OCR_ENGINE=paddleocr
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:?Set JWT_SECRET_KEY in your environment}
+      - REFRESH_TOKEN_EXPIRE_DAYS=${REFRESH_TOKEN_EXPIRE_DAYS:-7}
+      - COOKIE_SECURE=True
+    volumes:
+      - ./models:/models
+      - ./backend/uploads:/app/uploads
+      - ./backend/reports:/app/reports
+      - ./demo:/demo
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:

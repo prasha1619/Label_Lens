@@ -1,0 +1,94 @@
+{
+  "raw_ocr_lines": [
+    {
+      "text": "VOLTX 65W GaN USB-C FAST CHARGER",
+      "confidence": 0.98,
+      "bbox": [
+        40,
+        35,
+        720,
+        75
+      ]
+    },
+    {
+      "text": "Generic Name: Fast Power Adapter",
+      "confidence": 0.95,
+      "bbox": [
+        80,
+        220,
+        500,
+        250
+      ]
+    },
+    {
+      "text": "Net Quantity: 1 N",
+      "confidence": 0.96,
+      "bbox": [
+        80,
+        295,
+        300,
+        325
+      ]
+    },
+    {
+      "text": "MRP: Rs. 799.00 (Inclusive of all taxes)",
+      "confidence": 0.97,
+      "bbox": [
+        80,
+        370,
+        560,
+        400
+      ]
+    },
+    {
+      "text": "Month & Year of Import: 03/2026",
+      "confidence": 0.92,
+      "bbox": [
+        80,
+        445,
+        450,
+        475
+      ]
+    },
+    {
+      "text": "Imported & Marketed by: Apex Tech Solutions India Pvt Ltd",
+      "confidence": 0.94,
+      "bbox": [
+        80,
+        520,
+        750,
+        550
+      ]
+    },
+    {
+      "text": "Country of Origin: India",
+      "confidence": 0.96,
+      "bbox": [
+        80,
+        670,
+        380,
+        700
+      ]
+    },
+    {
+      "text": "Customer Support Toll-Free: 1800-111-9988",
+      "confidence": 0.95,
+      "bbox": [
+        80,
+        745,
+        560,
+        775
+      ]
+    },
+    {
+      "text": "Support Email: care@apextech.in",
+      "confidence": 0.96,
+      "bbox": [
+        80,
+        820,
+        460,
+        850
+      ]
+    }
+  ]
+}

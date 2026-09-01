@@ -1,0 +1,80 @@
+{
+  "category_id": "pharmaceuticals",
+  "display_name": "Pharmaceuticals & Healthcare",
+  "description": "Compliance under Legal Metrology (PC) Rules and Drugs and Cosmetics Rules, 1945.",
+  "rule_set_version": "LM-PHARMA-2026.1",
+  "requirements": [
+    {
+      "rule_id": "LM_PHARM_01_PROD_NAME",
+      "field_name": "product_name",
+      "title": "Drug Generic / Brand Name",
+      "legal_reference": "Rule 96, Drugs & Cosmetics Rules / LM Rule 6(1)(a)",
+      "description": "Proper name of the drug or generic international non-proprietary name (INN).",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Print generic chemical/drug formulation name."
+    },
+    {
+      "rule_id": "LM_PHARM_02_NET_QTY",
+      "field_name": "net_quantity",
+      "title": "Net Quantity (Units / Tablets / ml)",
+      "legal_reference": "Rule 6(1)(c), Legal Metrology (PC) Rules 2011",
+      "description": "Number of units/tablets/capsules or liquid volume.",
+      "is_mandatory": true,
+      "min_confidence_pass": 70,
+      "min_confidence_warning": 50,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "State exact count of dosage units or volume."
+    },
+    {
+      "rule_id": "LM_PHARM_03_MRP",
+      "field_name": "mrp",
+      "title": "Maximum Retail Price (MRP - Incl. of all taxes)",
+      "legal_reference": "DPCO (Drugs Price Control Order) / LM Rule 6(1)(e)",
+      "description": "Retail price conforming to DPCO ceiling price guidelines.",
+      "is_mandatory": true,
+      "min_confidence_pass": 70,
+      "min_confidence_warning": 50,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Ensure price does not exceed NPPA ceiling price and includes all taxes."
+    },
+    {
+      "rule_id": "LM_PHARM_04_MFG_DATE",
+      "field_name": "mfg_date",
+      "title": "Date of Manufacture (Mfg Date)",
+      "legal_reference": "Rule 96(1)(v), Drugs & Cosmetics Rules 1945",
+      "description": "Month and year of manufacture.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Clearly print Manufacturing Date."
+    },
+    {
+      "rule_id": "LM_PHARM_05_EXPIRY_DATE",
+      "field_name": "expiry_date",
+      "title": "Date of Expiry (Exp Date)",
+      "legal_reference": "Rule 96(1)(vi), Drugs & Cosmetics Rules 1945",
+      "description": "Date of expiry after which drug is not recommended for use.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Ensure Expiry Date is clearly printed and not obscured."
+    },
+    {
+      "rule_id": "LM_PHARM_06_MANUFACTURER",
+      "field_name": "manufacturer",
+      "title": "Manufacturing License & Address",
+      "legal_reference": "Rule 96(1)(i), Drugs & Cosmetics Rules 1945",
+      "description": "Name and address of licensed pharmaceutical manufacturer.",
+      "is_mandatory": true,
+      "min_confidence_pass": 65,
+      "min_confidence_warning": 45,
+      "severity_if_missing": "HIGH",
+      "recommendation_template": "Provide registered manufacturing license number and facility address."
+    }
+  ]
+}
