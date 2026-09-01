@@ -10,6 +10,8 @@ import {
   Plus,
   Tag,
   ChevronDown,
+  SwitchCamera,
+  ScanLine,
 } from 'lucide-react';
 import { inspectionService } from '../services/inspectionService';
 import { demoService } from '../services/demoService';
@@ -60,6 +62,8 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
   const [activeTab, setActiveTab] = useState<'upload' | 'demo'>('upload');
   const [productCategory, setProductCategory] = useState<string>('packaged_commodity');
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const [cameraFacingMode, setCameraFacingMode] = useState<'environment' | 'user'>('environment');
+  const [isCapturing, setIsCapturing] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentStage, setCurrentStage] = useState(1);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -127,24 +131,57 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
     setOpenTagMenu(null);
   };
 
-  const startCamera = async () => {
+  const stopCamera = useCallback(() => {
+    mediaStreamRef.current?.getTracks().forEach((track) => track.stop());
+    mediaStreamRef.current = null;
+    if (videoRef.current) videoRef.current.srcObject = null;
+    setIsCameraActive(false);
+    setIsCapturing(false);
+  }, []);
+
+  React.useEffect(() => () => stopCamera(), [stopCamera]);
+
+  React.useEffect(() => {
+    if (isCameraActive && videoRef.current && mediaStreamRef.current) {
+      videoRef.current.srcObject = mediaStreamRef.current;
+    }
+  }, [isCameraActive]);
+
+  const startCamera = async (facingMode = cameraFacingMode) => {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setErrorMsg('This browser does not support camera access. Please upload a photo instead.');
+      return;
+    }
+
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      stopCamera();
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: facingMode }, width: { ideal: 1920 }, height: { ideal: 1080 } },
+        audio: false,
+      });
       mediaStreamRef.current = stream;
       if (videoRef.current) videoRef.current.srcObject = stream;
+      setCameraFacingMode(facingMode);
+      setErrorMsg(null);
       setIsCameraActive(true);
-    } catch {
-      setErrorMsg('Camera access denied or unavailable.');
+    } catch (error) {
+      const message = error instanceof DOMException && error.name === 'NotAllowedError'
+        ? 'Camera permission was denied. Allow access in your browser settings and try again.'
+        : 'Camera access is unavailable. Check that no other app is using the camera.';
+      setErrorMsg(message);
     }
   };
 
-  const stopCamera = () => {
-    mediaStreamRef.current?.getTracks().forEach((t) => t.stop());
-    setIsCameraActive(false);
+  const switchCamera = () => {
+    startCamera(cameraFacingMode === 'environment' ? 'user' : 'environment');
   };
 
   const capturePhoto = () => {
-    if (!videoRef.current) return;
+    if (!videoRef.current || !videoRef.current.videoWidth || !videoRef.current.videoHeight) {
+      setErrorMsg('The camera is still starting. Please wait a moment and try again.');
+      return;
+    }
+    setIsCapturing(true);
     const canvas = document.createElement('canvas');
     canvas.width = videoRef.current.videoWidth;
     canvas.height = videoRef.current.videoHeight;
@@ -153,10 +190,13 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
       ctx.drawImage(videoRef.current, 0, 0);
       canvas.toBlob((blob) => {
         if (blob) {
-          addFilesToSlots([new File([blob], `cam_${Date.now()}.png`, { type: 'image/png' })]);
+          addFilesToSlots([new File([blob], `product-scan-${Date.now()}.jpg`, { type: 'image/jpeg' })]);
           stopCamera();
+        } else {
+          setIsCapturing(false);
+          setErrorMsg('Could not capture the image. Please try again.');
         }
-      }, 'image/png');
+      }, 'image/jpeg', 0.92);
     }
   };
 
@@ -253,12 +293,28 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
             </div>
 
             {isCameraActive && (
-              <div className="rounded-3xl bg-slate-950 border border-slate-800 p-4 space-y-4 text-center">
-                <p className="text-xs text-slate-400">Live Camera — point at the package and capture</p>
-                <video ref={videoRef} autoPlay playsInline className="w-full h-72 rounded-2xl object-cover bg-black" />
-                <div className="flex justify-center space-x-4">
-                  <button onClick={capturePhoto} className="px-6 py-2.5 rounded-xl bg-emerald-500 text-white font-semibold text-sm hover:bg-emerald-600 transition-colors">
-                    Capture Photo
+              <div className="rounded-3xl overflow-hidden bg-slate-950 border border-slate-700 shadow-2xl shadow-black/30">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
+                  <div className="flex items-center gap-2 text-left">
+                    <ScanLine className="w-4 h-4 text-emerald-400" />
+                    <div>
+                      <p className="text-sm font-semibold text-slate-100">Product scanner</p>
+                      <p className="text-[11px] text-slate-400">Align the label inside the frame</p>
+                    </div>
+                  </div>
+                  <button onClick={switchCamera} className="p-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors" title="Switch camera" aria-label="Switch camera">
+                    <SwitchCamera className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="relative bg-black aspect-[4/3] max-h-[28rem]">
+                  <video ref={videoRef} autoPlay playsInline muted className="w-full h-full object-cover" />
+                  <div className="absolute inset-[12%] rounded-2xl border-2 border-white/80 shadow-[0_0_0_999px_rgba(0,0,0,0.38)] pointer-events-none">
+                    <span className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-[11px] text-white/90">Keep the declaration text clear</span>
+                  </div>
+                </div>
+                <div className="flex justify-center gap-3 p-4">
+                  <button disabled={isCapturing} onClick={capturePhoto} className="px-6 py-2.5 rounded-xl bg-emerald-500 text-white font-semibold text-sm hover:bg-emerald-600 disabled:opacity-60 transition-colors">
+                    {isCapturing ? 'Capturing…' : 'Capture product'}
                   </button>
                   <button onClick={stopCamera} className="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-semibold text-sm hover:bg-slate-700 transition-colors">
                     Cancel
