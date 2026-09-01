@@ -13,5 +13,4 @@ pytest>=8.2.0
 numpy>=1.26.0
 opencv-python-headless>=4.10.0; platform_system != "Windows"
 opencv-python>=4.10.0; platform_system == "Windows"
-ultralytics>=8.2.0
 pytesseract>=0.3.10
