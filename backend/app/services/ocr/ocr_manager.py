@@ -97,7 +97,17 @@ class TesseractOCRService(BaseOCRService):
     def extract_text(self, image_path: str) -> OCRResultSchema:
         start_time = time.time()
         with Image.open(image_path) as img:
-            data = self._pytesseract.image_to_data(img, output_type=self._pytesseract.Output.DICT)
+            # Small label text benefits substantially from a modest upscale. Sparse
+            # text mode is more reliable for declarations arranged in uneven blocks.
+            image = img.convert("RGB")
+            scale = 2 if max(image.size) < 1800 else 1
+            if scale > 1:
+                image = image.resize((image.width * scale, image.height * scale), Image.Resampling.LANCZOS)
+            data = self._pytesseract.image_to_data(
+                image,
+                output_type=self._pytesseract.Output.DICT,
+                config="--oem 1 --psm 11 -c preserve_interword_spaces=1",
+            )
             
         lines_dict = {}
         for i in range(len(data['text'])):
@@ -106,7 +116,8 @@ class TesseractOCRService(BaseOCRService):
             if not word or conf < 0:
                 continue
             line_num = data['line_num'][i]
-            x, y, w, h = data['left'][i], data['top'][i], data['width'][i], data['height'][i]
+            x, y, w, h = (int(data['left'][i] / scale), int(data['top'][i] / scale),
+                          int(data['width'][i] / scale), int(data['height'][i] / scale))
             bbox = [x, y, x + w, y + h]
             
             if line_num not in lines_dict:

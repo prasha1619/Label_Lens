@@ -73,6 +73,7 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
   const [openTagMenu, setOpenTagMenu] = useState<string | null>(null);
 
   const batchFileInputRef = useRef<HTMLInputElement | null>(null);
+  const nativeCameraInputRef = useRef<HTMLInputElement | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
 
@@ -155,10 +156,20 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
 
     try {
       stopCamera();
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: facingMode }, width: { ideal: 1920 }, height: { ideal: 1080 } },
-        audio: false,
-      });
+      let stream: MediaStream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: facingMode }, width: { ideal: 1920 }, height: { ideal: 1080 } },
+          audio: false,
+        });
+      } catch (constraintError) {
+        // Some mobile browsers reject preferred camera/resolution constraints.
+        if (constraintError instanceof DOMException && ['OverconstrainedError', 'NotFoundError'].includes(constraintError.name)) {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        } else {
+          throw constraintError;
+        }
+      }
       mediaStreamRef.current = stream;
       if (videoRef.current) videoRef.current.srcObject = stream;
       setCameraFacingMode(facingMode);
@@ -167,7 +178,7 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
     } catch (error) {
       const message = error instanceof DOMException && error.name === 'NotAllowedError'
         ? 'Camera permission was denied. Allow access in your browser settings and try again.'
-        : 'Camera access is unavailable. Check that no other app is using the camera.';
+        : 'Live camera access is unavailable. Use “Take photo with device camera” below as a fallback.';
       setErrorMsg(message);
     }
   };
@@ -348,11 +359,30 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
                   <Camera className="w-3.5 h-3.5" />
                   <span>Use Camera</span>
                 </button>
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); nativeCameraInputRef.current?.click(); }}
+                  className="inline-flex items-center space-x-1.5 text-xs px-3 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/25 transition-colors"
+                >
+                  <Camera className="w-3.5 h-3.5" />
+                  <span>Take photo with device camera</span>
+                </button>
                 <input
                   ref={batchFileInputRef}
                   type="file"
                   accept="image/png,image/jpeg,image/jpg,image/webp"
                   multiple
+                  className="hidden"
+                  onChange={(e) => {
+                    if (e.target.files) addFilesToSlots(Array.from(e.target.files));
+                    e.target.value = '';
+                  }}
+                />
+                <input
+                  ref={nativeCameraInputRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
                   className="hidden"
                   onChange={(e) => {
                     if (e.target.files) addFilesToSlots(Array.from(e.target.files));
