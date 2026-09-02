@@ -26,11 +26,13 @@ dist/
 build/
 frontend/dist/
 
-# Logs & DBs
+# Logs, Uploads & DBs
 *.log
 labellens.db
 server.log
 server-error.log
+backend/uploads/
+backend/reports/
 
 # IDE
 .vscode/

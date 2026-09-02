@@ -1,0 +1,1730 @@
+2026-09-01 09:56:18 | INFO     | labellens:setup_logging:23 - Initialized LabelLens - AI Legal Metrology Compliance v1.0.0 [development]
+2026-09-01 09:56:21 | INFO     | labellens:init_db:66 - Database tables initialized successfully on Supabase PostgreSQL.
+2026-09-01 09:56:22 | INFO     | labellens:_load_model:35 - YOLO detector model not found at 'models/legal_label_detector.pt'. Inference detector will report unconfigured status.
+2026-09-01 09:56:26 | WARNING  | easyocr.easyocr:__init__:71 - Using CPU. Note: This module is much faster with a GPU.
+2026-09-01 09:56:28 | INFO     | labellens:__init__:22 - EasyOCR initialized successfully.
+2026-09-01 09:56:28 | DEBUG    | matplotlib:wrapper:347 - matplotlib data path: C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\matplotlib\mpl-data
+2026-09-01 09:56:28 | DEBUG    | matplotlib:wrapper:347 - CONFIGDIR=C:\Users\prash\AppData\Local\matplotlib
+2026-09-01 09:56:28 | DEBUG    | matplotlib:<module>:1564 - interactive is False
+2026-09-01 09:56:28 | DEBUG    | matplotlib:<module>:1565 - platform is win32
+2026-09-01 09:56:28 | DEBUG    | matplotlib:wrapper:347 - CACHEDIR=C:\Users\prash\AppData\Local\matplotlib
+2026-09-01 09:56:28 | DEBUG    | matplotlib.font_manager:_load_fontmanager:1843 - Using fontManager instance from C:\Users\prash\AppData\Local\matplotlib\fontlist-v3.11.0.json
+2026-09-01 09:56:32 | INFO     | labellens:_init_engine:24 - PaddleOCR engine initialized successfully.
+2026-09-01 09:56:32 | INFO     | labellens:_setup_engines:185 - PaddleOCR (en) set as primary OCR engine.
+2026-09-01 09:56:33 | DEBUG    | asyncio:__init__:634 - Using proactor: IocpProactor
+2026-09-01 09:56:33 | INFO     | labellens:lifespan:25 - Initializing LabelLens Backend Services...
+2026-09-01 09:56:35 | INFO     | labellens:init_db:66 - Database tables initialized successfully on Supabase PostgreSQL.
+2026-09-01 09:56:35 | INFO     | labellens:load_all_rules:64 - Loaded 5 Legal Metrology rule categories.
+2026-09-01 09:56:35 | INFO     | labellens:lifespan:29 - Application startup completed successfully.
+2026-09-01 09:57:45 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-01 09:57:45 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'handwash.jpeg'...
+2026-09-01 09:57:45 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 1713.98)
+2026-09-01 09:57:45 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\8d29b03a36b44942b02e9a32963ba338_handwash_preprocessed.jpeg...
+2026-09-01 09:58:36 | INFO     | labellens:run:113 - Panel #0 OCR complete: 41 lines extracted.
+2026-09-01 09:58:36 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 5 fields.
+2026-09-01 09:58:36 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_s9coai92.png...
+2026-09-01 09:59:46 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 6 fields.
+2026-09-01 09:59:46 | INFO     | labellens:run:138 - Panel #0 declaration-strip OCR retry: MRP detected.
+2026-09-01 09:59:46 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=69.1
+2026-09-01 09:59:47 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_8cc02151-876b-4d4e-b8a7-b71756229906.pdf
+2026-09-01 09:59:47 | INFO     | labellens:run:356 - Pipeline completed successfully in 120965.2ms for Inspection ID: 8cc02151-876b-4d4e-b8a7-b71756229906 (1 panels analyzed)
+2026-09-01 10:02:05 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-01 10:02:05 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'notebook.jpeg'...
+2026-09-01 10:02:05 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 799.12)
+2026-09-01 10:02:05 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\4d9cc79429044749b2a5d437c21ac93a_notebook_preprocessed.jpeg...
+2026-09-01 10:02:39 | INFO     | labellens:run:113 - Panel #0 OCR complete: 17 lines extracted.
+2026-09-01 10:02:39 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 3 fields.
+2026-09-01 10:02:39 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=59.5
+2026-09-01 10:02:41 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_ee9c9919-4748-4af2-a9e7-c929effd0016.pdf
+2026-09-01 10:02:41 | INFO     | labellens:run:356 - Pipeline completed successfully in 34603.9ms for Inspection ID: ee9c9919-4748-4af2-a9e7-c929effd0016 (1 panels analyzed)
+2026-09-01 11:18:59 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-01 11:18:59 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'perfume 2.jpeg'...
+2026-09-01 11:19:00 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 2678.54)
+2026-09-01 11:19:00 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\436d03611cf34d42a2bc2c58abbb582a_perfume 2_preprocessed.jpeg...
+2026-09-01 11:20:11 | INFO     | labellens:run:113 - Panel #0 OCR complete: 44 lines extracted.
+2026-09-01 11:20:11 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 8 fields.
+2026-09-01 11:20:11 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=97.6
+2026-09-01 11:20:12 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_be25c646-12fd-4009-89e9-4a1b781036b7.pdf
+2026-09-01 11:20:12 | INFO     | labellens:run:356 - Pipeline completed successfully in 71926.2ms for Inspection ID: be25c646-12fd-4009-89e9-4a1b781036b7 (1 panels analyzed)
+2026-09-01 11:25:08 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-01 11:25:08 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792ACB0B0>
+2026-09-01 11:25:08 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x0000017792C799D0> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-01 11:25:08 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792AC3FE0>
+2026-09-01 11:25:08 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-01 11:25:08 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-01 11:25:08 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-01 11:25:08 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-01 11:25:08 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-01 11:25:09 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'Date', b'Tue, 01 Sep 2026 05:55:09 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'81'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a342063efe9f3fea-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a05b89-246d-7ad3-a39a-b3aa2d906124'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'145'), (b'x-sb-error-code', b'invalid_credentials'), (b'set-cookie', b'__cf_bm=tlPtYrEiEipZ9vZBq7MJtruiS9sulMhmR9RhYPnYG5E-1788242109.2754817-1.0.1.1-pxiDjdlnIhEFQdLZC4TJpiqJK1x6K00wXzE3K4kXzRw3Pb6ab5u_VslgbTjRRiEVyRyeb5u9yeeZnkMdwkz7rs2_0Ewu4Zm07sCF08p3dhXIhjPR3f3CmBKn1TChienk; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Tue, 01 Sep 2026 06:25:09 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-01 11:25:09 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/token?grant_type=password "HTTP/1.1 400 Bad Request"
+2026-09-01 11:25:09 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-01 11:25:09 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-01 11:25:09 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-01 11:25:09 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-01 11:25:09 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-01 11:25:09 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-01 11:25:51 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-01 11:25:51 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792E1C0B0>
+2026-09-01 11:25:51 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x0000017792A99C50> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-01 11:25:54 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792DF7E30>
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 01 Sep 2026 05:55:55 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'384'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a342075becfa37a5-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Content-Encoding', b'gzip'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin, Accept-Encoding'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a05b89-d668-739d-907a-1fc7d8dc4509'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'136'), (b'set-cookie', b'__cf_bm=jChb16gYXmJ8KNnz7GW2gJA.BiJm7x7pDUi0pfCoPEM-1788242154.8686-1.0.1.1-PHV7a2SiGx72Ic0CsgnE7blwh7It_rUkxQCc_ew.uGHccazDzGfAx3s6rZYC5c.UdWtSwN5E30oqVpia8jXDAwkH67erpGCx9RYP.Di8e9YmyTk6aAUGOe6Oj4vOfnPq; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Tue, 01 Sep 2026 06:25:55 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-01 11:25:54 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/admin/users "HTTP/1.1 200 OK"
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-01 11:25:54 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-01 11:25:54 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-01 11:25:54 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-01 13:36:55 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-01 13:36:55 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'perfume 2.jpeg'...
+2026-09-01 13:36:55 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 2678.54)
+2026-09-01 13:36:55 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\c8d163960c8d4825979ef004e17087fb_perfume 2_preprocessed.jpeg...
+2026-09-01 13:37:53 | INFO     | labellens:run:113 - Panel #0 OCR complete: 44 lines extracted.
+2026-09-01 13:37:53 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 8 fields.
+2026-09-01 13:37:53 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=97.6
+2026-09-01 13:37:59 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_47da6bca-b80c-4c67-8104-a1b1f8b72ffc.pdf
+2026-09-01 13:37:59 | INFO     | labellens:run:356 - Pipeline completed successfully in 58484.3ms for Inspection ID: 47da6bca-b80c-4c67-8104-a1b1f8b72ffc (1 panels analyzed)
+2026-09-01 13:39:12 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-01 13:39:12 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'butter.jpeg'...
+2026-09-01 13:39:12 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 2010.53)
+2026-09-01 13:39:12 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\cf328d776ca84d5580f187cf03a696bd_butter_preprocessed.jpeg...
+2026-09-01 13:39:45 | INFO     | labellens:run:113 - Panel #0 OCR complete: 44 lines extracted.
+2026-09-01 13:39:45 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 7 fields.
+2026-09-01 13:39:45 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=96.8
+2026-09-01 13:39:48 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_263dbf99-3a21-4edd-938f-62f7e5d01ffb.pdf
+2026-09-01 13:39:48 | INFO     | labellens:run:356 - Pipeline completed successfully in 33172.3ms for Inspection ID: 263dbf99-3a21-4edd-938f-62f7e5d01ffb (1 panels analyzed)
+2026-09-01 13:42:34 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-01 13:42:34 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792AC98E0>
+2026-09-01 13:42:34 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x0000017792C79F50> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-01 13:42:34 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792ACBBF0>
+2026-09-01 13:42:34 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-01 13:42:34 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-01 13:42:34 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-01 13:42:34 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-01 13:42:34 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-01 13:42:35 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 01 Sep 2026 08:12:36 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'390'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a342cf8f1a7ba7c7-DEL'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Content-Encoding', b'gzip'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin, Accept-Encoding'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a05c06-f6c0-73dd-9a19-5153db556c1d'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'273'), (b'set-cookie', b'__cf_bm=L9G5M5KSqaKj96ijqGA8_quy.YoxqNvcPHIRXQDcu4E-1788250355.0577474-1.0.1.1-guYRyWtyUo_ZCuNLS5Y9lY1o6FkAeuOgnkJD0JHsvAkarnhKJSIcY.iw3.cs1RmU6gs53iYebJOInGVtNUu44h2uChQ3nO5Fy7mx7WRLdt_gF_HlTgbp7w6kRw6H0fb2; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Tue, 01 Sep 2026 08:42:36 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-01 13:42:35 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/admin/users "HTTP/1.1 200 OK"
+2026-09-01 13:42:35 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-01 13:42:35 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-01 13:42:35 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-01 13:42:35 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-01 13:42:35 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-01 13:42:35 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-01 13:42:42 | WARNING  | labellens:label_lens_exception_handler:32 - LabelLensException on GET /api/v1/inspections/263dbf99-3a21-4edd-938f-62f7e5d01ffb: Inspection with identifier '263dbf99-3a21-4edd-938f-62f7e5d01ffb' was not found. (details: {})
+2026-09-01 13:42:43 | WARNING  | labellens:label_lens_exception_handler:32 - LabelLensException on GET /api/v1/inspections/263dbf99-3a21-4edd-938f-62f7e5d01ffb: Inspection with identifier '263dbf99-3a21-4edd-938f-62f7e5d01ffb' was not found. (details: {})
+2026-09-01 14:14:42 | ERROR    | labellens:global_exception_handler:76 - Unhandled Exception on GET /api/v1/auth/me: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-09-01 14:14:42 | ERROR    | labellens:global_exception_handler:76 - Unhandled Exception on GET /api/v1/auth/me: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-09-01 14:30:24 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-01 14:30:24 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792C69730>
+2026-09-01 14:30:24 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x0000017799308BD0> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-01 14:30:24 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792AC3470>
+2026-09-01 14:30:24 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-01 14:30:24 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-01 14:30:24 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-01 14:30:24 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-01 14:30:24 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-01 14:30:25 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 01 Sep 2026 09:00:26 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'1105'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a34315a3889f3fc6-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Content-Encoding', b'gzip'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin, Accept-Encoding'), (b'sb-auth-refresh-token-prefix', b'psn3u'), (b'sb-auth-session-id', b'd319df5d-e388-45b5-aebe-1d6a3e7c337b'), (b'sb-auth-user-id', b'9b4cf23c-aeba-4a6a-a87b-050a464f8494'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a05c32-c349-7588-8d0e-216ae5104360'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'428'), (b'set-cookie', b'__cf_bm=CEonGT0.oaHJTZtw8MsJaMCtihvqgvcwgp_9CTwBfy4-1788253225.525249-1.0.1.1-2CN8Ar8Naqm.LAJu2vl0N9Y1.GMUX7lvzEsZS5T6vHSAI4IFtMwiZrlF6QV2owFfE4UerP86MqF3qgQ0x0iA9KWjFdBvJOW3WlPAmpfDZg7EPszbwNKfYw5Xt8oAS6EK; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Tue, 01 Sep 2026 09:30:26 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-01 14:30:25 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/token?grant_type=password "HTTP/1.1 200 OK"
+2026-09-01 14:30:25 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-01 14:30:25 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-01 14:30:25 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-01 14:30:25 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-01 14:30:25 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-01 14:30:25 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-01 16:52:32 | ERROR    | labellens:global_exception_handler:76 - Unhandled Exception on GET /api/v1/auth/me: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-09-01 16:52:32 | ERROR    | labellens:global_exception_handler:76 - Unhandled Exception on GET /api/v1/auth/me: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-09-01 17:03:08 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-01 17:03:08 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792ACB4A0>
+2026-09-01 17:03:08 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x00000177928623D0> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-01 17:03:08 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792ACABA0>
+2026-09-01 17:03:08 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-01 17:03:08 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-01 17:03:08 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-01 17:03:08 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-01 17:03:08 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-01 17:03:09 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 01 Sep 2026 11:33:09 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'1115'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a343f55d5eb33218-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Content-Encoding', b'gzip'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin, Accept-Encoding'), (b'sb-auth-refresh-token-prefix', b'olme4'), (b'sb-auth-session-id', b'b91398e8-9e28-4c70-86e3-a93718fdf254'), (b'sb-auth-user-id', b'fa25651a-0039-43bb-9a42-1634fa2aefbb'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a05cbe-975c-730d-9b17-86eb2db6a96b'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'244'), (b'set-cookie', b'__cf_bm=cyblxQh4V4EwQ75VZv6p0A_hZbc08LnVpR9SFd53n6w-1788262389.333033-1.0.1.1-BqcKARpCpYYt2xoqp2wJYTcEv2KjsaePVEAMgHZss3.uBgCssXevVzGbr8ZI5oTdM3z5OsgMqM3u3vEURAMirvhQykxIwWEFDR1rlD5lZwgk9Gd31zRbIzh_rnGvmepB; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Tue, 01 Sep 2026 12:03:09 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-01 17:03:09 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/token?grant_type=password "HTTP/1.1 200 OK"
+2026-09-01 17:03:09 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-01 17:03:09 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-01 17:03:09 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-01 17:03:09 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-01 17:03:09 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-01 17:03:09 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-01 17:04:55 | INFO     | labellens:run:65 - Starting inspection pipeline for 2 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-01 17:04:55 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'product-scan-1788262462028.jpg'...
+2026-09-01 17:04:56 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 645.09)
+2026-09-01 17:04:56 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\fa426e210e3642b0b03598fc1be28058_product-scan-1788262462028_preprocessed.jpg...
+2026-09-01 17:05:29 | INFO     | labellens:run:113 - Panel #0 OCR complete: 35 lines extracted.
+2026-09-01 17:05:29 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 6 fields.
+2026-09-01 17:05:29 | INFO     | labellens:run:82 - Processing Panel #1 [back]: 'product-scan-1788262490713.jpg'...
+2026-09-01 17:05:29 | INFO     | labellens:run:86 - Panel #1 Quality: PASS (Blur: 141.35)
+2026-09-01 17:05:29 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\a494a3ade21e4ca08b87c88432c4742d_product-scan-1788262490713_preprocessed.jpg...
+2026-09-01 17:05:45 | INFO     | labellens:run:113 - Panel #1 OCR complete: 8 lines extracted.
+2026-09-01 17:05:45 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 1 fields.
+2026-09-01 17:05:45 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_yuqohc8a.png...
+2026-09-01 17:06:14 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 1 fields.
+2026-09-01 17:06:14 | INFO     | labellens:run:138 - Panel #1 declaration-strip OCR retry: MRP still not detected.
+2026-09-01 17:06:14 | INFO     | labellens:fuse_panels:105 - Fusing statutory field extractions across 2 image panels...
+2026-09-01 17:06:14 | INFO     | labellens:fuse_panels:169 - Multi-panel fusion complete: 6 statutory declarations unified across 2 panels.
+2026-09-01 17:06:14 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=97.9
+2026-09-01 17:06:16 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_8c3b9b04-74dd-435f-8b43-0014de7c6071.pdf
+2026-09-01 17:06:16 | INFO     | labellens:run:356 - Pipeline completed successfully in 78312.2ms for Inspection ID: 8c3b9b04-74dd-435f-8b43-0014de7c6071 (2 panels analyzed)
+2026-09-01 17:08:12 | INFO     | labellens:run:65 - Starting inspection pipeline for 3 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-01 17:08:12 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'product-scan-1788262647970.jpg'...
+2026-09-01 17:08:12 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 191.7)
+2026-09-01 17:08:12 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\e2bcc1e6363a4b93b2932da0a7d7be99_product-scan-1788262647970_preprocessed.jpg...
+2026-09-01 17:08:24 | INFO     | labellens:run:113 - Panel #0 OCR complete: 1 lines extracted.
+2026-09-01 17:08:24 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 1 fields.
+2026-09-01 17:08:25 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_wsvghny6.png...
+2026-09-01 17:08:52 | INFO     | labellens:_extract_from_paths:238 - Running OCR using EasyOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_wsvghny6.png...
+2026-09-01 17:09:04 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_s1azn1j1.png...
+2026-09-01 17:09:32 | INFO     | labellens:_extract_from_paths:238 - Running OCR using EasyOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_s1azn1j1.png...
+2026-09-01 17:09:43 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_ewe3wgt3.png...
+2026-09-01 17:10:10 | INFO     | labellens:_extract_from_paths:238 - Running OCR using EasyOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_ewe3wgt3.png...
+2026-09-01 17:10:21 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_9_lzwgb0.png...
+2026-09-01 17:10:48 | INFO     | labellens:_extract_from_paths:238 - Running OCR using EasyOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_9_lzwgb0.png...
+2026-09-01 17:10:59 | INFO     | labellens:run:82 - Processing Panel #1 [back]: 'product-scan-1788262659759.jpg'...
+2026-09-01 17:10:59 | INFO     | labellens:run:86 - Panel #1 Quality: PASS (Blur: 498.18)
+2026-09-01 17:10:59 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\33dc972dd32547388dc97f073619551d_product-scan-1788262659759_preprocessed.jpg...
+2026-09-01 17:11:21 | INFO     | labellens:run:113 - Panel #1 OCR complete: 22 lines extracted.
+2026-09-01 17:11:21 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 4 fields.
+2026-09-01 17:11:22 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_42a75ia9.png...
+2026-09-01 17:11:49 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_x36q8bae.png...
+2026-09-01 17:12:17 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_s3j86_yn.png...
+2026-09-01 17:12:45 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_voldwyxp.png...
+2026-09-01 17:13:12 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 4 fields.
+2026-09-01 17:13:12 | INFO     | labellens:run:138 - Panel #1 declaration-strip OCR retry: MRP still not detected.
+2026-09-01 17:13:12 | INFO     | labellens:run:82 - Processing Panel #2 [side]: 'product-scan-1788262686541.jpg'...
+2026-09-01 17:13:12 | INFO     | labellens:run:86 - Panel #2 Quality: PASS (Blur: 106.97)
+2026-09-01 17:13:12 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\a0da1d05cb3d474394b5ca9b31631ba2_product-scan-1788262686541_preprocessed.jpg...
+2026-09-01 17:13:23 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_4qb4c2qa.png...
+2026-09-01 17:13:35 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_jn_ghen3.png...
+2026-09-01 17:13:45 | INFO     | labellens:_extract_from_paths:238 - Running OCR using EasyOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_jn_ghen3.png...
+2026-09-01 17:13:54 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_iinimwt8.png...
+2026-09-01 17:14:03 | INFO     | labellens:_extract_from_paths:238 - Running OCR using EasyOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_iinimwt8.png...
+2026-09-01 17:14:12 | INFO     | labellens:run:113 - Panel #2 OCR complete: 2 lines extracted.
+2026-09-01 17:14:12 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 0 fields.
+2026-09-01 17:14:12 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_ucoacndy.png...
+2026-09-01 17:14:37 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_nkssx49y.png...
+2026-09-01 17:15:05 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_t5m4xlzf.png...
+2026-09-01 17:15:33 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_99usbvb3.png...
+2026-09-01 17:16:00 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 0 fields.
+2026-09-01 17:16:00 | INFO     | labellens:run:138 - Panel #2 declaration-strip OCR retry: MRP still not detected.
+2026-09-01 17:16:00 | INFO     | labellens:fuse_panels:105 - Fusing statutory field extractions across 3 image panels...
+2026-09-01 17:16:00 | INFO     | labellens:fuse_panels:169 - Multi-panel fusion complete: 4 statutory declarations unified across 3 panels.
+2026-09-01 17:16:00 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=69.1
+2026-09-01 22:04:30 | ERROR    | labellens:global_exception_handler:76 - Unhandled Exception on GET /api/v1/auth/me: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-09-01 22:04:30 | ERROR    | labellens:global_exception_handler:76 - Unhandled Exception on GET /api/v1/auth/me: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-09-01 23:51:13 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-01 23:51:13 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'butter.jpeg'...
+2026-09-01 23:51:13 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 2010.53)
+2026-09-01 23:51:13 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\1722b8c5fca3482299d097de962a07e6_butter_preprocessed.jpeg...
+2026-09-01 23:51:53 | INFO     | labellens:run:113 - Panel #0 OCR complete: 44 lines extracted.
+2026-09-01 23:51:53 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 7 fields.
+2026-09-01 23:51:53 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=96.8
+2026-09-01 23:51:56 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_6eba39dc-531a-4513-bb5a-2786afaedd77.pdf
+2026-09-01 23:51:56 | INFO     | labellens:run:356 - Pipeline completed successfully in 40677.5ms for Inspection ID: 6eba39dc-531a-4513-bb5a-2786afaedd77 (1 panels analyzed)
+2026-09-02 00:16:51 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 00:16:51 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'butter.jpeg'...
+2026-09-02 00:16:51 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 2010.53)
+2026-09-02 00:16:51 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\fcbdf183893f470090bfe23ecb6ab23f_butter_preprocessed.jpeg...
+2026-09-02 00:17:25 | INFO     | labellens:run:113 - Panel #0 OCR complete: 44 lines extracted.
+2026-09-02 00:17:25 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 7 fields.
+2026-09-02 00:17:25 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=96.8
+2026-09-02 00:17:27 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_915f1d1a-52c4-419e-9cf3-b490ca10aca6.pdf
+2026-09-02 00:17:27 | INFO     | labellens:run:356 - Pipeline completed successfully in 34542.8ms for Inspection ID: 915f1d1a-52c4-419e-9cf3-b490ca10aca6 (1 panels analyzed)
+2026-09-02 00:19:14 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 00:19:14 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'handwash.jpeg'...
+2026-09-02 00:19:14 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 1713.98)
+2026-09-02 00:19:14 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\617c89930ed948f4a3906272652526c0_handwash_preprocessed.jpeg...
+2026-09-02 00:19:48 | INFO     | labellens:run:113 - Panel #0 OCR complete: 41 lines extracted.
+2026-09-02 00:19:48 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 5 fields.
+2026-09-02 00:19:48 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_f_d3rsp7.png...
+2026-09-02 00:20:22 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 6 fields.
+2026-09-02 00:20:22 | INFO     | labellens:run:138 - Panel #0 declaration-strip OCR retry: MRP detected.
+2026-09-02 00:20:22 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=69.1
+2026-09-02 00:20:24 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_d47b185b-29c5-4bec-af4b-1d6b446d0169.pdf
+2026-09-02 00:20:24 | INFO     | labellens:run:356 - Pipeline completed successfully in 68101.0ms for Inspection ID: d47b185b-29c5-4bec-af4b-1d6b446d0169 (1 panels analyzed)
+2026-09-02 00:31:37 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 00:31:37 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'cream.jpeg'...
+2026-09-02 00:31:37 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 481.47)
+2026-09-02 00:31:37 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\ab38f973a1b24b6d829d5cd7b46514b7_cream_preprocessed.jpeg...
+2026-09-02 00:31:54 | INFO     | labellens:run:113 - Panel #0 OCR complete: 16 lines extracted.
+2026-09-02 00:31:54 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 5 fields.
+2026-09-02 00:31:54 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=83.9
+2026-09-02 00:31:55 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_0361147f-19ea-4076-88ae-3b8f71122a68.pdf
+2026-09-02 00:31:55 | INFO     | labellens:run:356 - Pipeline completed successfully in 16778.0ms for Inspection ID: 0361147f-19ea-4076-88ae-3b8f71122a68 (1 panels analyzed)
+2026-09-02 00:36:51 | INFO     | labellens:run:65 - Starting inspection pipeline for 2 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 00:36:51 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'r3.jpeg'...
+2026-09-02 00:36:51 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 853.25)
+2026-09-02 00:36:51 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\a1723f6288b842f38d629d988922958c_r3_preprocessed.jpeg...
+2026-09-02 00:37:14 | INFO     | labellens:run:113 - Panel #0 OCR complete: 32 lines extracted.
+2026-09-02 00:37:14 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 4 fields.
+2026-09-02 00:37:14 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_73zvq_5j.png...
+2026-09-02 00:37:45 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 4 fields.
+2026-09-02 00:37:45 | INFO     | labellens:run:138 - Panel #0 declaration-strip OCR retry: MRP still not detected.
+2026-09-02 00:37:45 | INFO     | labellens:run:82 - Processing Panel #1 [back]: 'r1.jpeg'...
+2026-09-02 00:37:45 | INFO     | labellens:run:86 - Panel #1 Quality: PASS (Blur: 419.25)
+2026-09-02 00:37:45 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\427e60eae6a5429cb260658ba1970d90_r1_preprocessed.jpeg...
+2026-09-02 00:38:06 | INFO     | labellens:run:113 - Panel #1 OCR complete: 33 lines extracted.
+2026-09-02 00:38:06 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 7 fields.
+2026-09-02 00:38:06 | INFO     | labellens:fuse_panels:105 - Fusing statutory field extractions across 2 image panels...
+2026-09-02 00:38:06 | INFO     | labellens:fuse_panels:169 - Multi-panel fusion complete: 7 statutory declarations unified across 2 panels.
+2026-09-02 00:38:06 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=98.7
+2026-09-02 00:38:08 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_833864c5-352e-4964-9b11-51f40e603902.pdf
+2026-09-02 00:38:08 | INFO     | labellens:run:356 - Pipeline completed successfully in 74905.3ms for Inspection ID: 833864c5-352e-4964-9b11-51f40e603902 (2 panels analyzed)
+2026-09-02 00:44:10 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 00:44:10 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'cream.jpeg'...
+2026-09-02 00:44:10 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 481.47)
+2026-09-02 00:44:10 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\0562b46309d84e168bc15311a6e4f025_cream_preprocessed.jpeg...
+2026-09-02 00:44:32 | INFO     | labellens:run:113 - Panel #0 OCR complete: 16 lines extracted.
+2026-09-02 00:44:32 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 5 fields.
+2026-09-02 00:44:32 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=83.9
+2026-09-02 00:44:34 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_02ac93e2-2752-40ce-9b15-35d85d3b5e8a.pdf
+2026-09-02 00:44:34 | INFO     | labellens:run:356 - Pipeline completed successfully in 22487.2ms for Inspection ID: 02ac93e2-2752-40ce-9b15-35d85d3b5e8a (1 panels analyzed)
+2026-09-02 00:49:42 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 00:49:42 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'trimmer2.jpeg'...
+2026-09-02 00:49:42 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 155.32)
+2026-09-02 00:49:42 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\3b33347533fd4f5fa49c7a92c67d65bd_trimmer2_preprocessed.jpeg...
+2026-09-02 00:50:13 | INFO     | labellens:run:113 - Panel #0 OCR complete: 26 lines extracted.
+2026-09-02 00:50:13 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 6 fields.
+2026-09-02 00:50:13 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=98.0
+2026-09-02 00:50:15 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_91ddef1b-61e5-4b0e-9853-0bfb093a92d6.pdf
+2026-09-02 00:50:15 | INFO     | labellens:run:356 - Pipeline completed successfully in 31210.2ms for Inspection ID: 91ddef1b-61e5-4b0e-9853-0bfb093a92d6 (1 panels analyzed)
+2026-09-02 00:52:31 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 00:52:31 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'cloth.jpeg'...
+2026-09-02 00:52:32 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 419.19)
+2026-09-02 00:52:32 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\e5ccb7cfaf1e4bcb833c3f9f606042f7_cloth_preprocessed.jpeg...
+2026-09-02 00:52:59 | INFO     | labellens:run:113 - Panel #0 OCR complete: 32 lines extracted.
+2026-09-02 00:52:59 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 6 fields.
+2026-09-02 00:52:59 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=84.4
+2026-09-02 00:53:01 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_1ab73243-64d4-44f1-9d1a-2d1ea3c5e078.pdf
+2026-09-02 00:53:01 | INFO     | labellens:run:356 - Pipeline completed successfully in 28075.2ms for Inspection ID: 1ab73243-64d4-44f1-9d1a-2d1ea3c5e078 (1 panels analyzed)
+2026-09-02 00:55:53 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 00:55:53 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'butter.jpeg'...
+2026-09-02 00:55:53 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 2010.53)
+2026-09-02 00:55:53 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\fabe31a4cc114218b9769b8ce11c0e4e_butter_preprocessed.jpeg...
+2026-09-02 00:56:26 | INFO     | labellens:run:113 - Panel #0 OCR complete: 44 lines extracted.
+2026-09-02 00:56:26 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 7 fields.
+2026-09-02 00:56:26 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=96.8
+2026-09-02 00:56:28 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_9a0efba3-6a9a-4b18-ae74-12f4a7f1043c.pdf
+2026-09-02 00:56:28 | INFO     | labellens:run:356 - Pipeline completed successfully in 34006.5ms for Inspection ID: 9a0efba3-6a9a-4b18-ae74-12f4a7f1043c (1 panels analyzed)
+2026-09-02 18:12:51 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 18:12:51 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'handwash.jpeg'...
+2026-09-02 18:12:51 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 1713.98)
+2026-09-02 18:12:51 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\dda7cc7d565c4817811c57d2b15d1f12_handwash_preprocessed.jpeg...
+2026-09-02 18:13:44 | INFO     | labellens:run:113 - Panel #0 OCR complete: 41 lines extracted.
+2026-09-02 18:13:44 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 5 fields.
+2026-09-02 18:13:44 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_7xlh775x.png...
+2026-09-02 18:14:49 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 6 fields.
+2026-09-02 18:14:49 | INFO     | labellens:run:138 - Panel #0 declaration-strip OCR retry: MRP detected.
+2026-09-02 18:14:49 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=69.1
+2026-09-02 18:14:51 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_74fa4e8c-a355-4d8b-a08e-46526a853a43.pdf
+2026-09-02 18:14:51 | INFO     | labellens:run:356 - Pipeline completed successfully in 117873.4ms for Inspection ID: 74fa4e8c-a355-4d8b-a08e-46526a853a43 (1 panels analyzed)
+2026-09-02 18:15:40 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 18:15:40 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'perfume 2.jpeg'...
+2026-09-02 18:15:41 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 2678.54)
+2026-09-02 18:15:41 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\387dffc5bfa5412c9d8aec760e7a9e09_perfume 2_preprocessed.jpeg...
+2026-09-02 18:16:53 | INFO     | labellens:run:113 - Panel #0 OCR complete: 44 lines extracted.
+2026-09-02 18:16:53 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 8 fields.
+2026-09-02 18:16:53 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=97.6
+2026-09-02 18:16:55 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_b53bf35c-2fed-4feb-9ae0-bb3b6524ba19.pdf
+2026-09-02 18:16:55 | INFO     | labellens:run:356 - Pipeline completed successfully in 72900.0ms for Inspection ID: b53bf35c-2fed-4feb-9ae0-bb3b6524ba19 (1 panels analyzed)
+2026-09-02 20:26:03 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-02 20:26:03 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000177994F6F60>
+2026-09-02 20:26:03 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x0000017799330250> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-02 20:26:03 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000177994BED50>
+2026-09-02 20:26:03 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-02 20:26:03 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-02 20:26:03 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-02 20:26:03 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-02 20:26:03 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-02 20:26:04 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'Date', b'Wed, 02 Sep 2026 14:56:06 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'81'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a34d5c01ca644728-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a0629e-be1f-7803-a5d0-f848f0f39263'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'229'), (b'x-sb-error-code', b'invalid_credentials'), (b'set-cookie', b'__cf_bm=TBjMNwgWWDTRmsDcnVxSIhzyF1fzIFdegOuxe3O475w-1788360965.4036617-1.0.1.1-C7QBafYcZBKKm8DJJ1ZKU9mZ99v3lMb_igRkyFtaRGyWEb3HrQuHFyLdpQ02jY42ZtbFkRb8Rl2HYKm80Fe0x2IgbXKYaei7daSKXoJ_bwgLurt.xfIRY8HLlnsYFWip; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Wed, 02 Sep 2026 15:26:06 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-02 20:26:04 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/token?grant_type=password "HTTP/1.1 400 Bad Request"
+2026-09-02 20:26:04 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-02 20:26:04 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-02 20:26:04 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-02 20:26:04 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-02 20:26:04 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-02 20:26:04 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-02 20:27:01 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-02 20:27:01 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000177994F70E0>
+2026-09-02 20:27:01 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x0000017799482950> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-02 20:27:02 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000177994F6210>
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Wed, 02 Sep 2026 14:57:04 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'1098'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a34d5d6d4c36ff7a-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Content-Encoding', b'gzip'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin, Accept-Encoding'), (b'sb-auth-refresh-token-prefix', b'odwbg'), (b'sb-auth-session-id', b'4fae4156-48c3-4e01-8cfb-8fc67bb1594e'), (b'sb-auth-user-id', b'5a48ac25-79a5-46af-93b1-45019f07173f'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a0629f-a152-73dd-a919-400638797583'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'147'), (b'set-cookie', b'__cf_bm=wsQ3jVehO3Pcl_a34JA3iTyStQ.FevjZHo2JEybuzpI-1788361023.5669022-1.0.1.1-SMrGp0.HfhgyjiWTZZYSc3jrwjZyd8xFxhKZaHeilRbl4OxW2QzT162L8wHrv2Zp3dGWFElSg6dhpYiablNys8D0lgGGySnEwmd0N2LEhN5lSHlsqjFlNvpfwZnHPBzx; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Wed, 02 Sep 2026 15:27:04 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-02 20:27:02 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/token?grant_type=password "HTTP/1.1 200 OK"
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-02 20:27:02 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-02 20:27:02 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-02 20:27:02 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-02 20:27:33 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:27:33 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'perfume 2.jpeg'...
+2026-09-02 20:27:33 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 2678.54)
+2026-09-02 20:27:33 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\ecbd8c588b6f4d52ae332022245d1fb2_perfume 2_preprocessed.jpeg...
+2026-09-02 20:28:48 | INFO     | labellens:run:113 - Panel #0 OCR complete: 44 lines extracted.
+2026-09-02 20:28:48 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 8 fields.
+2026-09-02 20:28:48 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=97.6
+2026-09-02 20:28:49 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_f36e1ad7-b80f-4bdb-bc7f-fba60451f5c5.pdf
+2026-09-02 20:28:49 | INFO     | labellens:run:356 - Pipeline completed successfully in 74887.6ms for Inspection ID: f36e1ad7-b80f-4bdb-bc7f-fba60451f5c5 (1 panels analyzed)
+2026-09-02 20:30:21 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:30:21 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'cloth.jpeg'...
+2026-09-02 20:30:21 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 419.19)
+2026-09-02 20:30:21 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\460daca06abc4fe0ab7b5e8247660134_cloth_preprocessed.jpeg...
+2026-09-02 20:30:58 | INFO     | labellens:run:113 - Panel #0 OCR complete: 32 lines extracted.
+2026-09-02 20:30:58 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 6 fields.
+2026-09-02 20:30:58 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=84.4
+2026-09-02 20:30:59 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_43c3f7a8-d1ce-4f60-abb4-3eb6c8c39a50.pdf
+2026-09-02 20:30:59 | INFO     | labellens:run:356 - Pipeline completed successfully in 36986.7ms for Inspection ID: 43c3f7a8-d1ce-4f60-abb4-3eb6c8c39a50 (1 panels analyzed)
+2026-09-02 20:31:29 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-02 20:31:29 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000177994F6000>
+2026-09-02 20:31:29 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x00000177993319D0> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-02 20:31:29 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000177994E5C70>
+2026-09-02 20:31:29 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-02 20:31:29 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-02 20:31:29 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-02 20:31:29 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-02 20:31:29 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-02 20:31:30 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Wed, 02 Sep 2026 15:01:31 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'1102'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a34d63f3e86d69ae-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Content-Encoding', b'gzip'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin, Accept-Encoding'), (b'sb-auth-refresh-token-prefix', b'msgro'), (b'sb-auth-session-id', b'dfef27fa-a5de-4c14-8ebc-144aca6b269d'), (b'sb-auth-user-id', b'5a48ac25-79a5-46af-93b1-45019f07173f'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a062a3-b578-74f9-881b-b6c003022e5e'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'287'), (b'set-cookie', b'__cf_bm=RtfsHERfq1z74.owepWkYnBRQk46DlP67vDpr_VQluE-1788361290.8631172-1.0.1.1-8Byq5K2.BNgw6C8fZNvt51S.eCcYcw4RJfIWQVTd4yX5HAcXQAMjm88U7hd691_T7x.fRrzc0drEh8z81COlG.bxwOOK2RbulugK9krzlRWMGqNvUj7Ri.hzsqI9T9zx; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Wed, 02 Sep 2026 15:31:31 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-02 20:31:30 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/token?grant_type=password "HTTP/1.1 200 OK"
+2026-09-02 20:31:30 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-02 20:31:30 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-02 20:31:30 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-02 20:31:30 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-02 20:31:30 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-02 20:31:30 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-02 20:32:08 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:32:08 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'product-scan-1788361322505.jpg'...
+2026-09-02 20:32:08 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 456.31)
+2026-09-02 20:32:08 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\2bed2983a0dc495c9272910ce3b85c59_product-scan-1788361322505_preprocessed.jpg...
+2026-09-02 20:33:09 | INFO     | labellens:run:113 - Panel #0 OCR complete: 67 lines extracted.
+2026-09-02 20:33:09 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 5 fields.
+2026-09-02 20:33:10 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_z2t6hqge.png...
+2026-09-02 20:34:47 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_jf2b__pm.png...
+2026-09-02 20:36:13 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_erof0grc.png...
+2026-09-02 20:37:40 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_7bfwdcfq.png...
+2026-09-02 20:38:53 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 5 fields.
+2026-09-02 20:38:53 | INFO     | labellens:run:138 - Panel #0 declaration-strip OCR retry: MRP still not detected.
+2026-09-02 20:38:53 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=71.8
+2026-09-02 20:38:55 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:38:55 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'r1.jpeg'...
+2026-09-02 20:38:55 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 419.25)
+2026-09-02 20:38:55 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\1cf81f1118574776838424b9072d18ba_r1_preprocessed.jpeg...
+2026-09-02 20:39:19 | INFO     | labellens:run:113 - Panel #0 OCR complete: 33 lines extracted.
+2026-09-02 20:39:19 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 7 fields.
+2026-09-02 20:39:19 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=96.9
+2026-09-02 20:39:21 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_6be7bb6a-16be-4f65-bec4-6ecdaab5ced1.pdf
+2026-09-02 20:39:21 | INFO     | labellens:run:356 - Pipeline completed successfully in 24434.1ms for Inspection ID: 6be7bb6a-16be-4f65-bec4-6ecdaab5ced1 (1 panels analyzed)
+2026-09-02 20:39:46 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:39:46 | INFO     | labellens:run:82 - Processing Panel #0 [front]: '1000049045.jpg'...
+2026-09-02 20:39:46 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 116.12)
+2026-09-02 20:39:47 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\875330bb63c44c4b9bb421a23340d99e_1000049045_preprocessed.jpg...
+2026-09-02 20:40:38 | INFO     | labellens:run:113 - Panel #0 OCR complete: 52 lines extracted.
+2026-09-02 20:40:38 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 4 fields.
+2026-09-02 20:40:38 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=72.9
+2026-09-02 20:40:40 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_83e0818f-e14f-4db7-9a65-2596956aff47.pdf
+2026-09-02 20:40:40 | INFO     | labellens:run:356 - Pipeline completed successfully in 52459.7ms for Inspection ID: 83e0818f-e14f-4db7-9a65-2596956aff47 (1 panels analyzed)
+2026-09-02 20:40:42 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:40:42 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'perfume.jpeg'...
+2026-09-02 20:40:42 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 1265.38)
+2026-09-02 20:40:42 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\1f312258074848e08131af804b8414dc_perfume_preprocessed.jpeg...
+2026-09-02 20:41:36 | INFO     | labellens:run:113 - Panel #0 OCR complete: 42 lines extracted.
+2026-09-02 20:41:36 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 8 fields.
+2026-09-02 20:41:36 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=97.4
+2026-09-02 20:41:37 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_6b8d00a9-f2b9-4756-97cc-64b04159b36c.pdf
+2026-09-02 20:41:37 | INFO     | labellens:run:356 - Pipeline completed successfully in 54326.0ms for Inspection ID: 6b8d00a9-f2b9-4756-97cc-64b04159b36c (1 panels analyzed)
+2026-09-02 20:41:39 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-02 20:41:39 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017792AC8C20>
+2026-09-02 20:41:39 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x00000177996FE950> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-02 20:41:39 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017799614A70>
+2026-09-02 20:41:39 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-02 20:41:39 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-02 20:41:39 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-02 20:41:39 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-02 20:41:39 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-02 20:41:40 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Wed, 02 Sep 2026 15:11:41 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'380'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a34d72d988f9ffaa-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Content-Encoding', b'gzip'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin, Accept-Encoding'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a062ad-0500-74d3-8e55-cd270d08fa40'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'89'), (b'set-cookie', b'__cf_bm=Z3sHr7jRd_J25We_ItbKQz7jdrozEIgMAcJoQX4Qi1I-1788361901.0426028-1.0.1.1-4rm7pu7VJHq4NNAE.jGe_XOuJ.g36fG4bSVVbdOzE4hKz5t4KPa1TAHXqRSqBTD7Dk7Iu37p_cgPllJ2mMfOG25FLnj36jmSR.XUAeeFAloMYnQaOzumnXaTlMcHgW4a; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Wed, 02 Sep 2026 15:41:41 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-02 20:41:40 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/admin/users "HTTP/1.1 200 OK"
+2026-09-02 20:41:40 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-02 20:41:40 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-02 20:41:40 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-02 20:41:40 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-02 20:41:40 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-02 20:41:40 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-02 20:50:10 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:50:10 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'notebook.jpeg'...
+2026-09-02 20:50:10 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 799.12)
+2026-09-02 20:50:10 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\b47d5a4d9e034060940313282e88417e_notebook_preprocessed.jpeg...
+2026-09-02 20:50:37 | INFO     | labellens:run:113 - Panel #0 OCR complete: 17 lines extracted.
+2026-09-02 20:50:37 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 3 fields.
+2026-09-02 20:50:37 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=59.5
+2026-09-02 20:50:39 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_9daa5b3f-dccd-48fb-acb0-2a0510c7e8d2.pdf
+2026-09-02 20:50:39 | INFO     | labellens:run:356 - Pipeline completed successfully in 27111.8ms for Inspection ID: 9daa5b3f-dccd-48fb-acb0-2a0510c7e8d2 (1 panels analyzed)
+2026-09-02 20:51:12 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:51:12 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'WhatsApp Image 2026-08-30 at 10.22.28 PM.jpeg'...
+2026-09-02 20:51:12 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 342.19)
+2026-09-02 20:51:12 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\31395ac5745c43fe88462544042e4923_WhatsApp Image 2026-08-30 at 10.22.28 PM_preprocessed.jpeg...
+2026-09-02 20:51:50 | INFO     | labellens:run:113 - Panel #0 OCR complete: 25 lines extracted.
+2026-09-02 20:51:50 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 8 fields.
+2026-09-02 20:51:50 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NEEDS_REVIEW, Score=82.3
+2026-09-02 20:51:52 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_1b9f6a51-30c3-4f26-9262-78cca358b5ff.pdf
+2026-09-02 20:51:52 | INFO     | labellens:run:356 - Pipeline completed successfully in 38124.1ms for Inspection ID: 1b9f6a51-30c3-4f26-9262-78cca358b5ff (1 panels analyzed)
+2026-09-02 20:52:44 | INFO     | labellens:run:65 - Starting inspection pipeline for 2 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:52:44 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'product-scan-1788362539204.jpg'...
+2026-09-02 20:52:44 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 560.06)
+2026-09-02 20:52:44 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\a464ab980fa24aaba79be3632c8d3124_product-scan-1788362539204_preprocessed.jpg...
+2026-09-02 20:53:32 | INFO     | labellens:run:113 - Panel #0 OCR complete: 34 lines extracted.
+2026-09-02 20:53:32 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 6 fields.
+2026-09-02 20:53:32 | INFO     | labellens:run:82 - Processing Panel #1 [back]: 'product-scan-1788362561342.jpg'...
+2026-09-02 20:53:32 | INFO     | labellens:run:86 - Panel #1 Quality: PASS (Blur: 606.67)
+2026-09-02 20:53:32 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\a0b7328102be4c1483da79fb03f2770e_product-scan-1788362561342_preprocessed.jpg...
+2026-09-02 20:54:14 | INFO     | labellens:run:113 - Panel #1 OCR complete: 29 lines extracted.
+2026-09-02 20:54:14 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 4 fields.
+2026-09-02 20:54:15 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_425n1f7m.png...
+2026-09-02 20:55:45 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_at2mh0cq.png...
+2026-09-02 20:57:10 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_ewvnouyr.png...
+2026-09-02 20:58:38 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_rotated_inh6ybpy.png...
+2026-09-02 20:59:56 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 4 fields.
+2026-09-02 20:59:56 | INFO     | labellens:run:138 - Panel #1 declaration-strip OCR retry: MRP still not detected.
+2026-09-02 20:59:56 | INFO     | labellens:fuse_panels:105 - Fusing statutory field extractions across 2 image panels...
+2026-09-02 20:59:56 | INFO     | labellens:fuse_panels:169 - Multi-panel fusion complete: 7 statutory declarations unified across 2 panels.
+2026-09-02 20:59:56 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=97.8
+2026-09-02 20:59:57 | ERROR    | labellens:create_inspection:241 - Inspection pipeline execution failed: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(50)
+
+[SQL: INSERT INTO ocr_results (id, inspection_id, raw_text, confidence, bbox, line_number, engine) VALUES (%(id__0)s, %(inspection_id__0)s, %(raw_text__0)s, %(confidence__0)s, %(bbox__0)s::JSON, %(line_number__0)s, %(engine__0)s), (%(id__1)s, %(inspection_ ... 8390 characters truncated ... 65)s, %(raw_text__65)s, %(confidence__65)s, %(bbox__65)s::JSON, %(line_number__65)s, %(engine__65)s)]
+[parameters: {'line_number__0': 1, 'raw_text__0': 'BAJAJ', 'id__0': '301aed81-35ea-4f7b-8d31-7cac435904f9', 'bbox__0': '[298, 463, 654, 539]', 'engine__0': 'PaddleOCR (en)', 'confidence__0': 0.9995, 'inspection_id__0': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__1': 2, 'raw_text__1': 'BUILT FOR LIFE', 'id__1': '91f15d87-cc72-44e6-b72d-a0a41575903a', 'bbox__1': '[382, 527, 648, 567]', 'engine__1': 'PaddleOCR (en)', 'confidence__1': 0.9947, 'inspection_id__1': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__2': 3, 'raw_text__2': 'COMMODITY', 'id__2': '18dbb81e-c5b4-4bc3-a7b9-2acfe7251623', 'bbox__2': '[203, 594, 360, 628]', 'engine__2': 'PaddleOCR (en)', 'confidence__2': 1.0, 'inspection_id__2': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__3': 4, 'raw_text__3': 'DRY IRON', 'id__3': 'e2c7db4c-cf8c-46b1-8df0-c2bb43e35160', 'bbox__3': '[490, 596, 622, 629]', 'engine__3': 'PaddleOCR (en)', 'confidence__3': 0.9995, 'inspection_id__3': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__4': 5, 'raw_text__4': 'MODEL', 'id__4': 'cf217a90-c00b-4a90-9dde-90dd643a0718', 'bbox__4': '[200, 625, 295, 660]', 'engine__4': 'PaddleOCR (en)', 'confidence__4': 1.0, 'inspection_id__4': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__5': 6, 'raw_text__5': 'BAJAJ NEW POPULAR 1000W (440302)', 'id__5': '76542cc9-bcab-49a2-8d9c-fd1bcadf074b', 'bbox__5': '[486, 628, 979, 674]', 'engine__5': 'PaddleOCR (en)', 'confidence__5': 0.9833, 'inspection_id__5': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__6': 7, 'raw_text__6': 'NUMBER OF', 'id__6': '85e82dbe-3b3d-43c2-bd7c-7efe4753762d', 'bbox__6': '[199, 656, 350, 691]', 'engine__6': 'PaddleOCR (en)', 'confidence__6': 0.9997, 'inspection_id__6': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__7': 8 ... 362 parameters truncated ... 'inspection_id__58': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__59': 60, 'raw_text__59': 'WATTAGE', 'id__59': '7536eeee-7152-4009-8813-01a598c81c4f', 'bbox__59': '[89, 1256, 206, 1297]', 'engine__59': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__59': 1.0, 'inspection_id__59': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__60': 61, 'raw_text__60': 'https://www.facebook.com/BajajElectricals', 'id__60': 'fabfbe16-948d-402a-bfe4-8b8cb1d19795', 'bbox__60': '[605, 1253, 984, 1298]', 'engine__60': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__60': 0.9992, 'inspection_id__60': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__61': 62, 'raw_text__61': 'VOLTAGE', 'id__61': 'fe950662-c18c-49e0-920c-b18fd0a19b69', 'bbox__61': '[88, 1296, 199, 1333]', 'engine__61': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__61': 1.0, 'inspection_id__61': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__62': 63, 'raw_text__62': ': 230V~50Hz', 'id__62': 'edafe653-24be-49a1-b037-7cb8ee29021b', 'bbox__62': '[243, 1293, 402, 1324]', 'engine__62': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__62': 0.9532, 'inspection_id__62': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__63': 64, 'raw_text__63': 'https://twitter.com/BajajElectrical', 'id__63': '25dfe76b-7b00-4118-bc82-80dd12674cd1', 'bbox__63': '[606, 1300, 898, 1339]', 'engine__63': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__63': 0.9914, 'inspection_id__63': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__64': 65, 'raw_text__64': 'www.bajajelectricals.com', 'id__64': 'b1fc2bd9-8d97-44f2-bd13-b2c079e682c3', 'bbox__64': '[704, 1325, 1013, 1381]', 'engine__64': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__64': 1.0, 'inspection_id__64': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__65': 66, 'raw_text__65': '3MAX', 'id__65': '51d491bb-2c3d-48a1-aa1e-64b8c0c61d35', 'bbox__65': '[638, 1559, 705, 1590]', 'engine__65': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__65': 0.9971, 'inspection_id__65': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc'}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2127, in _exec_insertmany_context
+    dialect.do_execute(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.StringDataRightTruncation: value too long for type character varying(50)
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\inspections.py", line 230, in create_inspection
+    "image_index": idx
+             ^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\services\pipeline.py", line 371, in run_inspection_pipeline
+    def run_inspection_pipeline(
+               ^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\services\pipeline.py", line 347, in run
+    details={
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 641, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 94, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1144, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2135, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2127, in _exec_insertmany_context
+    dialect.do_execute(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(50)
+
+[SQL: INSERT INTO ocr_results (id, inspection_id, raw_text, confidence, bbox, line_number, engine) VALUES (%(id__0)s, %(inspection_id__0)s, %(raw_text__0)s, %(confidence__0)s, %(bbox__0)s::JSON, %(line_number__0)s, %(engine__0)s), (%(id__1)s, %(inspection_ ... 8390 characters truncated ... 65)s, %(raw_text__65)s, %(confidence__65)s, %(bbox__65)s::JSON, %(line_number__65)s, %(engine__65)s)]
+[parameters: {'line_number__0': 1, 'raw_text__0': 'BAJAJ', 'id__0': '301aed81-35ea-4f7b-8d31-7cac435904f9', 'bbox__0': '[298, 463, 654, 539]', 'engine__0': 'PaddleOCR (en)', 'confidence__0': 0.9995, 'inspection_id__0': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__1': 2, 'raw_text__1': 'BUILT FOR LIFE', 'id__1': '91f15d87-cc72-44e6-b72d-a0a41575903a', 'bbox__1': '[382, 527, 648, 567]', 'engine__1': 'PaddleOCR (en)', 'confidence__1': 0.9947, 'inspection_id__1': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__2': 3, 'raw_text__2': 'COMMODITY', 'id__2': '18dbb81e-c5b4-4bc3-a7b9-2acfe7251623', 'bbox__2': '[203, 594, 360, 628]', 'engine__2': 'PaddleOCR (en)', 'confidence__2': 1.0, 'inspection_id__2': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__3': 4, 'raw_text__3': 'DRY IRON', 'id__3': 'e2c7db4c-cf8c-46b1-8df0-c2bb43e35160', 'bbox__3': '[490, 596, 622, 629]', 'engine__3': 'PaddleOCR (en)', 'confidence__3': 0.9995, 'inspection_id__3': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__4': 5, 'raw_text__4': 'MODEL', 'id__4': 'cf217a90-c00b-4a90-9dde-90dd643a0718', 'bbox__4': '[200, 625, 295, 660]', 'engine__4': 'PaddleOCR (en)', 'confidence__4': 1.0, 'inspection_id__4': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__5': 6, 'raw_text__5': 'BAJAJ NEW POPULAR 1000W (440302)', 'id__5': '76542cc9-bcab-49a2-8d9c-fd1bcadf074b', 'bbox__5': '[486, 628, 979, 674]', 'engine__5': 'PaddleOCR (en)', 'confidence__5': 0.9833, 'inspection_id__5': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__6': 7, 'raw_text__6': 'NUMBER OF', 'id__6': '85e82dbe-3b3d-43c2-bd7c-7efe4753762d', 'bbox__6': '[199, 656, 350, 691]', 'engine__6': 'PaddleOCR (en)', 'confidence__6': 0.9997, 'inspection_id__6': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__7': 8 ... 362 parameters truncated ... 'inspection_id__58': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__59': 60, 'raw_text__59': 'WATTAGE', 'id__59': '7536eeee-7152-4009-8813-01a598c81c4f', 'bbox__59': '[89, 1256, 206, 1297]', 'engine__59': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__59': 1.0, 'inspection_id__59': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__60': 61, 'raw_text__60': 'https://www.facebook.com/BajajElectricals', 'id__60': 'fabfbe16-948d-402a-bfe4-8b8cb1d19795', 'bbox__60': '[605, 1253, 984, 1298]', 'engine__60': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__60': 0.9992, 'inspection_id__60': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__61': 62, 'raw_text__61': 'VOLTAGE', 'id__61': 'fe950662-c18c-49e0-920c-b18fd0a19b69', 'bbox__61': '[88, 1296, 199, 1333]', 'engine__61': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__61': 1.0, 'inspection_id__61': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__62': 63, 'raw_text__62': ': 230V~50Hz', 'id__62': 'edafe653-24be-49a1-b037-7cb8ee29021b', 'bbox__62': '[243, 1293, 402, 1324]', 'engine__62': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__62': 0.9532, 'inspection_id__62': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__63': 64, 'raw_text__63': 'https://twitter.com/BajajElectrical', 'id__63': '25dfe76b-7b00-4118-bc82-80dd12674cd1', 'bbox__63': '[606, 1300, 898, 1339]', 'engine__63': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__63': 0.9914, 'inspection_id__63': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__64': 65, 'raw_text__64': 'www.bajajelectricals.com', 'id__64': 'b1fc2bd9-8d97-44f2-bd13-b2c079e682c3', 'bbox__64': '[704, 1325, 1013, 1381]', 'engine__64': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__64': 1.0, 'inspection_id__64': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc', 'line_number__65': 66, 'raw_text__65': '3MAX', 'id__65': '51d491bb-2c3d-48a1-aa1e-64b8c0c61d35', 'bbox__65': '[638, 1559, 705, 1590]', 'engine__65': 'PaddleOCR (en) (rotation 270°) + declaration-strip OCR', 'confidence__65': 0.9971, 'inspection_id__65': '2d21aeae-4bb1-4474-8ebc-f3a669500dfc'}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2026-09-02 20:59:58 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-02 20:59:58 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000177997AD0D0>
+2026-09-02 20:59:58 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x0000017799603E50> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-02 20:59:58 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000017799354F50>
+2026-09-02 20:59:58 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-02 20:59:58 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-02 20:59:58 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-02 20:59:58 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-02 20:59:58 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-02 20:59:58 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 20:59:58 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'salt.jpeg'...
+2026-09-02 20:59:59 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 705.81)
+2026-09-02 20:59:59 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Wed, 02 Sep 2026 15:30:00 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'1039'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a34d8dad18e33bbc-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Content-Encoding', b'gzip'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin, Accept-Encoding'), (b'sb-auth-refresh-token-prefix', b'rxcw7'), (b'sb-auth-session-id', b'b7a39ec8-6cea-4ab0-aa6d-6095a8d65161'), (b'sb-auth-user-id', b'b013bbcd-c139-44a3-b918-42a907eb00e5'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a062bd-c93d-7695-870a-4893da1c1d2c'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'353'), (b'set-cookie', b'__cf_bm=EPPRsiKqM29.1EwYrHmqzKOjTkV8fl4NqTkNwPeu7Os-1788362999.8560126-1.0.1.1-RYw_qGWgqghiSmHutE_.tMEjE0GWXUv_01W.lKfNd36MeY2VQsu9CEd39WdQZw.H2zf1fL4HZMaMPst6Yslmjjd1YMBBpEKNeag4CRwjJMelX2D9MM_Do.ZX5fl_jnls; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Wed, 02 Sep 2026 16:00:00 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-02 20:59:59 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/token?grant_type=password "HTTP/1.1 200 OK"
+2026-09-02 20:59:59 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-02 20:59:59 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-02 20:59:59 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-02 20:59:59 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-02 20:59:59 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-02 20:59:59 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-02 20:59:59 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\ef0c49bb4f61446ba4b4db665bc8c0e6_salt_preprocessed.jpeg...
+2026-09-02 21:00:32 | INFO     | labellens:run:113 - Panel #0 OCR complete: 35 lines extracted.
+2026-09-02 21:00:32 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 8 fields.
+2026-09-02 21:00:32 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=97.4
+2026-09-02 21:00:34 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_e48e122e-9add-4938-a310-8a972ec4ee89.pdf
+2026-09-02 21:00:34 | INFO     | labellens:run:356 - Pipeline completed successfully in 33864.8ms for Inspection ID: e48e122e-9add-4938-a310-8a972ec4ee89 (1 panels analyzed)
+2026-09-02 21:00:56 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 21:00:56 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'salt.jpeg'...
+2026-09-02 21:00:56 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 705.81)
+2026-09-02 21:00:56 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\915af23f82bd4aa5bffd6e3b850a394a_salt_preprocessed.jpeg...
+2026-09-02 21:01:31 | INFO     | labellens:run:113 - Panel #0 OCR complete: 35 lines extracted.
+2026-09-02 21:01:31 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 8 fields.
+2026-09-02 21:01:31 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=97.4
+2026-09-02 21:01:33 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_39dba326-094a-41d0-bc91-6c903ac87fe6.pdf
+2026-09-02 21:01:33 | INFO     | labellens:run:356 - Pipeline completed successfully in 35102.3ms for Inspection ID: 39dba326-094a-41d0-bc91-6c903ac87fe6 (1 panels analyzed)
+2026-09-02 21:03:11 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.started host='hzkidvngtpkntekffixl.supabase.co' port=443 local_address=None timeout=15.0 socket_options=None
+2026-09-02 21:03:11 | DEBUG    | httpcore.connection:trace:47 - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000177996D3AD0>
+2026-09-02 21:03:11 | DEBUG    | httpcore.connection:trace:47 - start_tls.started ssl_context=<ssl.SSLContext object at 0x00000177996FC150> server_hostname='hzkidvngtpkntekffixl.supabase.co' timeout=15.0
+2026-09-02 21:03:11 | DEBUG    | httpcore.connection:trace:47 - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000177996D2E10>
+2026-09-02 21:03:11 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.started request=<Request [b'POST']>
+2026-09-02 21:03:11 | DEBUG    | httpcore.http11:trace:47 - send_request_headers.complete
+2026-09-02 21:03:11 | DEBUG    | httpcore.http11:trace:47 - send_request_body.started request=<Request [b'POST']>
+2026-09-02 21:03:11 | DEBUG    | httpcore.http11:trace:47 - send_request_body.complete
+2026-09-02 21:03:11 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.started request=<Request [b'POST']>
+2026-09-02 21:03:12 | DEBUG    | httpcore.http11:trace:47 - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Wed, 02 Sep 2026 15:33:13 GMT'), (b'Content-Type', b'application/json'), (b'Content-Length', b'1040'), (b'Connection', b'keep-alive'), (b'CF-Ray', b'a34d92652805b1e3-BOM'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Content-Encoding', b'gzip'), (b'Server', b'cloudflare'), (b'Strict-Transport-Security', b'max-age=31536000; includeSubDomains; preload'), (b'Vary', b'Origin, Accept-Encoding'), (b'sb-auth-refresh-token-prefix', b'esdem'), (b'sb-auth-session-id', b'48d3c217-bc12-493f-943c-5f8913361a09'), (b'sb-auth-user-id', b'b013bbcd-c139-44a3-b918-42a907eb00e5'), (b'sb-gateway-version', b'2'), (b'sb-project-ref', b'hzkidvngtpkntekffixl'), (b'sb-request-id', b'01a062c0-bc47-7070-927a-d5828fb6bb84'), (b'x-content-type-options', b'nosniff'), (b'x-envoy-attempt-count', b'1'), (b'x-envoy-upstream-service-time', b'194'), (b'set-cookie', b'__cf_bm=x26wnrGTYfZJ7nbtBgcNSG.hH3Je_niGM5poTnQFbpc-1788363193.1453724-1.0.1.1-2XuLLgU2Jbsk4ffib6xPpVh.04bXvFlzB7UJpTHrn4Qdp4nXEU80Tb.PjYIGvo_ZyHsS7CWoIFyOItb00I5BioC3iDVczZps9I5VV0VwOPiCKqGhJ7wrqHhmWLZbWeRU; HttpOnly; SameSite=None; Secure; Path=/; Domain=supabase.co; Expires=Wed, 02 Sep 2026 16:03:13 GMT'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-09-02 21:03:12 | INFO     | httpx:_send_single_request:1025 - HTTP Request: POST https://hzkidvngtpkntekffixl.supabase.co/auth/v1/token?grant_type=password "HTTP/1.1 200 OK"
+2026-09-02 21:03:12 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.started request=<Request [b'POST']>
+2026-09-02 21:03:12 | DEBUG    | httpcore.http11:trace:47 - receive_response_body.complete
+2026-09-02 21:03:12 | DEBUG    | httpcore.http11:trace:47 - response_closed.started
+2026-09-02 21:03:12 | DEBUG    | httpcore.http11:trace:47 - response_closed.complete
+2026-09-02 21:03:12 | DEBUG    | httpcore.connection:trace:47 - close.started
+2026-09-02 21:03:12 | DEBUG    | httpcore.connection:trace:47 - close.complete
+2026-09-02 21:05:15 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 21:05:15 | INFO     | labellens:run:82 - Processing Panel #0 [front]: '1000048864.jpg'...
+2026-09-02 21:05:16 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 160.5)
+2026-09-02 21:05:16 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\c64e57d794f449a48a4e16377642a457_1000048864_preprocessed.jpg...
+2026-09-02 21:05:48 | INFO     | labellens:run:113 - Panel #0 OCR complete: 17 lines extracted.
+2026-09-02 21:05:48 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 4 fields.
+2026-09-02 21:05:54 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_fdl78ipl.png...
+2026-09-02 21:07:40 | INFO     | labellens:_extract_from_paths:238 - Running OCR using EasyOCR (en) on C:\Users\prash\AppData\Local\Temp\labellens_price_band_fdl78ipl.png...
+2026-09-02 21:08:28 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 4 fields.
+2026-09-02 21:08:28 | INFO     | labellens:run:138 - Panel #0 declaration-strip OCR retry: MRP still not detected.
+2026-09-02 21:08:28 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.NON_COMPLIANT, Score=42.8
+2026-09-02 21:08:31 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_da3f2cd9-af3e-4001-a2ec-d88309104f76.pdf
+2026-09-02 21:08:31 | INFO     | labellens:run:356 - Pipeline completed successfully in 193039.1ms for Inspection ID: da3f2cd9-af3e-4001-a2ec-d88309104f76 (1 panels analyzed)
+2026-09-02 21:08:34 | INFO     | labellens:run:65 - Starting inspection pipeline for 1 image panel(s) (Category: packaged_commodity, Mode: LIVE_PIPELINE)...
+2026-09-02 21:08:34 | INFO     | labellens:run:82 - Processing Panel #0 [front]: 'butter.jpeg'...
+2026-09-02 21:08:34 | INFO     | labellens:run:86 - Panel #0 Quality: PASS (Blur: 2010.53)
+2026-09-02 21:08:34 | INFO     | labellens:_extract_from_paths:238 - Running OCR using PaddleOCR (en) on C:\Users\prash\OneDrive\Desktop\labellens\backend\uploads\2e4ed38c85d645dd9eb7d8c75291a4fe_butter_preprocessed.jpeg...
+2026-09-02 21:09:18 | INFO     | labellens:run:113 - Panel #0 OCR complete: 44 lines extracted.
+2026-09-02 21:09:18 | INFO     | labellens:extract_all:85 - Field extraction complete for category 'packaged_commodity'. Extracted 7 fields.
+2026-09-02 21:09:18 | INFO     | labellens:run:172 - Rule Evaluation: Verdict=OverallComplianceStatus.COMPLIANT, Score=96.8
+2026-09-02 21:09:20 | INFO     | labellens:generate:449 - Generated PDF audit report at: C:\Users\prash\OneDrive\Desktop\labellens\backend\reports\Inspection_Report_178f49f8-d0bb-48ca-a241-93a321b363c3.pdf
+2026-09-02 21:09:20 | INFO     | labellens:run:356 - Pipeline completed successfully in 44261.1ms for Inspection ID: 178f49f8-d0bb-48ca-a241-93a321b363c3 (1 panels analyzed)

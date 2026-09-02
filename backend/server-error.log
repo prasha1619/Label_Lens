@@ -17,3 +17,1511 @@ INFO:     Started server process [17928]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Resized image size (804x5120) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (5120x804) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (804x5120) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (5120x804) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (804x5120) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (5120x804) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (5120x804) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (5120x804) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (5120x804) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (804x5120) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (804x5120) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (804x5120) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (804x5120) exceeds max_side_limit of 4000. Resizing to fit within limit.
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2127, in _exec_insertmany_context
+    dialect.do_execute(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.StringDataRightTruncation: value too long for type character varying(50)
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\inspections.py", line 230, in create_inspection
+    inspection = run_inspection_pipeline(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\services\pipeline.py", line 371, in run_inspection_pipeline
+    return InspectionPipeline.run(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\services\pipeline.py", line 347, in run
+    db.commit()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 641, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 94, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1144, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2135, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2127, in _exec_insertmany_context
+    dialect.do_execute(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(50)
+
+[SQL: INSERT INTO ocr_results (id, inspection_id, raw_text, confidence, bbox, line_number, engine) VALUES (%(id__0)s, %(inspection_id__0)s, %(raw_text__0)s, %(confidence__0)s, %(bbox__0)s::JSON, %(line_number__0)s, %(engine__0)s), (%(id__1)s, %(inspection_ ... 3242 characters truncated ... 26)s, %(raw_text__26)s, %(confidence__26)s, %(bbox__26)s::JSON, %(line_number__26)s, %(engine__26)s)]
+[parameters: {'line_number__0': 1, 'raw_text__0': '3 20-24', 'id__0': 'c66f2853-7f1e-41dd-8cb5-21e0793d508b', 'bbox__0': '[401, 366, 743, 429]', 'engine__0': 'PaddleOCR (en)', 'confidence__0': 0.4824, 'inspection_id__0': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__1': 2, 'raw_text__1': 'iide', 'id__1': '77d25e5f-e1a2-4ced-a454-1ca7bee6d30f', 'bbox__1': '[661, 600, 825, 661]', 'engine__1': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__1': 0.4373, 'inspection_id__1': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__2': 3, 'raw_text__2': 'Newnigight', 'id__2': '3fb7e753-9c77-4376-a288-1f5872ae738e', 'bbox__2': '[429, 86, 526, 114]', 'engine__2': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__2': 0.8018, 'inspection_id__2': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__3': 4, 'raw_text__3': 'AsLe Mbt. Gene', 'id__3': '601f3437-db13-4370-af58-0e32ee070851', 'bbox__3': '[389, 184, 525, 201]', 'engine__3': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__3': 0.417, 'inspection_id__3': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__4': 5, 'raw_text__4': 'Fnsmen CMomplsicp Feectic', 'id__4': 'fcd765ae-1eb5-406b-896b-857a1fe40272', 'bbox__4': '[379, 196, 544, 216]', 'engine__4': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__4': 0.5892, 'inspection_id__4': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__5': 6, 'raw_text__5': 'Addes a P (+91-121-423296', 'id__5': '00e98963-8b07-4b8e-99de-ca853758d4a3', 'bbox__5': '[370, 218, 527, 242]', 'engine__5': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__5': 0.6816, 'inspection_id__5': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__6': 7, 'raw_text__6': 'Ecat uy  an By cng', 'id__6': 'b4ef863e-9498-4cc9-8157-3b07e21b6a95', 'bbox__6': '[367, 232, 554, 253]', 'engine__6': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__6': 0.6092, 'inspection_id__6': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__7': 8 ... 89 parameters truncated ... 'inspection_id__19': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__20': 21, 'raw_text__20': '7MYK180222', 'id__20': 'f80ed49a-93c2-4d17-9ea3-5023eb296eb8', 'bbox__20': '[272, 482, 482, 513]', 'engine__20': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__20': 0.9912, 'inspection_id__20': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__21': 22, 'raw_text__21': '20/11/2519/11/2', 'id__21': '7c0b3613-5d53-4e91-9153-46c8aab2ef85', 'bbox__21': '[267, 506, 603, 534]', 'engine__21': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__21': 0.9944, 'inspection_id__21': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__22': 23, 'raw_text__22': '47.00', 'id__22': 'c7ef2d2b-36ac-4dbf-820d-e500f96a33c0', 'bbox__22': '[315, 528, 412, 549]', 'engine__22': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__22': 0.9866, 'inspection_id__22': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__23': 24, 'raw_text__23': '\uffe50.24Pei9', 'id__23': '8a7d80df-83cf-4328-adad-3ae248df6495', 'bbox__23': '[417, 526, 693, 553]', 'engine__23': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__23': 0.8393, 'inspection_id__23': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__24': 25, 'raw_text__24': 'M', 'id__24': '430684f9-4184-4e01-8601-62a4031193d0', 'bbox__24': '[180, 1107, 201, 1134]', 'engine__24': 'PaddleOCR (en) + declaration-strip OCR', 'confidence__24': 0.6846, 'inspection_id__24': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__25': 26, 'raw_text__25': '00', 'id__25': '5c0ef798-1b0a-46bc-9ca4-8bf2a2f6407e', 'bbox__25': '[1063, 598, 1106, 720]', 'engine__25': 'PaddleOCR (en) + declaration-strip OCR', 'confidence__25': 0.4784, 'inspection_id__25': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__26': 27, 'raw_text__26': '60', 'id__26': '19f335dc-0b84-4c1e-be6d-c48cdf097bdb', 'bbox__26': '[934, 590, 959, 653]', 'engine__26': 'PaddleOCR (en) + declaration-strip OCR', 'confidence__26': 0.659, 'inspection_id__26': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b'}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\logging\__init__.py", line 1163, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\uffe5' in position 3674: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\click\core.py", line 1631, in __call__
+    return self.main(*args, **kwargs)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\click\core.py", line 1552, in main
+    rv = self.invoke(ctx)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\click\core.py", line 1415, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\click\core.py", line 910, in invoke
+    return callback(*args, **kwargs)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\main.py", line 440, in main
+    run(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\main.py", line 621, in run
+    server.run()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py", line 678, in run_until_complete
+    self.run_forever()
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\windows_events.py", line 322, in run_forever
+    super().run_forever()
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py", line 645, in run_forever
+    self._run_once()
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py", line 1999, in _run_once
+    handle._run()
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\inspections.py", line 241, in create_inspection
+    logger.exception(f"Inspection pipeline execution failed: {e}")
+Message: "Inspection pipeline execution failed: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(50)\n\n[SQL: INSERT INTO ocr_results (id, inspection_id, raw_text, confidence, bbox, line_number, engine) VALUES (%(id__0)s, %(inspection_id__0)s, %(raw_text__0)s, %(confidence__0)s, %(bbox__0)s::JSON, %(line_number__0)s, %(engine__0)s), (%(id__1)s, %(inspection_ ... 3242 characters truncated ... 26)s, %(raw_text__26)s, %(confidence__26)s, %(bbox__26)s::JSON, %(line_number__26)s, %(engine__26)s)]\n[parameters: {'line_number__0': 1, 'raw_text__0': '3 20-24', 'id__0': 'c66f2853-7f1e-41dd-8cb5-21e0793d508b', 'bbox__0': '[401, 366, 743, 429]', 'engine__0': 'PaddleOCR (en)', 'confidence__0': 0.4824, 'inspection_id__0': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__1': 2, 'raw_text__1': 'iide', 'id__1': '77d25e5f-e1a2-4ced-a454-1ca7bee6d30f', 'bbox__1': '[661, 600, 825, 661]', 'engine__1': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__1': 0.4373, 'inspection_id__1': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__2': 3, 'raw_text__2': 'Newnigight', 'id__2': '3fb7e753-9c77-4376-a288-1f5872ae738e', 'bbox__2': '[429, 86, 526, 114]', 'engine__2': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__2': 0.8018, 'inspection_id__2': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__3': 4, 'raw_text__3': 'AsLe Mbt. Gene', 'id__3': '601f3437-db13-4370-af58-0e32ee070851', 'bbox__3': '[389, 184, 525, 201]', 'engine__3': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__3': 0.417, 'inspection_id__3': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__4': 5, 'raw_text__4': 'Fnsmen CMomplsicp Feectic', 'id__4': 'fcd765ae-1eb5-406b-896b-857a1fe40272', 'bbox__4': '[379, 196, 544, 216]', 'engine__4': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__4': 0.5892, 'inspection_id__4': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__5': 6, 'raw_text__5': 'Addes a P (+91-121-423296', 'id__5': '00e98963-8b07-4b8e-99de-ca853758d4a3', 'bbox__5': '[370, 218, 527, 242]', 'engine__5': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__5': 0.6816, 'inspection_id__5': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__6': 7, 'raw_text__6': 'Ecat uy  an By cng', 'id__6': 'b4ef863e-9498-4cc9-8157-3b07e21b6a95', 'bbox__6': '[367, 232, 554, 253]', 'engine__6': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__6': 0.6092, 'inspection_id__6': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__7': 8 ... 89 parameters truncated ... 'inspection_id__19': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__20': 21, 'raw_text__20': '7MYK180222', 'id__20': 'f80ed49a-93c2-4d17-9ea3-5023eb296eb8', 'bbox__20': '[272, 482, 482, 513]', 'engine__20': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__20': 0.9912, 'inspection_id__20': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__21': 22, 'raw_text__21': '20/11/2519/11/2', 'id__21': '7c0b3613-5d53-4e91-9153-46c8aab2ef85', 'bbox__21': '[267, 506, 603, 534]', 'engine__21': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__21': 0.9944, 'inspection_id__21': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__22': 23, 'raw_text__22': '47.00', 'id__22': 'c7ef2d2b-36ac-4dbf-820d-e500f96a33c0', 'bbox__22': '[315, 528, 412, 549]', 'engine__22': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__22': 0.9866, 'inspection_id__22': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__23': 24, 'raw_text__23': '\uffe50.24Pei9', 'id__23': '8a7d80df-83cf-4328-adad-3ae248df6495', 'bbox__23': '[417, 526, 693, 553]', 'engine__23': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__23': 0.8393, 'inspection_id__23': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__24': 25, 'raw_text__24': 'M', 'id__24': '430684f9-4184-4e01-8601-62a4031193d0', 'bbox__24': '[180, 1107, 201, 1134]', 'engine__24': 'PaddleOCR (en) + declaration-strip OCR', 'confidence__24': 0.6846, 'inspection_id__24': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__25': 26, 'raw_text__25': '00', 'id__25': '5c0ef798-1b0a-46bc-9ca4-8bf2a2f6407e', 'bbox__25': '[1063, 598, 1106, 720]', 'engine__25': 'PaddleOCR (en) + declaration-strip OCR', 'confidence__25': 0.4784, 'inspection_id__25': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b', 'line_number__26': 27, 'raw_text__26': '60', 'id__26': '19f335dc-0b84-4c1e-be6d-c48cdf097bdb', 'bbox__26': '[934, 590, 959, 653]', 'engine__26': 'PaddleOCR (en) + declaration-strip OCR', 'confidence__26': 0.659, 'inspection_id__26': 'fecfa87a-f592-4d77-a174-5d5917ff0f5b'}]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)"
+Arguments: ()
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 88, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 481, in app
+    solved_result = await solve_dependencies(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\dependencies\utils.py", line 676, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2641, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1033, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\auth.py", line 128, in get_current_user
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2261, in _execute_internal
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2113, in _connection_for_bind
+    return trans._connection_for_bind(engine, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in _connection_for_bind
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1191, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 146, in __init__
+    Connection._handle_dbapi_exception_noconnection(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2450, in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 717, in checkout
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 715, in checkout
+    dbapi_connection = rec.get_connection()
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 866, in get_connection
+    self.__connect()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 900, in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\pool\base.py", line 896, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\create.py", line 667, in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 630, in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\psycopg2\__init__.py", line 135, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "aws-0-ap-southeast-1.pooler.supabase.com" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Resized image size (4320x2148) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (4320x2148) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (4320x2148) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (4320x2148) exceeds max_side_limit of 4000. Resizing to fit within limit.
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2127, in _exec_insertmany_context
+    dialect.do_execute(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.StringDataRightTruncation: value too long for type character varying(50)
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\inspections.py", line 230, in create_inspection
+    "image_index": idx
+             ^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\services\pipeline.py", line 371, in run_inspection_pipeline
+    def run_inspection_pipeline(
+               ^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\services\pipeline.py", line 347, in run
+    details={
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2035, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1316, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1290, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4353, in flush
+    self._flush(objects)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4488, in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 122, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4449, in _flush
+    flush_context.execute()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 465, in execute
+    rec.execute(self)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 641, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 94, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1144, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2135, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2127, in _exec_insertmany_context
+    dialect.do_execute(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.DataError: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(50)
+
+[SQL: INSERT INTO ocr_results (id, inspection_id, raw_text, confidence, bbox, line_number, engine) VALUES (%(id__0)s, %(inspection_id__0)s, %(raw_text__0)s, %(confidence__0)s, %(bbox__0)s::JSON, %(line_number__0)s, %(engine__0)s), (%(id__1)s, %(inspection_ ... 8786 characters truncated ... 68)s, %(raw_text__68)s, %(confidence__68)s, %(bbox__68)s::JSON, %(line_number__68)s, %(engine__68)s)]
+[parameters: {'line_number__0': 1, 'raw_text__0': 'er', 'id__0': '86b38d94-cc16-43fe-b835-6c7abf8a8fe0', 'bbox__0': '[517, 1725, 556, 1760]', 'engine__0': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__0': 0.3483, 'inspection_id__0': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__1': 2, 'raw_text__1': '\u3002', 'id__1': '006ce7c0-3795-4a68-bbc0-7047c1aa68bf', 'bbox__1': '[677, 1640, 737, 1706]', 'engine__1': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__1': 0.8926, 'inspection_id__1': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__2': 3, 'raw_text__2': 'Exay', 'id__2': 'c31eee79-ae5b-482c-b88e-1d5245d9a12d', 'bbox__2': '[705, 215, 765, 264]', 'engine__2': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__2': 0.7972, 'inspection_id__2': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__3': 4, 'raw_text__3': 'Did you know about', 'id__3': 'a01e0512-112c-48a8-8385-3f4e482bcf86', 'bbox__3': '[82, 493, 298, 550]', 'engine__3': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__3': 0.999, 'inspection_id__3': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__4': 5, 'raw_text__4': 'Gold Milk?', 'id__4': '1548cd61-b14f-4893-8980-a424149c33d3', 'bbox__4': '[116, 521, 242, 562]', 'engine__4': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__4': 0.9999, 'inspection_id__4': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__5': 6, 'raw_text__5': 'BN:SR17FM/MRP736', 'id__5': 'b7b64dce-2aa6-4229-9e27-8a2f4faa34f0', 'bbox__5': '[181, 555, 412, 636]', 'engine__5': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__5': 0.9529, 'inspection_id__5': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__6': 7, 'raw_text__6': 'UBD:03.09.26', 'id__6': 'd1dc5404-34da-41fb-8893-11988c3100f5', 'bbox__6': '[166, 584, 341, 653]', 'engine__6': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__6': 1.0, 'inspection_id__6': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__7': 8 ... 383 parameters truncated ... 'inspection_id__61': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__62': 63, 'raw_text__62': 'COOL, STORE IN CHILLER SECTION OR RACK BELOWCHL', 'id__62': 'cc55e406-f7b2-4bc0-9dac-3b0993006c34', 'bbox__62': '[693, 1093, 1078, 1140]', 'engine__62': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__62': 0.9594, 'inspection_id__62': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__63': 64, 'raw_text__63': '180025833 Tllre GA9P', 'id__63': '9a161219-1cc9-4d5a-bae5-914a3070bcd7', 'bbox__63': '[0, 1120, 293, 1218]', 'engine__63': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__63': 0.7506, 'inspection_id__63': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__64': 65, 'raw_text__64': 'OF YOUR REFRIGERATOR AND CONS ME BEFORE US', 'id__64': 'b5a52f01-b274-4df1-ace2-ca37f0395b1d', 'bbox__64': '[713, 1114, 1076, 1165]', 'engine__64': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__64': 0.9639, 'inspection_id__64': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__65': 66, 'raw_text__65': 'Marketed by: Gujarat Co-operative Mi Marketing Fed', 'id__65': 'ed2509bc-d250-49a7-af08-c7759e5933d9', 'bbox__65': '[703, 1136, 1075, 1192]', 'engine__65': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__65': 0.9136, 'inspection_id__65': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__66': 67, 'raw_text__66': 'Amul Dairy Road, Anand, Gujarat-388001, dia Wes', 'id__66': '270d3b36-2f43-462e-8100-2f1c00bffa90', 'bbox__66': '[672, 1156, 1076, 1217]', 'engine__66': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__66': 0.9257, 'inspection_id__66': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__67': 68, 'raw_text__67': 'Lic. No. 1001202100007', 'id__67': 'd5d89bc7-119d-45a5-abaf-7d78b99c02f1', 'bbox__67': '[771, 1208, 1060, 1271]', 'engine__67': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__67': 0.9717, 'inspection_id__67': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__68': 69, 'raw_text__68': 'fssat', 'id__68': 'e7b5ee3c-db53-4153-8502-96f33c238d06', 'bbox__68': '[879, 1200, 968, 1235]', 'engine__68': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__68': 0.98, 'inspection_id__68': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f'}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\logging\__init__.py", line 1163, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u3002' in position 927: character maps to <undefined>
+Call stack:
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\__main__.py", line 4, in <module>
+    uvicorn.main()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\click\core.py", line 1631, in __call__
+    return self.main(*args, **kwargs)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\click\core.py", line 1552, in main
+    rv = self.invoke(ctx)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\click\core.py", line 1415, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\click\core.py", line 910, in invoke
+    return callback(*args, **kwargs)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\main.py", line 440, in main
+    run(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\main.py", line 621, in run
+    server.run()
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\server.py", line 77, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py", line 678, in run_until_complete
+    self.run_forever()
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\windows_events.py", line 322, in run_forever
+    super().run_forever()
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py", line 645, in run_forever
+    self._run_once()
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py", line 1999, in _run_once
+    handle._run()
+  File "C:\Users\prash\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 422, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1791, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 144, in app
+    response = await f(request)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+  File "C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\fastapi\routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+  File "C:\Users\prash\OneDrive\Desktop\labellens\backend\app\api\v1\endpoints\inspections.py", line 241, in create_inspection
+    )
+Message: "Inspection pipeline execution failed: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(50)\n\n[SQL: INSERT INTO ocr_results (id, inspection_id, raw_text, confidence, bbox, line_number, engine) VALUES (%(id__0)s, %(inspection_id__0)s, %(raw_text__0)s, %(confidence__0)s, %(bbox__0)s::JSON, %(line_number__0)s, %(engine__0)s), (%(id__1)s, %(inspection_ ... 8786 characters truncated ... 68)s, %(raw_text__68)s, %(confidence__68)s, %(bbox__68)s::JSON, %(line_number__68)s, %(engine__68)s)]\n[parameters: {'line_number__0': 1, 'raw_text__0': 'er', 'id__0': '86b38d94-cc16-43fe-b835-6c7abf8a8fe0', 'bbox__0': '[517, 1725, 556, 1760]', 'engine__0': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__0': 0.3483, 'inspection_id__0': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__1': 2, 'raw_text__1': '\u3002', 'id__1': '006ce7c0-3795-4a68-bbc0-7047c1aa68bf', 'bbox__1': '[677, 1640, 737, 1706]', 'engine__1': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__1': 0.8926, 'inspection_id__1': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__2': 3, 'raw_text__2': 'Exay', 'id__2': 'c31eee79-ae5b-482c-b88e-1d5245d9a12d', 'bbox__2': '[705, 215, 765, 264]', 'engine__2': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__2': 0.7972, 'inspection_id__2': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__3': 4, 'raw_text__3': 'Did you know about', 'id__3': 'a01e0512-112c-48a8-8385-3f4e482bcf86', 'bbox__3': '[82, 493, 298, 550]', 'engine__3': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__3': 0.999, 'inspection_id__3': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__4': 5, 'raw_text__4': 'Gold Milk?', 'id__4': '1548cd61-b14f-4893-8980-a424149c33d3', 'bbox__4': '[116, 521, 242, 562]', 'engine__4': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__4': 0.9999, 'inspection_id__4': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__5': 6, 'raw_text__5': 'BN:SR17FM/MRP736', 'id__5': 'b7b64dce-2aa6-4229-9e27-8a2f4faa34f0', 'bbox__5': '[181, 555, 412, 636]', 'engine__5': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__5': 0.9529, 'inspection_id__5': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__6': 7, 'raw_text__6': 'UBD:03.09.26', 'id__6': 'd1dc5404-34da-41fb-8893-11988c3100f5', 'bbox__6': '[166, 584, 341, 653]', 'engine__6': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__6': 1.0, 'inspection_id__6': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__7': 8 ... 383 parameters truncated ... 'inspection_id__61': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__62': 63, 'raw_text__62': 'COOL, STORE IN CHILLER SECTION OR RACK BELOWCHL', 'id__62': 'cc55e406-f7b2-4bc0-9dac-3b0993006c34', 'bbox__62': '[693, 1093, 1078, 1140]', 'engine__62': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__62': 0.9594, 'inspection_id__62': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__63': 64, 'raw_text__63': '180025833 Tllre GA9P', 'id__63': '9a161219-1cc9-4d5a-bae5-914a3070bcd7', 'bbox__63': '[0, 1120, 293, 1218]', 'engine__63': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__63': 0.7506, 'inspection_id__63': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__64': 65, 'raw_text__64': 'OF YOUR REFRIGERATOR AND CONS ME BEFORE US', 'id__64': 'b5a52f01-b274-4df1-ace2-ca37f0395b1d', 'bbox__64': '[713, 1114, 1076, 1165]', 'engine__64': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__64': 0.9639, 'inspection_id__64': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__65': 66, 'raw_text__65': 'Marketed by: Gujarat Co-operative Mi Marketing Fed', 'id__65': 'ed2509bc-d250-49a7-af08-c7759e5933d9', 'bbox__65': '[703, 1136, 1075, 1192]', 'engine__65': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__65': 0.9136, 'inspection_id__65': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__66': 67, 'raw_text__66': 'Amul Dairy Road, Anand, Gujarat-388001, dia Wes', 'id__66': '270d3b36-2f43-462e-8100-2f1c00bffa90', 'bbox__66': '[672, 1156, 1076, 1217]', 'engine__66': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__66': 0.9257, 'inspection_id__66': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__67': 68, 'raw_text__67': 'Lic. No. 1001202100007', 'id__67': 'd5d89bc7-119d-45a5-abaf-7d78b99c02f1', 'bbox__67': '[771, 1208, 1060, 1271]', 'engine__67': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__67': 0.9717, 'inspection_id__67': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f', 'line_number__68': 69, 'raw_text__68': 'fssat', 'id__68': 'e7b5ee3c-db53-4153-8502-96f33c238d06', 'bbox__68': '[879, 1200, 968, 1235]', 'engine__68': 'PaddleOCR (en) (rotation 180°) + declaration-strip OCR', 'confidence__68': 0.98, 'inspection_id__68': 'bcb1cfca-fdfa-4915-8f11-3ec1fb3a728f'}]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)"
+Arguments: ()
+Resized image size (2148x4320) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (4320x2148) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (2148x4320) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (4320x2148) exceeds max_side_limit of 4000. Resizing to fit within limit.
+Resized image size (9184x4572) exceeds max_side_limit of 4000. Resizing to fit within limit.
+C:\Users\prash\OneDrive\Desktop\labellens\.venv\Lib\site-packages\torch\utils\data\dataloader.py:759: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+  super().__init__(loader)

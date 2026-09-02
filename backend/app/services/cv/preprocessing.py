@@ -24,7 +24,7 @@ class ImagePreprocessor:
         cls, 
         image_path: str, 
         output_path: Optional[str] = None,
-        target_max_dim: int = 1920
+        target_max_dim: int = 1200
     ) -> str:
         """
         Preprocesses image for optimal OCR and text detection.

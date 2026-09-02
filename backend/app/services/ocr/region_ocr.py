@@ -100,7 +100,7 @@ def extract_lower_declaration_text(
     *,
     top_ratio: float = 0.66,
     bottom_ratio: float = 0.94,
-    scale: int = 2,
+    scale: int = 1,
 ) -> OCRResultSchema | None:
     """OCR the lower declaration strip at usable resolution.
 
