@@ -14,3 +14,6 @@ numpy>=1.26.0
 opencv-python-headless>=4.10.0; platform_system != "Windows"
 opencv-python>=4.10.0; platform_system == "Windows"
 pytesseract>=0.3.10
+paddlepaddle>=2.6.0
+paddleocr>=2.7.0
+ultralytics>=8.0.0

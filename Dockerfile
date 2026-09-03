@@ -25,6 +25,6 @@ COPY backend/ ./
 COPY --from=frontend-build /frontend/dist ./static
 
 ENV PYTHONUNBUFFERED=1 \
-    OCR_ENGINE=tesseract
+    OCR_ENGINE=paddleocr
 EXPOSE 8000
 CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

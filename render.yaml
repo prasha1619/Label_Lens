@@ -3,7 +3,7 @@ services:
     name: labellens
     runtime: docker
     dockerContext: .
-    dockerfilePath: ./backend/Dockerfile
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /api/v1/health
     envVars:
       - key: ENVIRONMENT
