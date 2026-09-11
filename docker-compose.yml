@@ -20,7 +20,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: backend/Dockerfile
+      dockerfile: Dockerfile
     container_name: labellens-backend
     environment:
       - DATABASE_URL=postgresql://labellens:labellens_password@postgres:5432/labellens

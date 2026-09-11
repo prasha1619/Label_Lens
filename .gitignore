@@ -21,20 +21,37 @@ ENV/
 .env.local
 .env.*.local
 
-# Build artifacts
+# Build artifacts & Temporary Output
 dist/
 build/
 frontend/dist/
+output/
+runs/
+.codex-*
+.build-*
 
 # Logs, Uploads & DBs
 *.log
+*.db
+*.sqlite3
 labellens.db
+backend/labellens.db
 server.log
 server-error.log
+backend/server.log
+backend/server-error.log
+frontend/server.log
+frontend/server-error.log
 backend/uploads/
 backend/reports/
 
-# IDE
+# Model Weights (Large binaries)
+models/*.pt
+*.pt
+
+# IDE & OS
 .vscode/
 .idea/
 .DS_Store
+Thumbs.db
+

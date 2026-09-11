@@ -1,10 +1,13 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 from sqlalchemy import Column, String, DateTime, Text, JSON, ForeignKey
 from app.database.base import Base
 
 def generate_uuid():
     return str(uuid.uuid4())
+
+def utc_now():
+    return datetime.now(timezone.utc)
 
 class AuditLog(Base):
     __tablename__ = "audit_logs"
@@ -15,7 +18,7 @@ class AuditLog(Base):
     action = Column(String(100), nullable=False)  # INSPECTION_CREATED, PIPELINE_EXECUTED, REPORT_GENERATED
     actor = Column(String(100), default="SYSTEM_INSPECTOR")
     details = Column(JSON, default=dict)
-    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+    created_at = Column(DateTime, default=utc_now, index=True)
 
 class ModelVersionRecord(Base):
     __tablename__ = "model_version_records"
@@ -25,4 +28,4 @@ class ModelVersionRecord(Base):
     version_string = Column(String(100), nullable=False)
     weights_path = Column(String(500), nullable=True)
     is_available = Column(String(50), default="ACTIVE")
-    loaded_at = Column(DateTime, default=datetime.utcnow)
+    loaded_at = Column(DateTime, default=utc_now)

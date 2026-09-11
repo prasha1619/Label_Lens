@@ -1,6 +1,6 @@
 import os
 import html
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, List, Tuple
 from pathlib import Path
 from PIL import Image as PILImage
@@ -56,7 +56,7 @@ class NumberedCanvas(canvas.Canvas):
         # Header line & title (pages > 1)
         if self._pageNumber > 1:
             self.drawString(36, 810, "LabelLens Statutory Metrology Audit Report")
-            self.drawRightString(559, 810, datetime.utcnow().strftime("%d-%b-%Y"))
+            self.drawRightString(559, 810, datetime.now(timezone.utc).strftime("%d-%b-%Y"))
             self.setStrokeColor(colors.HexColor("#E2E8F0"))
             self.setLineWidth(0.5)
             self.line(36, 804, 559, 804)
@@ -166,7 +166,7 @@ class CompliancePDFReportGenerator:
         story = []
 
         # 1. Header Banner
-        report_date_str = inspection.created_at.strftime('%d-%b-%Y %H:%M UTC') if inspection.created_at else datetime.utcnow().strftime('%d-%b-%Y %H:%M UTC')
+        report_date_str = inspection.created_at.strftime('%d-%b-%Y %H:%M UTC') if inspection.created_at else datetime.now(timezone.utc).strftime('%d-%b-%Y %H:%M UTC')
         header_data = [
             [
                 Paragraph("<b>LabelLens</b> Legal Metrology Compliance Audit", title_style),

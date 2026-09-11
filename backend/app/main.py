@@ -1,5 +1,5 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -87,10 +87,12 @@ def root():
 @app.get("/{full_path:path}", include_in_schema=False)
 def frontend_route(full_path: str):
     """Serve React routes while leaving API routes to their registered router."""
+    if full_path.startswith("api/") or full_path == "api":
+        raise HTTPException(status_code=404, detail="API endpoint not found")
     index_file = FRONTEND_DIR / "index.html"
     if index_file.exists():
         return FileResponse(index_file)
-    return {"detail": "Frontend build is not available in this environment"}
+    raise HTTPException(status_code=404, detail="Frontend build is not available in this environment")
 
 if __name__ == "__main__":
     import uvicorn

@@ -1,11 +1,14 @@
-from datetime import datetime, timedelta
-import hashlib
 import uuid
+from datetime import datetime, timezone
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String
 from sqlalchemy.orm import relationship
 from app.database.base import Base
 
-def uuid4(): return str(uuid.uuid4())
+def uuid4() -> str:
+    return str(uuid.uuid4())
+
+def utc_now() -> datetime:
+    return datetime.now(timezone.utc)
 
 class User(Base):
     __tablename__ = 'users'
@@ -17,8 +20,8 @@ class User(Base):
     profile_photo_path = Column(String(500))
     role = Column(String(20), nullable=False, default='inspector', index=True)
     is_active = Column(Boolean, nullable=False, default=True)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=utc_now)
+    updated_at = Column(DateTime, nullable=False, default=utc_now, onupdate=utc_now)
     last_login_at = Column(DateTime)
     inspections = relationship('Inspection', back_populates='owner')
     sessions = relationship('AuthSession', back_populates='user', cascade='all, delete-orphan')
@@ -29,6 +32,6 @@ class AuthSession(Base):
     user_id = Column(String(36), ForeignKey('users.id', ondelete='CASCADE'), nullable=False, index=True)
     token_hash = Column(String(64), nullable=False, unique=True, index=True)
     expires_at = Column(DateTime, nullable=False, index=True)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=utc_now)
     revoked_at = Column(DateTime)
     user = relationship('User', back_populates='sessions')

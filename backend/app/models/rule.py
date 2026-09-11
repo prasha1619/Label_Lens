@@ -1,10 +1,13 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 from sqlalchemy import Column, String, Boolean, DateTime, Text, JSON, Integer
 from app.database.base import Base
 
 def generate_uuid():
     return str(uuid.uuid4())
+
+def utc_now():
+    return datetime.now(timezone.utc)
 
 class ProductCategoryModel(Base):
     __tablename__ = "product_categories"
@@ -14,7 +17,7 @@ class ProductCategoryModel(Base):
     description = Column(Text, nullable=True)
     is_active = Column(Boolean, default=True)
     rule_set_version = Column(String(50), default="1.0")
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utc_now)
 
 class RuleDefinitionModel(Base):
     __tablename__ = "rule_definitions"
@@ -33,4 +36,4 @@ class RuleDefinitionModel(Base):
     severity_if_missing = Column(String(50), default="HIGH")
     recommendation_template = Column(Text, nullable=False)
     is_active = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utc_now)

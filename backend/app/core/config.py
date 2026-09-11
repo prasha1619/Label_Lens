@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from typing import List, Optional
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "LabelLens - AI Legal Metrology Compliance"
@@ -84,14 +84,15 @@ class Settings(BaseSettings):
     OCR_VERSION: str = "PaddleOCR-v4-std"
     RULE_SET_VERSION: str = "LM-Rules-2026.1"
 
-    class Config:
-        case_sensitive = True
-        extra = "allow"
-        env_file = (
+    model_config = SettingsConfigDict(
+        case_sensitive=True,
+        extra="allow",
+        env_file=(
             str(Path(__file__).resolve().parent.parent.parent.parent / ".env"),
             str(Path(__file__).resolve().parent.parent.parent / ".env"),
             ".env"
         )
+    )
 
 settings = Settings()
 

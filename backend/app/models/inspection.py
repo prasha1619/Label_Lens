@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 from sqlalchemy import Column, String, Float, Integer, Boolean, DateTime, Text, JSON, ForeignKey
 from sqlalchemy.orm import relationship
@@ -6,6 +6,9 @@ from app.database.base import Base
 
 def generate_uuid():
     return str(uuid.uuid4())
+
+def utc_now():
+    return datetime.now(timezone.utc)
 
 class Inspection(Base):
     __tablename__ = "inspections"
@@ -36,8 +39,8 @@ class Inspection(Base):
     processing_time_ms = Column(Float, nullable=True)
     error_message = Column(Text, nullable=True)
     
-    created_at = Column(DateTime, default=datetime.utcnow, index=True)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=utc_now, index=True)
+    updated_at = Column(DateTime, default=utc_now, onupdate=utc_now)
 
     # Relationships
     images = relationship("ImageRecord", back_populates="inspection", cascade="all, delete-orphan", order_by="ImageRecord.image_index")
@@ -77,7 +80,7 @@ class ImageRecord(Base):
     skew_angle = Column(Float, nullable=True)
     quality_reasons = Column(JSON, default=list)  # List of string reasons for degradation
     
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utc_now)
 
     inspection = relationship("Inspection", back_populates="images")
 

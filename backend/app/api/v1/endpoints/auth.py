@@ -1,6 +1,9 @@
 """Cookie-backed, database-persisted authentication routes."""
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 import hashlib, hmac, json, os, re, secrets
+
+def utc_now():
+    return datetime.now(timezone.utc)
 import mimetypes, time
 from typing import Any
 import httpx
@@ -119,13 +122,13 @@ class PasswordChange(BaseModel):
     current_password: str; new_password: str; confirm_password: str
 
 def create_session(response: Response, db: Session, user: User):
-    raw = secrets.token_urlsafe(48); expiry = datetime.utcnow() + timedelta(days=settings.SESSION_EXPIRE_DAYS)
+    raw = secrets.token_urlsafe(48); expiry = utc_now() + timedelta(days=settings.SESSION_EXPIRE_DAYS)
     db.add(AuthSession(user_id=user.id, token_hash=token_hash(raw), expires_at=expiry)); db.commit()
     response.set_cookie(COOKIE, raw, httponly=True, secure=settings.COOKIE_SECURE, samesite='lax', max_age=settings.SESSION_EXPIRE_DAYS * 86400, path='/')
 def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     raw = request.cookies.get(COOKIE)
     if not raw: raise HTTPException(status_code=401, detail='Authentication required')
-    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > datetime.utcnow()).first()
+    session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None), AuthSession.expires_at > utc_now()).first()
     if not session or not session.user.is_active: raise HTTPException(status_code=401, detail='Session expired. Please log in again.')
     return session.user
 def require_admin(user: User = Depends(get_current_user)):
@@ -149,7 +152,7 @@ def register(payload: RegisterRequest, response: Response, db: Session = Depends
     return {'user': user_data(user)}
 @router.post('/login')
 def login(payload: LoginRequest, response: Response, request: Request, db: Session = Depends(get_db)):
-    key = request.client.host if request.client else 'unknown'; now = datetime.utcnow(); attempts = [t for t in LOGIN_ATTEMPTS.get(key, []) if t > now - timedelta(minutes=15)]
+    key = request.client.host if request.client else 'unknown'; now = utc_now(); attempts = [t for t in LOGIN_ATTEMPTS.get(key, []) if t > now - timedelta(minutes=15)]
     if len(attempts) >= 10: raise HTTPException(status_code=429, detail='Too many login attempts. Please try again later.')
     email = payload.email.strip().lower()
     if not settings.supabase_auth_enabled:
@@ -172,7 +175,7 @@ def logout(request: Request, response: Response, db: Session = Depends(get_db)):
     raw = request.cookies.get(COOKIE)
     if raw:
         session = db.query(AuthSession).filter(AuthSession.token_hash == token_hash(raw), AuthSession.revoked_at.is_(None)).first()
-        if session: session.revoked_at = datetime.utcnow(); record(db, session.user_id, 'USER_LOGOUT'); db.commit()
+        if session: session.revoked_at = utc_now(); record(db, session.user_id, 'USER_LOGOUT'); db.commit()
     response.delete_cookie(COOKIE, path='/'); return {'message': 'Logged out'}
 @router.get('/me')
 def me(user: User = Depends(get_current_user)): return user_data(user)
@@ -250,4 +253,4 @@ def change_password(payload: PasswordChange, response: Response, db: Session = D
             raise HTTPException(status_code=400, detail='Current password is incorrect') from exc
         raise
     supabase_auth_request('PUT', f'/admin/users/{user.id}', key=settings.SUPABASE_SECRET_KEY, payload={'password': payload.new_password})
-    user.password_hash = hash_password(payload.new_password); db.query(AuthSession).filter(AuthSession.user_id == user.id).update({'revoked_at': datetime.utcnow()}); record(db, user.id, 'PASSWORD_CHANGED'); db.commit(); response.delete_cookie(COOKIE, path='/'); return {'message': 'Password changed. Please log in again.'}
+    user.password_hash = hash_password(payload.new_password); db.query(AuthSession).filter(AuthSession.user_id == user.id).update({'revoked_at': utc_now()}); record(db, user.id, 'PASSWORD_CHANGED'); db.commit(); response.delete_cookie(COOKIE, path='/'); return {'message': 'Password changed. Please log in again.'}
