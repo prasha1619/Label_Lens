@@ -7,6 +7,7 @@ import { InspectionDetailPage } from './pages/InspectionDetailPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { RulesPage } from './pages/RulesPage';
 import { SystemStatusPage } from './pages/SystemStatusPage';
+import { ARInspectionPage } from './pages/ARInspectionPage';
 import { InspectionResponse } from './types/inspection';
 
 import { RegisterComplaintModal } from './components/modals/RegisterComplaintModal';
@@ -64,6 +65,16 @@ export function App() {
 
   if (loading) return <div className="min-h-screen bg-[#080c1d] flex items-center justify-center text-sm text-slate-400">Restoring your secure session…</div>;
   if (!user) return <AuthPage />;
+
+  // AR Inspection Mode renders fullscreen, bypassing the main layout
+  if (currentTab === 'ar-inspect') {
+    return (
+      <ARInspectionPage
+        onBack={() => setCurrentTab('dashboard')}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#080c1d] text-slate-100 flex flex-col font-sans antialiased">
       {/* Left Fixed Sidebar */}

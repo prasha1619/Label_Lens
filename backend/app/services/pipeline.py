@@ -17,6 +17,7 @@ from app.services.ocr.ocr_manager import ocr_manager
 from app.services.ocr.region_ocr import extract_lower_declaration_text, extract_region_text
 from app.services.extraction.field_extractor import extract_fields
 from app.services.extraction.field_fusion import FieldFusionEngine, PanelExtractionPayload
+from app.services.extraction.category_classifier import auto_detect_category
 from app.services.rules.rule_engine import evaluate_compliance
 from app.services.reports.pdf_generator import generate_pdf_report
 from app.schemas.cv import QualityAssessment
@@ -35,6 +36,8 @@ class InspectionPipeline:
         original_filename: Optional[str] = None,
         image_inputs: Optional[List[Dict[str, Any]]] = None,
         product_category: str = "packaged_commodity",
+        package_id: str = "Package #1",
+        parent_scan_id: Optional[str] = None,
         is_demo: bool = False,
         execution_mode: str = "LIVE_PIPELINE",
         db: Optional[Session] = None
@@ -63,7 +66,7 @@ class InspectionPipeline:
             raise ValueError("No image inputs provided to inspection pipeline.")
 
         logger.info(
-            f"Starting inspection pipeline for {len(normalized_inputs)} image panel(s) "
+            f"Starting inspection pipeline for {package_id} with {len(normalized_inputs)} image panel(s) "
             f"(Category: {product_category}, Mode: {execution_mode})..."
         )
 
@@ -79,7 +82,7 @@ class InspectionPipeline:
             p_name = input_item["filename"]
             p_type = input_item["panel_type"]
 
-            logger.info(f"Processing Panel #{p_idx} [{p_type}]: '{p_name}'...")
+            logger.info(f"Processing {package_id} Panel #{p_idx} [{p_type}]: '{p_name}'...")
 
             # Quality Assessment
             quality: QualityAssessment = check_image_quality(p_path)
@@ -92,13 +95,8 @@ class InspectionPipeline:
             cv_detections = detector_service.detect(p_path)
             primary_cv_version = cv_detections.model_version
 
-            # OCR Extraction
+            # OCR Extraction (English + Hindi)
             ocr_result = ocr_manager.extract(p_path, preprocessed_path=preprocessed_path)
-            # A trained detector lets OCR focus on small declaration blocks as well as the
-            # full package. Crop results come first so field extraction prefers this evidence.
-            # Detector-guided crop OCR is a recovery path, not a mandatory
-            # second pass.  On clear live camera scans it duplicates work for
-            # every bounding box and was responsible for long request times.
             needs_region_recovery = (
                 ocr_result.total_lines < 4 or ocr_result.mean_confidence < 0.55
             )
@@ -124,9 +122,7 @@ class InspectionPipeline:
             # Domain Field Extraction for this panel
             panel_extraction = extract_fields(ocr_result, product_category=product_category, cv_detections=cv_detections)
 
-            # Full-label OCR can miss the tiny price band on the lower back panel.
-            # Retry only when MRP is absent, then rerun extraction with that focused
-            # evidence. This is deliberately conditional to keep normal scans fast.
+            # Retry lower declaration strip if MRP missing
             if "mrp" not in panel_extraction.fields:
                 declaration_ocr = extract_lower_declaration_text(p_path, ocr_manager)
                 if declaration_ocr:
@@ -143,10 +139,6 @@ class InspectionPipeline:
                     ocr_result.engine = declaration_ocr.engine
                     panel_extraction = extract_fields(
                         ocr_result, product_category=product_category, cv_detections=cv_detections
-                    )
-                    logger.info(
-                        f"Panel #{p_idx} declaration-strip OCR retry: "
-                        f"MRP {'detected' if 'mrp' in panel_extraction.fields else 'still not detected'}."
                     )
 
             payload = PanelExtractionPayload(
@@ -169,27 +161,49 @@ class InspectionPipeline:
                 "extraction": panel_extraction
             })
 
-        # 2. Cross-Panel Field Fusion Engine
+        # 2. Auto-detect category from aggregated OCR text across all panels
+        combined_ocr_text = "\n".join(
+            m["ocr_result"].raw_full_text for m in per_panel_meta if m["ocr_result"].raw_full_text
+        )
+        final_category, category_was_auto_detected, category_confidence = auto_detect_category(
+            combined_ocr_text,
+            user_category=product_category,
+        )
+        if category_was_auto_detected:
+            product_category = final_category
+            for i, payload in enumerate(per_panel_payloads):
+                updated_extraction = extract_fields(
+                    payload.ocr_result,
+                    product_category=product_category,
+                    cv_detections=per_panel_meta[i]["cv_detections"],
+                )
+                per_panel_payloads[i] = PanelExtractionPayload(
+                    image_index=payload.image_index,
+                    panel_type=payload.panel_type,
+                    filename=payload.filename,
+                    extraction_result=updated_extraction,
+                    ocr_result=payload.ocr_result,
+                )
+
+        # 3. Cross-Panel Field Fusion Engine & Conflict Detection
         fused_extraction = FieldFusionEngine.fuse_panels(per_panel_payloads, product_category=product_category)
 
-        # 3. Determine Consolidated Quality Assessment
-        # If at least one panel is acceptable, allow rule engine evaluation with multi-panel consensus
+        # 4. Consolidated Quality Assessment
         best_quality = min(per_panel_meta, key=lambda m: 0 if m["quality"].is_acceptable else 1)["quality"]
 
-        # 4. Legal Compliance Rule Engine
+        # 5. Legal Compliance Rule Engine (with Applicability, Dual-Date, and Anomaly Checks)
         compliance_result = evaluate_compliance(fused_extraction, best_quality, category_id=product_category)
         logger.info(
-            f"Rule Evaluation: Verdict={compliance_result.overall_status}, Score={compliance_result.compliance_score}"
+            f"Rule Evaluation ({package_id}): Verdict={compliance_result.overall_status}, Score={compliance_result.compliance_score}"
         )
 
-        # 5. Generate Annotated Visual Evidence Overlays for each panel
+        # 6. Generate Annotated Visual Evidence Overlays for each panel
         for meta in per_panel_meta:
             p_idx = meta["image_index"]
             p_path = meta["file_path"]
             fields_for_annotation = []
 
             for check in compliance_result.rule_checks:
-                # Find if check corresponds to a field detected on this panel
                 field_obj = fused_extraction.fields.get(check.field_name)
                 field_img_idx = field_obj.metadata.get("image_index", 0) if (field_obj and field_obj.metadata) else 0
 
@@ -206,21 +220,23 @@ class InspectionPipeline:
             annotated_path = draw_detections(p_path, fields_for_annotation)
             meta["annotated_path"] = annotated_path
 
-        # 6. Calculate summary counts
+        # 7. Summary counts
         passed_count = sum(1 for c in compliance_result.rule_checks if c.status.value == "PASS")
-        failed_count = sum(1 for c in compliance_result.rule_checks if c.status.value == "FAIL")
-        warning_count = sum(1 for c in compliance_result.rule_checks if c.status.value == "WARNING")
-        undetected_count = sum(1 for c in compliance_result.rule_checks if c.status.value == "NOT_DETECTED")
-        uncertain_count = sum(1 for c in compliance_result.rule_checks if c.status.value == "UNCERTAIN")
+        failed_count = sum(1 for c in compliance_result.rule_checks if c.status.value in ["FAIL", "NOT_DETECTED"] and c.is_mandatory)
+        warning_count = sum(1 for c in compliance_result.rule_checks if c.status.value in ["WARNING", "REVIEW"])
+        undetected_count = sum(1 for c in compliance_result.rule_checks if c.status.value in ["NOT_DETECTED", "FAIL"])
+        uncertain_count = sum(1 for c in compliance_result.rule_checks if c.status.value in ["UNCERTAIN", "REVIEW"])
 
         elapsed_ms = (time.time() - start_time) * 1000.0
 
-        # Extract product name if detected
+        # Extract product name
         product_name_field = fused_extraction.fields.get("product_name")
-        product_name = product_name_field.normalized_value if product_name_field else "Packaged Commodity"
+        product_name = product_name_field.normalized_value if product_name_field else f"Packaged Commodity ({package_id})"
 
-        # 7. Create DB Records
+        # 8. Create DB Records
         inspection = Inspection(
+            package_id=package_id,
+            parent_scan_id=parent_scan_id,
             product_name=product_name,
             product_category=product_category,
             overall_status=compliance_result.overall_status.value,
@@ -233,11 +249,15 @@ class InspectionPipeline:
             warning_checks=warning_count,
             undetected_checks=undetected_count,
             uncertain_checks=uncertain_count,
+            conflicts=compliance_result.conflicts,
+            anomaly_signals=compliance_result.anomaly_signals,
             cv_model_version=primary_cv_version,
             ocr_version=primary_ocr_version,
             rule_set_version=compliance_result.rule_set_version,
             processing_time_ms=round(elapsed_ms, 2)
         )
+        inspection._category_auto_detected = category_was_auto_detected
+        inspection._category_confidence = round(category_confidence, 3)
 
         # Image Records for all panels
         for meta in per_panel_meta:
@@ -247,6 +267,7 @@ class InspectionPipeline:
 
             img_rec = ImageRecord(
                 inspection=inspection,
+                package_id=package_id,
                 panel_type=meta["panel_type"],
                 image_index=meta["image_index"],
                 original_filename=meta["filename"],
@@ -283,7 +304,7 @@ class InspectionPipeline:
                 )
                 line_num += 1
 
-        # Detected Fields with Panel metadata
+        # Detected Fields with Panel and Conflict metadata
         for fname, f in fused_extraction.fields.items():
             inspection.detected_fields.append(
                 DetectedField(
@@ -294,6 +315,8 @@ class InspectionPipeline:
                     normalized_value=f.normalized_value,
                     unit=f.unit,
                     confidence=f.confidence,
+                    source_panel=f.metadata.get("source_panel") or f.metadata.get("panel_type"),
+                    has_conflict=bool(f.metadata.get("has_conflict", False)),
                     detection_method=f.detection_method,
                     bbox=f.bbox,
                     metadata_info=f.metadata
@@ -313,9 +336,12 @@ class InspectionPipeline:
                     legal_reference=check.legal_reference,
                     field_name=check.field_name,
                     is_mandatory=check.is_mandatory,
+                    is_applicable=check.is_applicable,
                     status=check.status.value,
                     detected_value=check.detected_value,
                     confidence=check.confidence,
+                    source_panel=check.source_panel,
+                    conflict_detected=check.conflict_detected,
                     explanation=check.explanation,
                     inspector_recommendation=check.inspector_recommendation,
                     bbox=check_bbox
@@ -345,26 +371,33 @@ class InspectionPipeline:
                     action="INSPECTION_ANALYSIS_COMPLETED",
                     actor="AI_PIPELINE",
                     details={
+                        "package_id": package_id,
                         "category": product_category,
+                        "category_auto_detected": category_was_auto_detected,
+                        "category_confidence": round(category_confidence, 3),
                         "status": compliance_result.overall_status.value,
                         "panel_count": len(normalized_inputs),
                         "checks": len(compliance_result.rule_checks),
+                        "conflicts": len(compliance_result.conflicts),
                         "duration_ms": elapsed_ms
                     }
                 )
             )
             db.commit()
             db.refresh(inspection)
+            inspection._category_auto_detected = category_was_auto_detected
+            inspection._category_confidence = round(category_confidence, 3)
 
-            # Generate PDF Report immediately and cache
+            # Generate PDF Report
             try:
                 generate_pdf_report(inspection)
             except Exception as e:
                 logger.error(f"Error generating PDF report for inspection {inspection.id}: {e}")
 
         logger.info(
-            f"Pipeline completed successfully in {elapsed_ms:.1f}ms for Inspection ID: {inspection.id} "
-            f"({len(normalized_inputs)} panels analyzed)"
+            f"Pipeline completed successfully in {elapsed_ms:.1f}ms for Inspection ID: {inspection.id} ({package_id}) "
+            f"({len(normalized_inputs)} panels analyzed, category='{product_category}', "
+            f"status={compliance_result.overall_status.value})"
         )
         return inspection
 
@@ -373,6 +406,8 @@ def run_inspection_pipeline(
     original_filename: Optional[str] = None,
     image_inputs: Optional[List[Dict[str, Any]]] = None,
     product_category: str = "packaged_commodity",
+    package_id: str = "Package #1",
+    parent_scan_id: Optional[str] = None,
     is_demo: bool = False,
     execution_mode: str = "LIVE_PIPELINE",
     db: Optional[Session] = None
@@ -382,7 +417,63 @@ def run_inspection_pipeline(
         original_filename=original_filename,
         image_inputs=image_inputs,
         product_category=product_category,
+        package_id=package_id,
+        parent_scan_id=parent_scan_id,
         is_demo=is_demo,
         execution_mode=execution_mode,
         db=db
     )
+
+def run_multi_package_scan(
+    image_path: str,
+    original_filename: Optional[str] = None,
+    product_category: str = "packaged_commodity",
+    is_demo: bool = False,
+    execution_mode: str = "LIVE_PIPELINE",
+    db: Optional[Session] = None
+) -> Dict[str, Any]:
+    """
+    Detects multiple packaged commodities in a single camera frame or image,
+    segments each package into an isolated sub-image, runs independent OCR and compliance pipelines,
+    and returns an aggregated multi-package inspection scan response.
+    """
+    import uuid
+    scan_id = str(uuid.uuid4())
+    logger.info(f"Initiating Multi-Package Scan [Scan ID: {scan_id}] on '{image_path}'...")
+
+    # Detect packages in the frame
+    detection_res = detector_service.detect_packages(image_path)
+    detected_packages = detection_res.packages
+
+    inspections: List[Inspection] = []
+
+    for pkg in detected_packages:
+        pkg_crop_path = pkg.cropped_image_path or image_path
+        pkg_inspection = run_inspection_pipeline(
+            image_path=pkg_crop_path,
+            original_filename=f"{pkg.package_id}_{original_filename or os.path.basename(image_path)}",
+            product_category=product_category,
+            package_id=pkg.package_id,
+            parent_scan_id=scan_id,
+            is_demo=is_demo,
+            execution_mode=execution_mode,
+            db=db
+        )
+        inspections.append(pkg_inspection)
+
+    # Determine overall scan verdict
+    if any(i.overall_status == "NON_COMPLIANT" for i in inspections):
+        overall_verdict = "NON_COMPLIANT"
+    elif any(i.overall_status in ["NEEDS_REVIEW", "UNABLE_TO_VERIFY"] for i in inspections):
+        overall_verdict = "NEEDS_REVIEW"
+    else:
+        overall_verdict = "COMPLIANT"
+
+    return {
+        "scan_id": scan_id,
+        "total_packages": len(inspections),
+        "overall_verdict": overall_verdict,
+        "annotated_overview_url": detection_res.annotated_frame_path,
+        "packages": inspections
+    }
+

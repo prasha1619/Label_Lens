@@ -16,28 +16,51 @@ class DatesExtractor:
     6. Standalone packaging date fallbacks
     """
 
-    # Month name regex
-    MONTH_NAMES = r'(?:JAN(?:UARY)?|FEB(?:RUARY)?|MAR(?:CH)?|APR(?:IL)?|MAY|JUN(?:E)?|JUL(?:Y)?|AUG(?:UST)?|SEP(?:TEMBER)?|OCT(?:OBER)?|NOV(?:EMBER)?|DEC(?:EMBER)?)'
+    # Month name to 2-digit numeric mapping
+    MONTH_MAP: Dict[str, str] = {
+        "jan": "01", "january": "01",
+        "feb": "02", "february": "02",
+        "mar": "03", "march": "03",
+        "apr": "04", "april": "04",
+        "may": "05",
+        "jun": "06", "june": "06",
+        "jul": "07", "july": "07",
+        "aug": "08", "august": "08",
+        "sep": "09", "sept": "09", "september": "09",
+        "oct": "10", "october": "10",
+        "nov": "11", "november": "11",
+        "dec": "12", "december": "12",
+    }
 
-    # Date pattern matching: MM/YYYY, MM/YY, DD/MM/YYYY, DD/MM/YY, Month YYYY, DD-Month-YYYY, etc.
+    # Month name regex supporting all 3-letter, 4-letter (Sept), and full month names
+    MONTH_NAMES = r'(?:JAN(?:UARY)?|FEB(?:RUARY)?|MAR(?:CH)?|APR(?:IL)?|MAY|JUN(?:E)?|JUL(?:Y)?|AUG(?:UST)?|SEP(?:T|TEMBER)?|OCT(?:OBER)?|NOV(?:EMBER)?|DEC(?:EMBER)?)'
+
+    # Date pattern matching: Day-Month-Year, Month-Day-Year, Month-Year, MM/YYYY, DD/MM/YYYY, ISO, etc.
     DATE_REGEX_PARSER = re.compile(
         rf'(?:'
-        rf'(?:(?:[0-3]?[0-9][\/\-\.\s]+)?(?:0[1-9]|1[0-2]|{MONTH_NAMES})[\/\-\.\s]+(?:20[2-3][0-9]|[2-3][0-9]))|'
+        # 1. Day + Month (name or num) + Year (e.g., 15 Jan 2026, 15th January 2026, 15-01-2026, 15/Jan/26)
+        rf'(?:(?:0?[1-9]|[12][0-9]|3[01])(?:st|nd|rd|th)?[\s\/\-\.]+(?:0[1-9]|1[0-2]|{MONTH_NAMES})[\s\/\-\.]+(?:20[2-3][0-9]|[2-3][0-9]))|'
+        # 2. Month name + Day + Year (e.g., Jan 15, 2026, January 15th 2026, Jan 15 2026)
+        rf'(?:(?:{MONTH_NAMES})[\s\/\-\.]+(?:0?[1-9]|[12][0-9]|3[01])(?:st|nd|rd|th)?(?:,)?[\s\/\-\.]+(?:20[2-3][0-9]|[2-3][0-9]))|'
+        # 3. Month name + Year (e.g., Jan 2026, January 2026, JAN-2026, JAN/26)
+        rf'(?:(?:{MONTH_NAMES})[\s\/\-\.]+(?:20[2-3][0-9]|[2-3][0-9]))|'
+        # 4. Numeric MM/YYYY or MM/YY (e.g., 07/2026, 07-2026, 07/26)
         rf'(?:(?:0?[1-9]|1[0-2])[\/\-\.](?:20[2-3][0-9]|[2-3][0-9]))|'
-        rf'(?:(?:0?[1-9]|1[0-2])[\/\-\.][2-3][0-9](?=[0-2][0-9]:[0-5][0-9]|\b))|'
-        rf'(?:{MONTH_NAMES}[\s\/\-\.]+(?:20[2-3][0-9]|[2-3][0-9]))'
+        # 5. ISO Format: YYYY-MM-DD or YYYY-MM (e.g., 2026-06-15, 2026-Jan-15, 2026-06)
+        rf'(?:(?:20[2-3][0-9])[\/\-\.](?:0?[1-9]|1[0-2]|{MONTH_NAMES})(?:[\/\-\.](?:0?[1-9]|[12][0-9]|3[01]))?)'
         rf')',
         re.IGNORECASE
     )
 
-    # Relative shelf life pattern (e.g., "24 Months from Mfd Date", "6 Months from Packing", "Use within 2 years")
+    # Relative shelf life pattern (e.g., "24 Months from Mfd Date", "6 Months from Packing", "Use within 2 years", "पैकिंग से 6 महीने")
     RELATIVE_SHELF_LIFE_REGEX = re.compile(
         r'(?:(?:BEST\s*BEFORE|USE\s*WITHIN|SHELF\s*LIFE)[\s:\.\-]*([0-9]{1,2}\s*(?:MONTHS?|YEARS?|DAYS?)(?:\s*(?:FROM|OF)\s*(?:MFG|MFD|PKD|PACKING|MANUFACTURE|DATE))?)|'
-        r'([0-9]{1,2}\s*(?:MONTHS?|YEARS?)\s*(?:FROM|OF)\s*(?:MFG|MFD|PKD|PACKING|MANUFACTURE|DATE)))',
+        r'([0-9]{1,2}\s*(?:MONTHS?|YEARS?)\s*(?:FROM|OF)\s*(?:MFG|MFD|PKD|PACKING|MANUFACTURE|DATE))|'
+        r'(?:(?:पैकिंग|निर्माण|उत्पादन)\s*(?:की\s*तारीख\s*)?से\s*([0-9]{1,2})\s*(?:माह|महीने|वर्ष|दिन)))',
         re.IGNORECASE
     )
 
-    # Mfg / Packaging Header Regex
+    # Mfg / Packaging Header Regex (handles English OCR noise + Hindi declarations)
     MFG_HEADER_REGEX = re.compile(
         r'(?:'
         r'\b(?:MFD|MFG|MANUFACTURED|MANUFACTURE|PACKED|PACKING|PKD|PKGD|P\.K\.D|M\.F\.D|M\.F\.G)\b|'
@@ -47,33 +70,144 @@ class DatesExtractor:
         r'\b(?:MFD\s*[\(\[A-Za-z0-9\s\)\]]*&\s*USE\s*BEFORE)\b|'
         r'\b(?:MFG\s*(?:AND|&)\s*PKGD\s*ON|PACKED\s*ON|MFD\s*ON|MANUFACTURED\s*ON)\b|'
         r'\b(?:MFG\.\s*MM\/YY|MFD\.\s*MM\/YY|MFD\/PKD|MFG\/PKD)\b|'
+        r'(?:निर्माण\s*तिथि|पैकिंग\s*तिथि|पैकिंग\s*की\s*तारीख|उत्पादन\s*तिथि|पैकिंग\s*माह|निर्माण\s*माह|एमएफडी|पीकेडी)|'
         r'\b(?:Vad|Mfo|MF6|MED|PKO|PK6|PXD)\b|'
         r'MF[DdGg][\s:\.\-=]+|PK[Dd][\s:\.\-=]+'
         r')',
         re.IGNORECASE
     )
 
-    # Expiry / Best Before Header Regex
+    # Expiry / Best Before Header Regex (handles English OCR noise + Hindi declarations)
     EXP_HEADER_REGEX = re.compile(
         r'(?:'
         r'\b(?:EXP|EXPIRY|EXP\.?DATE|EXPIRY\s*DATE|USE\s*BY|BEST\s*BEFORE|CONSUME\s*BEFORE|SHELF\s*LIFE|VALID\s*UPTO|E\.X\.P|USE\s*BEFORE)\b|'
         r'\b(?:DEST\s*DEFORE|BEST\s*BEF0RE|DEST\s*BEFORE|BE5T\s*BEFORE|USE\s*BV|EXP\s*DT)\b|'
+        r'(?:उपयोग\s*की\s*अंतिम\s*तिथि|सर्वश्रेष्ठ\s*पहले|अवसान\s*तिथि|समाप्ति\s*तिथि|उपभोग\s*की\s*अंतिम\s*तिथि|उपयोग\s*से\s*पहले)|'
         r'EXP[\s:\.\-=]+|BEST\s*BEFORE[\s:\.\-=]+|USE\s*BEFORE[\s:\.\-=]+'
         r')',
         re.IGNORECASE
     )
+
+
+    @classmethod
+    def normalize_date_string(cls, raw: str) -> str:
+        """
+        Normalizes any extracted date string (including month names, ordinal suffixes, 2-digit years)
+        into standard MM/YYYY or DD/MM/YYYY format.
+        Examples:
+          - 'Jan 2026' -> '01/2026'
+          - 'January 2026' -> '01/2026'
+          - '15 Jan 2026' -> '15/01/2026'
+          - '15th January 2026' -> '15/01/2026'
+          - 'Jan 15, 2026' -> '15/01/2026'
+          - '15-07-2026' -> '15/07/2026'
+          - '07/26' -> '07/2026'
+          - '2026-07-15' -> '15/07/2026'
+        """
+        if not raw:
+            return raw
+
+        clean = re.sub(r'[\(\[\)\]]', '', raw).strip(' ,.-;:')
+        clean_lower = clean.lower()
+
+        # Check for Month Name + Day + Year e.g. "Jan 15, 2026" or "January 15th 2026"
+        m_month_day_year = re.match(
+            rf'({cls.MONTH_NAMES})[\s\/\-\.]+(0?[1-9]|[12][0-9]|3[01])(?:st|nd|rd|th)?(?:,)?[\s\/\-\.]+(20[2-3][0-9]|[2-3][0-9])',
+            clean,
+            re.IGNORECASE
+        )
+        if m_month_day_year:
+            m_str, d_str, y_str = m_month_day_year.groups()
+            month_num = cls.MONTH_MAP.get(m_str.lower(), "01")
+            day_num = f"{int(d_str):02d}"
+            year_num = f"20{y_str}" if len(y_str) == 2 else y_str
+            return f"{day_num}/{month_num}/{year_num}"
+
+        # Check for Day + Month Name + Year e.g. "15 Jan 2026", "15th January 2026", "15-Jan-26"
+        m_day_month_year = re.match(
+            rf'(0?[1-9]|[12][0-9]|3[01])(?:st|nd|rd|th)?[\s\/\-\.]+({cls.MONTH_NAMES})[\s\/\-\.]+(20[2-3][0-9]|[2-3][0-9])',
+            clean,
+            re.IGNORECASE
+        )
+        if m_day_month_year:
+            d_str, m_str, y_str = m_day_month_year.groups()
+            month_num = cls.MONTH_MAP.get(m_str.lower(), "01")
+            day_num = f"{int(d_str):02d}"
+            year_num = f"20{y_str}" if len(y_str) == 2 else y_str
+            return f"{day_num}/{month_num}/{year_num}"
+
+        # Check for Month Name + Year e.g. "Jan 2026", "January 2026", "JAN/26", "JAN-2026"
+        m_month_year = re.match(
+            rf'({cls.MONTH_NAMES})[\s\/\-\.]+(20[2-3][0-9]|[2-3][0-9])',
+            clean,
+            re.IGNORECASE
+        )
+        if m_month_year:
+            m_str, y_str = m_month_year.groups()
+            month_num = cls.MONTH_MAP.get(m_str.lower(), "01")
+            year_num = f"20{y_str}" if len(y_str) == 2 else y_str
+            return f"{month_num}/{year_num}"
+
+        # Check for ISO Year-Month-Day or Year-Month (e.g. 2026-06-15, 2026/06)
+        m_iso = re.match(
+            r'(20[2-3][0-9])[\/\-\.](0?[1-9]|1[0-2]|' + cls.MONTH_NAMES + r')(?:[\/\-\.](0?[1-9]|[12][0-9]|3[01]))?',
+            clean,
+            re.IGNORECASE
+        )
+        if m_iso:
+            y_str, m_str, d_str = m_iso.groups()
+            month_num = cls.MONTH_MAP.get(m_str.lower(), f"{int(m_str):02d}" if m_str.isdigit() else "01")
+            if d_str:
+                day_num = f"{int(d_str):02d}"
+                return f"{day_num}/{month_num}/{y_str}"
+            return f"{month_num}/{y_str}"
+
+        # Check for Numeric DD/MM/YYYY or DD-MM-YY (3 parts)
+        m_num_3 = re.match(
+            r'(0?[1-9]|[12][0-9]|3[01])[\/\-\.](0?[1-9]|1[0-2])[\/\-\.](20[2-3][0-9]|[2-3][0-9])',
+            clean
+        )
+        if m_num_3:
+            d_str, m_str, y_str = m_num_3.groups()
+            day_num = f"{int(d_str):02d}"
+            month_num = f"{int(m_str):02d}"
+            year_num = f"20{y_str}" if len(y_str) == 2 else y_str
+            return f"{day_num}/{month_num}/{year_num}"
+
+        # Check for Numeric MM/YYYY or MM/YY (2 parts)
+        m_num_2 = re.match(
+            r'(0?[1-9]|1[0-2])[\/\-\.](20[2-3][0-9]|[2-3][0-9])',
+            clean
+        )
+        if m_num_2:
+            m_str, y_str = m_num_2.groups()
+            month_num = f"{int(m_str):02d}"
+            year_num = f"20{y_str}" if len(y_str) == 2 else y_str
+            return f"{month_num}/{year_num}"
+
+        return clean
 
     @classmethod
     def _extract_dates_from_string(cls, text: str) -> List[str]:
         # Strip plant code prefixes like (A), (05), (B), [A], etc.
         clean = re.sub(r'[\(\[]\s*[A-Za-z0-9]{1,3}\s*[\)\]]', ' ', text)
         matches = [m.group(0).strip() for m in cls.DATE_REGEX_PARSER.finditer(clean)]
-        # Filter out standalone 4-digit numbers that are not valid dates
+        # Filter out standalone numbers and normalize
         valid = []
         for m in matches:
             clean_m = re.sub(r'\s+', ' ', m).strip(' ,.-;')
             if clean_m and len(clean_m) >= 4:
-                valid.append(clean_m)
+                normalized_val = cls.normalize_date_string(clean_m)
+                valid.append(normalized_val)
+
+        # Header-anchored partial date e.g. "EXP:16/12" or "EXP: 16/12" or "MFD: 17/06"
+        if not valid:
+            partial_m = re.search(r'(?:EXP|EXPIRY|USE\s*BY|BEST\s*BEFORE|MFD|MFG|PKD)[\s:\.\-]*([0-3]?[0-9][\/\-\.](?:0?[1-9]|1[0-2]))(?=[^\d]|$)', clean, re.IGNORECASE)
+            if partial_m:
+                p_date = partial_m.group(1).strip()
+                if p_date and len(p_date) >= 3:
+                    valid.append(p_date)
+
         return valid
 
     @classmethod
@@ -364,6 +498,95 @@ class DatesExtractor:
                 }
             )
 
+        # Helper to parse normalized date strings into comparable (year, month, day) tuples
+        def parse_date_key(d_str: str) -> Tuple[int, int, int]:
+            if not d_str:
+                return (9999, 99, 99)
+            parts = [int(p) for p in re.findall(r'\d+', d_str)]
+            if len(parts) == 3:
+                # DD/MM/YYYY
+                return (parts[2], parts[1], parts[0])
+            elif len(parts) == 2:
+                # MM/YYYY
+                return (parts[1], parts[0], 1)
+            elif len(parts) == 1 and parts[0] > 1900:
+                return (parts[0], 1, 1)
+            return (9999, 99, 99)
+
+        # Multi-Date Fallback & Disambiguation:
+        # If we have multiple distinct dates on the label, resolve earlier -> Mfg Date and later -> Expiry Date
+        all_candidate_dates: Dict[str, Dict[str, Any]] = {}
+        for c in mfg_candidates + exp_candidates:
+            v = c["normalized"]
+            if v and v not in all_candidate_dates:
+                all_candidate_dates[v] = c
+
+        has_exp_header = any(cls.EXP_HEADER_REGEX.search(l.text) for l in lines)
+        has_mfg_header = any(cls.MFG_HEADER_REGEX.search(l.text) for l in lines)
+
+        # Collect distinct chronological dates
+        distinct_dates = sorted(
+            [d for d in all_candidate_dates.keys() if parse_date_key(d)[0] < 9999],
+            key=parse_date_key
+        )
+
+        if len(distinct_dates) >= 2:
+            earlier_val = distinct_dates[0]
+            later_val = distinct_dates[-1]
+
+            # If Expiry Date is missing or both picked the same date, assign chronologically
+            if not exp_field or (mfg_field and mfg_field.normalized_value == exp_field.normalized_value):
+                c_exp = all_candidate_dates[later_val]
+                exp_field = ExtractedField(
+                    field_name="expiry_date",
+                    display_name="Expiry / Best Before Date",
+                    raw_value=c_exp["raw"],
+                    normalized_value=later_val,
+                    confidence=min(0.99, round(c_exp["confidence"] * 0.95, 4)),
+                    detection_method="OCR_CHRONOLOGICAL_PAIR_EXP",
+                    bbox=c_exp["bbox"],
+                    is_detected=True,
+                    metadata={
+                        "legal_rule": "Rule 6(1)(d) - Expiry / Best Before Declaration",
+                        "source_strategy": "CHRONOLOGICAL_PAIR_EXP",
+                        "all_candidates": [{"value": later_val, "raw": c_exp["raw"], "confidence": c_exp["confidence"]}]
+                    }
+                )
+
+            # Ensure Mfg Date is assigned to the earlier date
+            if not mfg_field or mfg_field.normalized_value == later_val:
+                c_mfg = all_candidate_dates[earlier_val]
+                mfg_field = ExtractedField(
+                    field_name="mfg_date",
+                    display_name="Date of Manufacture / Packing",
+                    raw_value=c_mfg["raw"],
+                    normalized_value=earlier_val,
+                    confidence=min(0.99, round(c_mfg["confidence"] * 0.95, 4)),
+                    detection_method="OCR_CHRONOLOGICAL_PAIR_MFG",
+                    bbox=c_mfg["bbox"],
+                    is_detected=True,
+                    metadata={
+                        "legal_rule": "Rule 6(1)(d) - Month and Year of Manufacture/Packing",
+                        "source_strategy": "CHRONOLOGICAL_PAIR_MFG",
+                        "all_candidates": [{"value": earlier_val, "raw": c_mfg["raw"], "confidence": c_mfg["confidence"]}]
+                    }
+                )
+
+        # Year completion for partial expiry dates (e.g., "16/12" where day/month without year)
+        if exp_field and exp_field.normalized_value and mfg_field and mfg_field.normalized_value:
+            exp_parts = [int(p) for p in re.findall(r'\d+', exp_field.normalized_value)]
+            mfg_parts = [int(p) for p in re.findall(r'\d+', mfg_field.normalized_value)]
+            # Only complete if exp_parts is Day/Month (both <= 31 and month <= 12, not MM/YYYY)
+            if len(exp_parts) == 2 and exp_parts[0] <= 31 and exp_parts[1] <= 12 and len(mfg_parts) in (2, 3):
+                mfg_year = mfg_parts[-1]
+                if mfg_year < 100:
+                    mfg_year += 2000
+                mfg_month = mfg_parts[1] if len(mfg_parts) == 3 else mfg_parts[0]
+                exp_day = exp_parts[0]
+                exp_month = exp_parts[1]
+                exp_year = mfg_year if exp_month >= mfg_month else mfg_year + 1
+                exp_field.normalized_value = f"{exp_day:02d}/{exp_month:02d}/{exp_year}"
+
         return mfg_field, exp_field
 
     @classmethod
@@ -375,3 +598,88 @@ class DatesExtractor:
     def extract_expiry_date(cls, lines: List[OCRLine]) -> Optional[ExtractedField]:
         _, exp_field = cls.extract_all_dates(lines)
         return exp_field
+
+    @classmethod
+    def validate_date_consistency(
+        cls,
+        mfg_date_input: Optional[Any],
+        expiry_date_input: Optional[Any]
+    ) -> "DateConsistencyResult":
+        """
+        Validates dual-date chronological consistency between Manufacturing/Packing Date
+        and Expiry / Best Before date.
+        Accepts either string dates (e.g. "01/2026") or ExtractedField objects.
+        Returns a rich DateConsistencyResult with: is_valid (bool), status ("PASS" | "FAIL" | "REVIEW"), explanation (str).
+        """
+        mfg_date_str = mfg_date_input.normalized_value if isinstance(mfg_date_input, ExtractedField) else (str(mfg_date_input) if mfg_date_input else None)
+        expiry_date_str = expiry_date_input.normalized_value if isinstance(expiry_date_input, ExtractedField) else (str(expiry_date_input) if expiry_date_input else None)
+
+        if not mfg_date_str or not expiry_date_str:
+            return DateConsistencyResult(
+                is_valid=True,
+                status="PASS" if mfg_date_str else "REVIEW",
+                explanation="Single date declaration provided. Dual-date consistency check not applicable."
+            )
+
+        def parse_date_tuple(d_str: str) -> Optional[Tuple[int, int, int]]:
+            nums = [int(n) for n in re.findall(r'\d+', d_str)]
+            if len(nums) == 3:
+                d, m, y = nums[0], nums[1], nums[2]
+                if y < 100: y += 2000
+                return (y, m, d)
+            elif len(nums) == 2:
+                m, y = nums[0], nums[1]
+                if y < 100: y += 2000
+                return (y, m, 1)
+            return None
+
+        mfg_tuple = parse_date_tuple(mfg_date_str)
+        exp_tuple = parse_date_tuple(expiry_date_str)
+
+        if not mfg_tuple or not exp_tuple:
+            return DateConsistencyResult(
+                is_valid=True,
+                status="REVIEW",
+                explanation="Date format contains non-standard text/relative declaration; manual verification recommended."
+            )
+
+        # Compare year, month, day: Expiry date must not precede Manufacturing date
+        if exp_tuple < mfg_tuple:
+            return DateConsistencyResult(
+                is_valid=False,
+                status="FAIL",
+                explanation=f"Inconsistent date sequence: Expiry/Best Before ({expiry_date_str}) precedes or matches preceding Manufacturing Date ({mfg_date_str})."
+            )
+
+        # Calculate approximate month difference
+        months_diff = (exp_tuple[0] - mfg_tuple[0]) * 12 + (exp_tuple[1] - mfg_tuple[1])
+        if months_diff > 120:  # >10 years
+            return DateConsistencyResult(
+                is_valid=True,
+                status="REVIEW",
+                explanation=f"Shelf life of {months_diff} months ({months_diff//12} years) is unusually long; inspector verification advised."
+            )
+
+        return DateConsistencyResult(
+            is_valid=True,
+            status="PASS",
+            explanation=f"Dual-date consistency verified: Expiry ({expiry_date_str}) correctly follows Manufacturing Date ({mfg_date_str})."
+        )
+
+
+class DateConsistencyResult(dict):
+    """Rich result object supporting dict access, attribute access, and tuple unpacking (is_valid, msg)."""
+    def __init__(self, is_valid: bool, status: str, explanation: str):
+        super().__init__(is_valid=is_valid, status=status, explanation=explanation)
+        self.is_valid = is_valid
+        self.status = status
+        self.explanation = explanation
+
+    def __iter__(self):
+        yield self.is_valid
+        yield self.explanation
+
+    def __bool__(self):
+        return self.is_valid
+
+

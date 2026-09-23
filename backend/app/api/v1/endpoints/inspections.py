@@ -1,8 +1,8 @@
 import os
 import uuid
 import shutil
-from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query, status
+from typing import List, Optional, Dict, Any, Union
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query, status, Request
 from fastapi.responses import FileResponse, JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func
@@ -15,7 +15,7 @@ from app.models.inspection import Inspection, ImageRecord, OCRResult, DetectedFi
 import json
 from app.schemas.inspection import (
     InspectionResponse, InspectionListResponse, InspectionListItem, DashboardMetrics, ImageRecordSchema,
-    FieldOverrideRequest
+    FieldOverrideRequest, ReviewActionRequest, MultiPackageScanResponse
 )
 from app.schemas.extraction import ExtractedField
 from app.schemas.rule import RuleCheckResult, ViolationSummary, LegalStatusEnum
@@ -52,7 +52,7 @@ def format_inspection_response(inspection: Inspection) -> InspectionResponse:
 
     primary_image_schema = images_schema[0] if images_schema else None
 
-    # Format detected fields
+    # Format detected fields with source panel & conflict flags
     detected_fields = [
         ExtractedField(
             field_name=df.field_name,
@@ -64,12 +64,16 @@ def format_inspection_response(inspection: Inspection) -> InspectionResponse:
             detection_method=df.detection_method,
             bbox=df.bbox,
             is_detected=bool(df.raw_value or df.normalized_value),
-            metadata=df.metadata_info or {}
+            metadata={
+                **(df.metadata_info or {}),
+                "source_panel": df.source_panel or (df.metadata_info.get("source_panel") if df.metadata_info else "Front Panel"),
+                "has_conflict": df.has_conflict
+            }
         )
         for df in inspection.detected_fields
     ]
 
-    # Format compliance checks
+    # Format compliance checks with source panel & conflict detection
     compliance_checks = [
         RuleCheckResult(
             rule_id=cc.rule_id,
@@ -78,10 +82,14 @@ def format_inspection_response(inspection: Inspection) -> InspectionResponse:
             field_name=cc.field_name,
             display_name=cc.rule_title,
             is_mandatory=cc.is_mandatory,
-            status=LegalStatusEnum(cc.status),
+            is_applicable=getattr(cc, "is_applicable", True),
+            applicability_reason="Statutory declaration requirement",
+            status=LegalStatusEnum(cc.status) if cc.status in LegalStatusEnum.__members__.values() else (LegalStatusEnum.REVIEW if cc.status == "WARNING" else LegalStatusEnum.PASS),
             detected_value=cc.detected_value,
             raw_ocr_value=next((df.raw_value for df in inspection.detected_fields if df.field_name == cc.field_name), None),
             confidence=cc.confidence,
+            source_panel=getattr(cc, "source_panel", None) or next((df.source_panel for df in inspection.detected_fields if df.field_name == cc.field_name), "Front Panel"),
+            conflict_detected=getattr(cc, "conflict_detected", False) or next((df.has_conflict for df in inspection.detected_fields if df.field_name == cc.field_name), False),
             explanation=cc.explanation,
             inspector_recommendation=cc.inspector_recommendation,
             bbox=cc.bbox,
@@ -116,8 +124,14 @@ def format_inspection_response(inspection: Inspection) -> InspectionResponse:
         "lines": raw_ocr_lines
     }
 
+    # Count explicit states
+    review_checks_count = sum(1 for c in compliance_checks if c.status == LegalStatusEnum.REVIEW)
+    na_checks_count = sum(1 for c in compliance_checks if c.status == LegalStatusEnum.N_A)
+
     return InspectionResponse(
         id=inspection.id,
+        package_id=getattr(inspection, "package_id", "Package #1") or "Package #1",
+        parent_scan_id=getattr(inspection, "parent_scan_id", None),
         product_name=inspection.product_name,
         product_category=inspection.product_category,
         overall_status=inspection.overall_status,
@@ -130,11 +144,14 @@ def format_inspection_response(inspection: Inspection) -> InspectionResponse:
         warning_checks=inspection.warning_checks,
         undetected_checks=inspection.undetected_checks,
         uncertain_checks=inspection.uncertain_checks,
+        review_checks_count=review_checks_count,
+        na_checks_count=na_checks_count,
         cv_model_version=inspection.cv_model_version,
         ocr_version=inspection.ocr_version,
         rule_set_version=inspection.rule_set_version,
         processing_time_ms=inspection.processing_time_ms,
         error_message=inspection.error_message,
+        is_offline_synced=getattr(inspection, "is_offline_synced", False),
         created_at=inspection.created_at,
         updated_at=inspection.updated_at,
         image=primary_image_schema,
@@ -142,7 +159,10 @@ def format_inspection_response(inspection: Inspection) -> InspectionResponse:
         ocr_summary=ocr_summary,
         detected_fields=detected_fields,
         compliance_checks=compliance_checks,
-        violations=violations
+        violations=violations,
+        conflicts=getattr(inspection, "conflicts", []) or [],
+        review_decisions=getattr(inspection, "review_decisions", []) or [],
+        anomaly_signals=getattr(inspection, "anomaly_signals", []) or []
     )
 
 @router.post("", response_model=InspectionResponse, status_code=status.HTTP_201_CREATED)
@@ -152,19 +172,16 @@ def create_inspection(
     product_category: str = Form("packaged_commodity"),
     panel_types: Optional[str] = Form(None),
     is_demo: bool = Form(False),
+    package_id: Optional[str] = Form("Package #1"),
+    parent_scan_id: Optional[str] = Form(None),
+    is_offline_synced: bool = Form(False),
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user)
 ):
     """
     Uploads 1 or more packaged product label images (multi-panel: PDP front, back, side)
     and executes the end-to-end Legal Metrology cross-panel compliance pipeline.
-
-    This endpoint intentionally remains synchronous. FastAPI therefore runs the
-    CPU-heavy OCR/vision pipeline in its request worker pool instead of on the
-    shared asyncio event loop, keeping History, dashboard, and health requests
-    responsive while a live scan is in progress.
     """
-    # Collect all uploaded files (support both `files` multi-upload and `file` single-upload)
     uploaded_files: List[UploadFile] = []
     if files:
         uploaded_files.extend(files)
@@ -177,7 +194,6 @@ def create_inspection(
             detail="No image files provided for inspection."
         )
 
-    # Parse panel types if supplied
     parsed_panels: List[str] = []
     if panel_types:
         try:
@@ -186,11 +202,9 @@ def create_inspection(
             parsed_panels = [p.strip() for p in panel_types.split(",") if p.strip()]
 
     default_panel_names = ["front", "back", "side", "top", "general"]
-
     image_inputs: List[dict] = []
 
     for idx, f in enumerate(uploaded_files):
-        # 1. Validate file extension
         ext = f.filename.split(".")[-1].lower() if "." in f.filename else ""
         if ext not in settings.ALLOWED_EXTENSIONS:
             raise HTTPException(
@@ -198,7 +212,6 @@ def create_inspection(
                 detail=f"Unsupported file format '.{ext}' for file '{f.filename}'. Allowed formats: {', '.join(settings.ALLOWED_EXTENSIONS)}"
             )
 
-        # 2. Save uploaded file securely
         unique_filename = f"{uuid.uuid4().hex}_{f.filename}"
         file_path = settings.UPLOAD_DIR / unique_filename
 
@@ -209,7 +222,6 @@ def create_inspection(
             logger.error(f"Failed to save uploaded file '{f.filename}': {e}")
             raise HTTPException(status_code=500, detail=f"Failed to store uploaded image '{f.filename}'.")
 
-        # 3. Check file size
         file_size_mb = os.path.getsize(file_path) / (1024 * 1024)
         if file_size_mb > settings.MAX_UPLOAD_SIZE_MB:
             os.remove(file_path)
@@ -218,7 +230,6 @@ def create_inspection(
                 detail=f"File '{f.filename}' size ({file_size_mb:.1f}MB) exceeds maximum limit of {settings.MAX_UPLOAD_SIZE_MB}MB."
             )
 
-        # Assign panel type
         p_type = parsed_panels[idx] if idx < len(parsed_panels) else (
             default_panel_names[idx] if idx < len(default_panel_names) else f"Photo {idx + 1}"
         )
@@ -230,21 +241,69 @@ def create_inspection(
             "image_index": idx
         })
 
-    # 4. Run end-to-end multi-panel pipeline
     try:
         inspection = run_inspection_pipeline(
             image_inputs=image_inputs,
             product_category=product_category,
+            package_id=package_id or "Package #1",
+            parent_scan_id=parent_scan_id,
             is_demo=is_demo,
             execution_mode="LIVE_PIPELINE" if not is_demo else "DEMO_SAMPLE",
             db=db
         )
         inspection.user_id = user.id
+        inspection.is_offline_synced = is_offline_synced
         db.commit()
         return format_inspection_response(inspection)
     except Exception as e:
         logger.exception(f"Inspection pipeline execution failed: {e}")
         raise HTTPException(status_code=500, detail=f"Pipeline execution error: {str(e)}")
+
+@router.post("/multi-package-scan", response_model=Dict[str, Any])
+def create_multi_package_scan(
+    file: UploadFile = File(...),
+    product_category: str = Form("packaged_commodity"),
+    is_demo: bool = Form(False),
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    """
+    Accepts a single camera frame or retail shelf image containing multiple packaged commodities,
+    segments each package with YOLO / CV, runs isolated OCR/compliance for each package,
+    and returns an aggregated multi-package inspection scan response.
+    """
+    ext = file.filename.split(".")[-1].lower() if "." in file.filename else ""
+    if ext not in settings.ALLOWED_EXTENSIONS:
+        raise HTTPException(status_code=400, detail=f"Unsupported image format '.{ext}'.")
+
+    unique_filename = f"{uuid.uuid4().hex}_{file.filename}"
+    file_path = settings.UPLOAD_DIR / unique_filename
+
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    from app.services.pipeline import run_multi_package_scan
+    scan_result = run_multi_package_scan(
+        image_path=str(file_path),
+        original_filename=file.filename,
+        product_category=product_category,
+        is_demo=is_demo,
+        execution_mode="LIVE_PIPELINE" if not is_demo else "DEMO_SAMPLE",
+        db=db
+    )
+
+    for insp in scan_result["packages"]:
+        insp.user_id = user.id
+    db.commit()
+
+    return {
+        "scan_id": scan_result["scan_id"],
+        "total_packages": scan_result["total_packages"],
+        "overall_verdict": scan_result["overall_verdict"],
+        "annotated_overview_url": scan_result.get("annotated_overview_url"),
+        "packages": [format_inspection_response(p) for p in scan_result["packages"]]
+    }
+
 
 @router.get("", response_model=InspectionListResponse)
 def list_inspections(
@@ -346,6 +405,112 @@ def get_dashboard_metrics(db: Session = Depends(get_db), user: User = Depends(ge
         recent_inspections=recent_items
     )
 
+@router.post("/ar-frame", response_model=Dict[str, Any])
+async def process_ar_camera_frame(
+    request: Request,
+    file: UploadFile = File(...),
+    active_panel: str = Form("front"),
+    package_id: str = Form("Package #1"),
+    product_category: str = Form("packaged_commodity"),
+    accumulated_panels_json: Optional[str] = Form(None),
+    is_demo: bool = Form(False),
+    db: Session = Depends(get_db)
+):
+    """
+    AR-Inspection Live Camera Frame Processor:
+    Takes an active video frame, identifies package boundaries with YOLO11, executes OCR on visible regions,
+    fuses multi-panel evidence, evaluates statutory compliance, and returns responsive bounding box coordinates
+    and 4-state visual indicators (PASS / FAIL / REVIEW / N/A) for interactive AR projection.
+    """
+    from app.services.ar_inspection_service import ARInspectionService
+    try:
+        user = None
+        try:
+            user = get_current_user(request, db)
+        except Exception:
+            pass
+
+        content = await file.read()
+        hist_panels = []
+        if accumulated_panels_json:
+            try:
+                hist_panels = json.loads(accumulated_panels_json)
+            except Exception:
+                hist_panels = []
+
+        result = ARInspectionService.analyze_frame(
+            image_bytes=content,
+            active_panel=active_panel,
+            package_id=package_id,
+            product_category=product_category,
+            accumulated_panels=hist_panels,
+            is_demo=is_demo
+        )
+        return result
+    except Exception as e:
+        logger.exception(f"AR frame processing error: {e}")
+        raise HTTPException(status_code=500, detail=f"AR inspection frame error: {str(e)}")
+
+
+@router.post("/ar-save", response_model=InspectionResponse)
+async def save_ar_inspection(
+    request: Request,
+    file: UploadFile = File(...),
+    active_panel: str = Form("front"),
+    package_id: str = Form("Package #1"),
+    product_category: str = Form("packaged_commodity"),
+    accumulated_panels_json: Optional[str] = Form(None),
+    is_demo: bool = Form(False),
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    """
+    Saves an AR camera scan as a persistent Inspection in the database,
+    logging the audit trail, storing the image, evaluating compliance rules,
+    and generating an official PDF report available for immediate download.
+    """
+    try:
+        content = await file.read()
+        unique_filename = f"ar_scan_{uuid.uuid4().hex[:12]}.jpg"
+        file_path = settings.UPLOAD_DIR / unique_filename
+        with open(file_path, "wb") as buffer:
+            buffer.write(content)
+
+        image_inputs = [{
+            "path": str(file_path),
+            "filename": unique_filename,
+            "panel_type": active_panel,
+            "image_index": 0
+        }]
+
+        inspection = run_inspection_pipeline(
+            image_inputs=image_inputs,
+            product_category=product_category,
+            package_id=package_id or "Package #1",
+            parent_scan_id=None,
+            is_demo=is_demo,
+            execution_mode="AR_SCAN",
+            db=db
+        )
+
+        if user:
+            inspection.user_id = user.id
+            db.commit()
+            db.refresh(inspection)
+
+        # Ensure PDF report is generated and ready for download
+        try:
+            report_path = settings.REPORTS_DIR / f"Inspection_Report_{inspection.id}.pdf"
+            generate_pdf_report(inspection, str(report_path))
+        except Exception as pe:
+            logger.warning(f"Could not generate PDF report for saved AR inspection {inspection.id}: {pe}")
+
+        return format_inspection_response(inspection)
+    except Exception as e:
+        logger.exception(f"Error saving AR inspection: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to save AR inspection: {str(e)}")
+
+
 @router.get("/{inspection_id}", response_model=InspectionResponse)
 def get_inspection(inspection_id: str, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     """
@@ -425,6 +590,172 @@ def override_inspection_field(
     db.refresh(inspection)
     logger.info(f"Manual field override applied for {inspection_id} - field '{override.field_name}' set to '{override.value}'")
     return format_inspection_response(inspection)
+
+
+@router.post("/{inspection_id}/review", response_model=InspectionResponse)
+def submit_human_review(
+    inspection_id: str,
+    review: ReviewActionRequest,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    """
+    Human-in-the-Loop Review Decision Endpoint:
+    Records an inspector's verified determination on conflicting, uncertain, or flagged declarations.
+    Maintains an immutable statutory audit trail with reviewer identity, decision timestamp, original AI findings, and verified values.
+    """
+    inspection = db.query(Inspection).filter(Inspection.id == inspection_id, *( [] if user.role == 'admin' else [Inspection.user_id == user.id] )).first()
+    if not inspection:
+        raise ResourceNotFoundException("Inspection", inspection_id)
+
+    from datetime import datetime, timezone
+    now_iso = datetime.now(timezone.utc).isoformat()
+    reviewer_title = review.reviewer_name or user.full_name or "Statutory Inspector"
+
+    existing_field = next((f for f in inspection.detected_fields if f.field_name == review.field_name), None)
+    orig_val = existing_field.normalized_value if existing_field else None
+
+    # 1. Record immutable review decision
+    decision_record = {
+        "field_name": review.field_name,
+        "action": review.action,
+        "confirmed_value": review.confirmed_value,
+        "source_panel": review.source_panel or (existing_field.source_panel if existing_field else "Manual Inspector Entry"),
+        "reviewer_name": reviewer_title,
+        "reviewer_id": user.id,
+        "note": review.note or "Verified by statutory inspector",
+        "timestamp": now_iso,
+        "original_ai_value": orig_val,
+        "final_verified_value": review.confirmed_value
+    }
+    
+    current_reviews = list(inspection.review_decisions or [])
+    current_reviews.append(decision_record)
+    inspection.review_decisions = current_reviews
+
+    # 2. Update Detected Field
+    if existing_field:
+        existing_field.normalized_value = review.confirmed_value
+        existing_field.confidence = 1.0
+        existing_field.has_conflict = False
+        existing_field.detection_method = f"HUMAN_VERIFIED ({reviewer_title})"
+        if review.source_panel:
+            existing_field.source_panel = review.source_panel
+    else:
+        new_field = DetectedField(
+            id=f"{inspection_id}_{review.field_name}_reviewed",
+            inspection_id=inspection_id,
+            field_name=review.field_name,
+            display_name=review.field_name.replace("_", " ").title(),
+            raw_value=f"[VERIFIED] {review.confirmed_value}",
+            normalized_value=review.confirmed_value,
+            confidence=1.0,
+            source_panel=review.source_panel or "Manual Review",
+            has_conflict=False,
+            detection_method=f"HUMAN_VERIFIED ({reviewer_title})"
+        )
+        inspection.detected_fields.append(new_field)
+
+    # 3. Update Compliance Check
+    existing_check = next((c for c in inspection.compliance_checks if c.field_name == review.field_name), None)
+    if existing_check:
+        existing_check.status = "PASS" if review.action == "CONFIRM_VALUE" else "FAIL"
+        existing_check.detected_value = review.confirmed_value
+        existing_check.confidence = 1.0
+        existing_check.conflict_detected = False
+        existing_check.explanation = f"Declaration verified by {reviewer_title}. Value: {review.confirmed_value}. Note: {review.note or 'Human audit verification'}"
+        existing_check.inspector_recommendation = "Statutory declaration confirmed by inspector."
+
+    # 4. Remove resolved conflict from conflicts list
+    current_conflicts = list(inspection.conflicts or [])
+    inspection.conflicts = [c for c in current_conflicts if c.get("field_name") != review.field_name]
+
+    # 5. Recalculate summary metrics & overall status
+    all_checks = inspection.compliance_checks
+    inspection.passed_checks = sum(1 for c in all_checks if c.status == "PASS")
+    inspection.failed_checks = sum(1 for c in all_checks if c.status in ["FAIL", "NOT_DETECTED"] and c.is_mandatory)
+    inspection.warning_checks = sum(1 for c in all_checks if c.status in ["WARNING", "REVIEW"])
+    inspection.undetected_checks = sum(1 for c in all_checks if c.status == "NOT_DETECTED")
+    inspection.uncertain_checks = sum(1 for c in all_checks if c.status == "REVIEW")
+
+    has_mandatory_fail = any(c.status in ["FAIL", "NOT_DETECTED"] and c.is_mandatory for c in all_checks)
+    has_remaining_reviews = any(c.status in ["REVIEW", "WARNING", "UNCERTAIN"] for c in all_checks) or len(inspection.conflicts) > 0
+
+    if has_mandatory_fail:
+        inspection.overall_status = "NON_COMPLIANT"
+    elif has_remaining_reviews:
+        inspection.overall_status = "NEEDS_REVIEW"
+    else:
+        inspection.overall_status = "COMPLIANT"
+
+    total = inspection.total_checks or 1
+    inspection.compliance_score = round((inspection.passed_checks / total) * 100, 1)
+
+    db.commit()
+    db.refresh(inspection)
+
+    # Regenerate PDF dossier with updated human review
+    try:
+        generate_pdf_report(inspection)
+    except Exception as e:
+        logger.error(f"Failed to regenerate PDF report after human review: {e}")
+
+    logger.info(f"Human review saved for inspection {inspection_id}, field '{review.field_name}'. Overall status: {inspection.overall_status}")
+    return format_inspection_response(inspection)
+
+
+@router.get("/{inspection_id}/evidence", response_model=Dict[str, Any])
+def get_inspection_evidence(
+    inspection_id: str,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    """
+    Returns structured visual evidence, bounding boxes, and panel references for all declarations.
+    """
+    inspection = db.query(Inspection).filter(Inspection.id == inspection_id, *( [] if user.role == 'admin' else [Inspection.user_id == user.id] )).first()
+    if not inspection:
+        raise ResourceNotFoundException("Inspection", inspection_id)
+
+    evidence_items = []
+    for f in inspection.detected_fields:
+        evidence_items.append({
+            "field_name": f.field_name,
+            "display_name": f.display_name,
+            "normalized_value": f.normalized_value,
+            "raw_value": f.raw_value,
+            "confidence": f.confidence,
+            "source_panel": f.source_panel or "Front Panel",
+            "bbox": f.bbox,
+            "has_conflict": f.has_conflict,
+            "all_sources": f.metadata_info.get("all_panel_sources", []) if f.metadata_info else []
+        })
+
+    return {
+        "inspection_id": inspection.id,
+        "package_id": getattr(inspection, "package_id", "Package #1"),
+        "total_fields": len(evidence_items),
+        "conflicts": inspection.conflicts or [],
+        "evidence": evidence_items
+    }
+
+
+@router.get("/scan/{scan_id}/packages", response_model=List[InspectionResponse])
+def get_scan_packages(
+    scan_id: str,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user)
+):
+    """
+    Returns all package inspections belonging to a multi-package scan session.
+    """
+    inspections = db.query(Inspection).filter(
+        Inspection.parent_scan_id == scan_id,
+        *( [] if user.role == 'admin' else [Inspection.user_id == user.id] )
+    ).all()
+
+    return [format_inspection_response(insp) for insp in inspections]
+
 
 
 @router.get("/{inspection_id}/report")
@@ -514,3 +845,5 @@ def delete_inspection(inspection_id: str, db: Session = Depends(get_db), user: U
     db.delete(inspection)
     db.commit()
     return None
+
+

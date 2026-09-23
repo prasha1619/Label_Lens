@@ -11,6 +11,9 @@ class ExtractedField(BaseModel):
     detection_method: str = "OCR_REGEX"
     bbox: Optional[List[int]] = None
     is_detected: bool = True
+    source_panel: Optional[str] = None
+    has_conflict: bool = False
+    conflict_entry: Optional[Dict[str, Any]] = None
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
 class FieldNormalizationResult(BaseModel):
@@ -18,3 +21,4 @@ class FieldNormalizationResult(BaseModel):
     fields: Dict[str, ExtractedField] = Field(default_factory=dict)
     raw_to_normalized_map: Dict[str, str] = Field(default_factory=dict)
     extracted_count: int
+    conflicts: List[Dict[str, Any]] = Field(default_factory=list)

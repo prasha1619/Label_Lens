@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import {
   Camera,
   AlertCircle,
@@ -12,10 +12,12 @@ import {
   ChevronDown,
   SwitchCamera,
   ScanLine,
+  Boxes,
+  FileCheck,
 } from 'lucide-react';
 import { inspectionService } from '../services/inspectionService';
 import { demoService } from '../services/demoService';
-import { DemoSample, InspectionResponse } from '../types/inspection';
+import { DemoSample, InspectionResponse, MultiPackageScanResponse } from '../types/inspection';
 import { PipelineStepperModal } from '../components/inspection/PipelineStepperModal';
 import { StatusBadge } from '../components/common/StatusBadge';
 
@@ -30,6 +32,8 @@ interface PhotoSlot {
   panelTag: string;
   meta: { width: number; height: number; sizeMb: number } | null;
 }
+
+type ScanMode = 'multi_panel' | 'multi_package';
 
 const PANEL_TAGS = [
   'Front', 'Back', 'Side', 'Neck', 'Top', 'Bottom',
@@ -60,6 +64,8 @@ function genId() { return `slot_${++_idCounter}_${Date.now()}`; }
 export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspectionComplete }) => {
   const [photos, setPhotos] = useState<PhotoSlot[]>([]);
   const [activeTab, setActiveTab] = useState<'upload' | 'demo'>('upload');
+  const [scanMode, setScanMode] = useState<ScanMode>('multi_panel');
+  const [multiPkgResult, setMultiPkgResult] = useState<MultiPackageScanResponse | null>(null);
   const [productCategory, setProductCategory] = useState<string>('packaged_commodity');
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [cameraFacingMode, setCameraFacingMode] = useState<'environment' | 'user'>('environment');
@@ -163,7 +169,6 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
           audio: false,
         });
       } catch (constraintError) {
-        // Some mobile browsers reject preferred camera/resolution constraints.
         if (constraintError instanceof DOMException && ['OverconstrainedError', 'NotFoundError'].includes(constraintError.name)) {
           stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
         } else {
@@ -228,6 +233,22 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
     const interval = setInterval(() => setCurrentStage((prev) => (prev < 7 ? prev + 1 : prev)), 450);
     try {
       const files = photos.map((p) => p.file);
+
+      if (scanMode === 'multi_package') {
+        const pkgResult = await inspectionService.uploadMultiPackageScan(files[0], productCategory);
+        setCurrentStage(8);
+        setTimeout(() => {
+          clearInterval(interval);
+          setIsAnalyzing(false);
+          if (pkgResult.packages && pkgResult.packages.length > 0) {
+            setMultiPkgResult(pkgResult);
+          } else {
+            setErrorMsg('No distinct packages were identified in the image. Try adjusting the photo frame.');
+          }
+        }, 500);
+        return;
+      }
+
       const panelTypes = photos.map((p) => p.panelTag.toLowerCase().replace(/\s+/g, '_'));
       const result = await inspectionService.uploadAndAnalyze(files, productCategory, panelTypes);
       setCurrentStage(8);
@@ -292,16 +313,76 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
       </div>
 
       {activeTab === 'upload' && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-5">
-            <div className="flex items-start space-x-3 p-3.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-slate-300 leading-relaxed">
-              <Layers className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-              <span>
-                <strong className="text-indigo-300">Tip: </strong>
-                Upload photos of any package surface — Front, Back, Side, Neck, Batch Seal, Barcode, etc.
-                Tag each photo and the AI applies the right field-affinity weights per surface.
-              </span>
+        <div className="space-y-6">
+          {/* Mode Selector Toggle */}
+          <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                {scanMode === 'multi_panel' ? (
+                  <>
+                    <Layers className="w-4 h-4 text-indigo-400" />
+                    <span>Mode: Multi-Panel Single Product Fusion</span>
+                  </>
+                ) : (
+                  <>
+                    <Boxes className="w-4 h-4 text-emerald-400" />
+                    <span>Mode: Multi-Package Shelf / Cluster Detection</span>
+                  </>
+                )}
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                {scanMode === 'multi_panel'
+                  ? 'Combines Front, Back, and Side panels into a single consolidated regulatory audit.'
+                  : 'YOLO11 auto-detects Package #1, #2, #3, segmenting each for independent isolated OCR & compliance.'}
+              </p>
             </div>
+            <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800 shrink-0">
+              <button
+                type="button"
+                onClick={() => setScanMode('multi_panel')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                  scanMode === 'multi_panel'
+                    ? 'bg-indigo-600 text-white shadow'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>Multi-Panel</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setScanMode('multi_package')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ${
+                  scanMode === 'multi_package'
+                    ? 'bg-emerald-600 text-white shadow'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <Boxes className="w-3.5 h-3.5" />
+                <span>Multi-Package</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-5">
+              <div className="flex items-start space-x-3 p-3.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-slate-300 leading-relaxed">
+                <Layers className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                <span>
+                  {scanMode === 'multi_panel' ? (
+                    <>
+                      <strong className="text-indigo-300">Multi-Panel Fusion: </strong>
+                      Upload photos of any package surface — Front, Back, Side, Neck, Batch Seal, etc.
+                      Tag each photo and the AI applies field-affinity weights across panels without losing source traceability.
+                    </>
+                  ) : (
+                    <>
+                      <strong className="text-emerald-300">Multi-Package Detection: </strong>
+                      Upload a shelf or cluster photo. The CV pipeline locates distinct packaging units, crops each package cleanly, and runs isolated OCR on each.
+                    </>
+                  )}
+                </span>
+              </div>
 
             {isCameraActive && (
               <div className="rounded-3xl overflow-hidden bg-slate-950 border border-slate-700 shadow-2xl shadow-black/30">
@@ -491,11 +572,11 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
                 onChange={(e) => setProductCategory(e.target.value)}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-xs font-medium focus:outline-none focus:border-emerald-500 transition-colors"
               >
+                <option value="food_and_beverages">Food and Beverage</option>
+                <option value="electronics_and_appliances">Electronics and Electrical</option>
                 <option value="packaged_commodity">General Packaged Commodities</option>
-                <option value="food_and_beverages">Food and Beverages (FSSAI + LM)</option>
+                <option value="pharmaceuticals">Pharmaceuticals</option>
                 <option value="cosmetics_and_toiletries">Cosmetics and Toiletries</option>
-                <option value="electronics_and_appliances">Electronics and Electrical Appliances</option>
-                <option value="pharmaceuticals">Pharmaceuticals and Healthcare</option>
               </select>
             </div>
 
@@ -541,44 +622,134 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({ onInspecti
             )}
           </div>
         </div>
+      </div>
       )}
 
+      {/* Demo Tab Content */}
       {activeTab === 'demo' && (
         <div className="space-y-6">
-          <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-slate-300 leading-relaxed">
-            <span className="font-semibold text-emerald-300">Curated Demo Mode: </span>
-            Select a verified packaged commodity label scenario to observe how the AI pipeline handles ideal compliance, missing declarations, blur, and multipacks.
+          <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-start space-x-3">
+            <Sparkles className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+            <div className="text-xs text-slate-300 space-y-1">
+              <p className="font-semibold text-white">Pre-Loaded Regulatory Demo Scenarios</p>
+              <p className="text-slate-400">
+                Execute real end-to-end Legal Metrology verification routines on benchmark samples, testing compliant packaging, missing mandatory declarations, and image quality failures.
+              </p>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {demoSamples.map((sample) => {
               const isSelected = selectedDemoKey === sample.key;
               return (
                 <div
                   key={sample.key}
                   onClick={() => setSelectedDemoKey(sample.key)}
-                  className={`p-5 rounded-2xl border cursor-pointer transition-all duration-200 space-y-3 ${isSelected ? 'bg-emerald-500/10 border-emerald-500/50 shadow-lg shadow-emerald-500/10 scale-[1.02]' : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'}`}
+                  className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 ${
+                    isSelected
+                      ? 'bg-emerald-950/30 border-emerald-500/60 ring-2 ring-emerald-500/30 shadow-lg shadow-emerald-950/50'
+                      : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900'
+                  }`}
                 >
-                  <div className="flex items-start justify-between">
-                    <h4 className="text-sm font-bold text-slate-100">{sample.title}</h4>
-                    <StatusBadge status={sample.expected_verdict} size="sm" />
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        {sample.category.replace(/_/g, ' ')}
+                      </span>
+                      <StatusBadge status={sample.expected_verdict as any} size="sm" />
+                    </div>
+                    <h3 className="text-sm font-bold text-white">{sample.title}</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">{sample.description}</p>
                   </div>
-                  <p className="text-xs text-slate-400 leading-relaxed">{sample.description}</p>
-                  <div className="text-[11px] text-slate-500 font-mono pt-2 border-t border-slate-800/80 flex items-center justify-between">
-                    <span>Category: {sample.category}</span>
-                    <span className="text-emerald-400 font-semibold">{isSelected ? 'Selected' : 'Click to Select'}</span>
+
+                  <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+                    <span className="text-slate-500 font-mono">{sample.filename}</span>
+                    <span className={`font-semibold ${isSelected ? 'text-emerald-400' : 'text-slate-400'}`}>
+                      {isSelected ? '● Selected' : 'Select'}
+                    </span>
                   </div>
                 </div>
               );
             })}
           </div>
-          <div className="flex justify-end pt-4">
+
+          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-xs text-slate-400">
+              Selected: <strong className="text-white">{demoSamples.find((s) => s.key === selectedDemoKey)?.title || selectedDemoKey}</strong>
+            </div>
             <button
-              onClick={runAnalysis}
+              onClick={runDemoAnalysis}
               disabled={isAnalyzing}
-              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="py-3 px-6 rounded-xl font-bold text-xs bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white shadow-lg shadow-emerald-600/30 transition-all flex items-center gap-2"
             >
-              Run Selected Demo Scenario
+              <Play className="w-4 h-4 fill-current" />
+              <span>Run Selected Demo Scenario</span>
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Multi-Package Detection Results Modal */}
+      {multiPkgResult && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="w-full max-w-4xl bg-slate-900 border border-slate-700 rounded-3xl p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between border-b border-slate-800 pb-4">
+              <div>
+                <span className="text-xs font-mono uppercase px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                  {multiPkgResult.total_packages} PACKAGES DETECTED & ISOLATED
+                </span>
+                <h2 className="text-xl font-bold text-white mt-2">
+                  Multi-Package Compliance Results
+                </h2>
+                <p className="text-xs text-slate-400">
+                  Each package was segmented by YOLO11, cropped, and independently analyzed through the OCR & Legal Metrology rule engine.
+                </p>
+              </div>
+              <button
+                onClick={() => setMultiPkgResult(null)}
+                className="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {multiPkgResult.packages.map((pkg, idx) => (
+                <div
+                  key={pkg.id || idx}
+                  className="p-4 rounded-2xl bg-slate-950 border border-slate-800 hover:border-emerald-500/50 flex flex-col justify-between space-y-4 transition-all"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono font-bold text-slate-300">
+                        {pkg.package_id ? pkg.package_id : `Package #${idx + 1}`}
+                      </span>
+                      <StatusBadge status={pkg.overall_status} size="sm" />
+                    </div>
+                    <div className="text-xs text-slate-400 space-y-1">
+                      <div>Product: <b className="text-slate-200">{pkg.product_name || 'Detected Package'}</b></div>
+                      <div>Checks: <b className="text-emerald-400">{pkg.passed_checks} / {pkg.total_checks} Passed</b></div>
+                      {((pkg.conflicts && pkg.conflicts.length > 0) || pkg.uncertain_checks > 0) && (
+                        <span className="inline-block text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                          Review Required
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setMultiPkgResult(null);
+                      onInspectionComplete(pkg);
+                    }}
+                    className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+                  >
+                    <span>View Inspection Audit</span>
+                    <FileCheck className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}

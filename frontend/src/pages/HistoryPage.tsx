@@ -14,6 +14,7 @@ import { InspectionListItem } from '../types/inspection';
 import { inspectionService } from '../services/inspectionService';
 import { StatusBadge } from '../components/common/StatusBadge';
 import { LegalDisclaimerBanner } from '../components/common/LegalDisclaimerBanner';
+import { getCategoryLabel } from '../utils/categoryLabels';
 
 interface HistoryPageProps {
   onSelectInspection: (id: string) => void;
@@ -121,11 +122,11 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onSelectInspection }) 
             className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 focus:outline-none focus:border-emerald-500"
           >
             <option value="">All Categories</option>
-            <option value="packaged_commodity">Packaged Commodities</option>
-            <option value="food_and_beverages">Food & Beverages</option>
-            <option value="cosmetics_and_toiletries">Cosmetics</option>
-            <option value="electronics_and_appliances">Electronics</option>
+            <option value="food_and_beverages">Food and Beverage</option>
+            <option value="electronics_and_appliances">Electronics and Electrical</option>
+            <option value="packaged_commodity">General Packaged Commodities</option>
             <option value="pharmaceuticals">Pharmaceuticals</option>
+            <option value="cosmetics_and_toiletries">Cosmetics and Toiletries</option>
           </select>
 
           <select
@@ -189,8 +190,8 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onSelectInspection }) 
                     </td>
 
                     {/* Category */}
-                    <td className="py-3.5 px-4 text-slate-400 capitalize">
-                      {item.product_category.replace(/_/g, ' ')}
+                    <td className="py-3.5 px-4 text-slate-400">
+                      {getCategoryLabel(item.product_category)}
                     </td>
 
                     {/* Verdict */}

@@ -52,6 +52,6 @@ models/*.pt
 # IDE & OS
 .vscode/
 .idea/
-.DS_Store
-Thumbs.db
-
+# Temporary & Scratch scripts
+scratch_*
+test_frame.jpg

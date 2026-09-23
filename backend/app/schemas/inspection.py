@@ -31,6 +31,8 @@ class InspectionCreate(BaseModel):
 
 class InspectionResponse(BaseModel):
     id: str
+    package_id: Optional[str] = "Package #1"
+    parent_scan_id: Optional[str] = None
     product_name: Optional[str] = None
     product_category: str
     overall_status: str
@@ -44,12 +46,15 @@ class InspectionResponse(BaseModel):
     warning_checks: int
     undetected_checks: int
     uncertain_checks: int
+    review_checks_count: int = 0
+    na_checks_count: int = 0
     
     cv_model_version: Optional[str] = None
     ocr_version: Optional[str] = None
     rule_set_version: Optional[str] = None
     processing_time_ms: Optional[float] = None
     error_message: Optional[str] = None
+    is_offline_synced: bool = False
     created_at: datetime
     updated_at: datetime
     
@@ -59,9 +64,21 @@ class InspectionResponse(BaseModel):
     detected_fields: List[ExtractedField] = Field(default_factory=list)
     compliance_checks: List[RuleCheckResult] = Field(default_factory=list)
     violations: List[ViolationSummary] = Field(default_factory=list)
+    conflicts: List[Dict[str, Any]] = Field(default_factory=list)
+    review_decisions: List[Dict[str, Any]] = Field(default_factory=list)
+    anomaly_signals: List[Dict[str, Any]] = Field(default_factory=list)
+
+class MultiPackageScanResponse(BaseModel):
+    scan_id: str
+    total_packages: int
+    overall_verdict: str
+    annotated_overview_url: Optional[str] = None
+    packages: List[InspectionResponse] = Field(default_factory=list)
 
 class InspectionListItem(BaseModel):
     id: str
+    package_id: Optional[str] = "Package #1"
+    parent_scan_id: Optional[str] = None
     product_name: Optional[str] = None
     product_category: str
     overall_status: str
@@ -70,6 +87,7 @@ class InspectionListItem(BaseModel):
     total_checks: int
     passed_checks: int
     failed_checks: int
+    has_conflicts: bool = False
     created_at: datetime
     original_filename: Optional[str] = None
     annotated_image_available: bool = False
@@ -96,4 +114,13 @@ class FieldOverrideRequest(BaseModel):
     value: str
     unit: Optional[str] = None
     note: Optional[str] = "Manually verified by inspector"
+
+class ReviewActionRequest(BaseModel):
+    field_name: str
+    action: str = Field("CONFIRM_VALUE", description="CONFIRM_VALUE or MARK_UNRESOLVED")
+    confirmed_value: str
+    source_panel: Optional[str] = None
+    reviewer_name: Optional[str] = "Statutory Inspector"
+    note: Optional[str] = "Human verification decision recorded"
+
 

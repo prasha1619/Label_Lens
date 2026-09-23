@@ -11,22 +11,32 @@ from app.services.ocr.ocr_service import BaseOCRService
 from app.services.ocr.paddle_ocr_service import PaddleOCRService
 
 class EasyOCRService(BaseOCRService):
-    """EasyOCR implementation with multilingual support."""
-    def __init__(self):
+    """EasyOCR implementation with English and Hindi support."""
+    def __init__(self, langs: Optional[List[str]] = None):
         self._reader = None
         self._is_ready = False
+        self.langs = langs or ['en', 'hi']
         try:
             import easyocr
-            self._reader = easyocr.Reader(['en'], gpu=False)
+            self._reader = easyocr.Reader(self.langs, gpu=False)
             self._is_ready = True
-            logger.info("EasyOCR initialized successfully.")
+            logger.info(f"EasyOCR initialized successfully with langs: {self.langs}")
         except Exception as e:
-            logger.warning(f"EasyOCR failed to initialize: {e}")
-            self._is_ready = False
+            # Fallback to English only if Hindi model download isn't available
+            try:
+                import easyocr
+                self._reader = easyocr.Reader(['en'], gpu=False)
+                self.langs = ['en']
+                self._is_ready = True
+                logger.info("EasyOCR fallback to ['en'] initialized.")
+            except Exception as e2:
+                logger.warning(f"EasyOCR failed to initialize: {e2}")
+                self._is_ready = False
 
     @property
     def engine_name(self) -> str:
-        return "EasyOCR (en)"
+        return f"EasyOCR ({'+'.join(self.langs)})"
+
 
     def is_available(self) -> bool:
         return self._is_ready
@@ -297,21 +307,25 @@ class OCRManager:
 
     @staticmethod
     def _result_quality(result: OCRResultSchema) -> float:
-        """Prefer readable label text over a confident sideways character stream."""
+        """Prefer readable label text over a confident sideways character stream, supporting Hindi & English."""
         if not result.lines:
             return 0.0
-        words = re.findall(r"[A-Za-z]{3,}", result.raw_full_text)
-        meaningful = [line for line in result.lines if len(re.sub(r"[^A-Za-z0-9]", "", line.text)) >= 3]
+        # Extract both Latin words and Devanagari words
+        words = re.findall(r"[A-Za-z\u0900-\u097F]{2,}", result.raw_full_text)
+        meaningful = [line for line in result.lines if len(re.sub(r"[^\w\u0900-\u097F]", "", line.text)) >= 2]
         meaningful_ratio = len(meaningful) / len(result.lines)
         mean_length = sum(len(re.sub(r"\s+", "", line.text)) for line in result.lines) / len(result.lines)
         length_score = min(mean_length / 12.0, 1.0)
-        # Common packaging words make this orientation-independent without
-        # adding another model or network call.
+        # Common packaging words in English and Hindi
         label_terms = {
             "ingredients", "quantity", "net", "weight", "price", "mrp", "batch",
             "manufactured", "expiry", "expire", "date", "consumer", "care",
             "address", "flavour", "flavor", "contains", "product", "packed",
             "lemon", "sugar", "salt", "india", "gram", "litre", "ml", "kg",
+            # Hindi statutory declarations
+            "मूल्य", "खुदरा", "अधिकतम", "एमआरपी", "मात्रा", "शुद्ध", "वजन",
+            "निर्माता", "पैकिंग", "तारीख", "तिथि", "उपभोक्ता", "सेवा",
+            "कस्टमर", "केयर", "भारत", "ग्राम", "किग्रा", "मिली", "लीटर",
         }
         lexical_hits = sum(1 for word in words if word.lower() in label_terms)
         lexical_score = min(lexical_hits / 3.0, 1.0)
@@ -323,6 +337,7 @@ class OCRManager:
             + (word_score * 0.15)
             + (lexical_score * 0.30)
         )
+
 
     @staticmethod
     def _map_rotation_to_original(result: OCRResultSchema, angle: int, original_path: str) -> None:

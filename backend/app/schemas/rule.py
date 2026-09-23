@@ -5,6 +5,9 @@ from pydantic import BaseModel, Field
 class LegalStatusEnum(str, Enum):
     PASS = "PASS"
     FAIL = "FAIL"
+    REVIEW = "REVIEW"
+    N_A = "N/A"
+    # Backward compatible aliases
     WARNING = "WARNING"
     NOT_DETECTED = "NOT_DETECTED"
     UNCERTAIN = "UNCERTAIN"
@@ -24,6 +27,8 @@ class RuleRequirementSchema(BaseModel):
     legal_reference: str
     description: str
     is_mandatory: bool = True
+    is_conditional: bool = False
+    applicability_condition: Optional[str] = None  # e.g., "imported_only", "perishable_only"
     min_confidence_pass: int = 70
     min_confidence_warning: int = 50
     validation_regex: Optional[str] = None
@@ -43,10 +48,14 @@ class RuleCheckResult(BaseModel):
     field_name: str
     display_name: str
     is_mandatory: bool
+    is_applicable: bool = True
+    applicability_reason: Optional[str] = None
     status: LegalStatusEnum
     detected_value: Optional[str] = None
     raw_ocr_value: Optional[str] = None
     confidence: Optional[float] = None
+    source_panel: Optional[str] = None
+    conflict_detected: bool = False
     explanation: str
     inspector_recommendation: Optional[str] = None
     bbox: Optional[List[int]] = None
@@ -67,8 +76,11 @@ class ComplianceEvaluationResult(BaseModel):
     compliance_score: float  # Secondary coverage metric 0-100
     rule_checks: List[RuleCheckResult] = Field(default_factory=list)
     violations: List[ViolationSummary] = Field(default_factory=list)
+    conflicts: List[Dict[str, Any]] = Field(default_factory=list)
+    anomaly_signals: List[Dict[str, Any]] = Field(default_factory=list)
     disclaimer: str = (
         "AI-assisted screening result. Final legal determination requires verification "
         "by an authorized inspector/competent authority and depends on the applicable "
         "rules and the quality/completeness of the submitted evidence."
     )
+

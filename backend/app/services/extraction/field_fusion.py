@@ -135,9 +135,10 @@ class FieldFusionEngine:
                     "filename": p.filename
                 })
 
-        # Select best detection for each field
+        # Select best detection for each field and check for cross-panel conflicts
         fused_fields: Dict[str, ExtractedField] = {}
         raw_to_norm_map: Dict[str, str] = {}
+        conflicts_list: List[Dict[str, Any]] = []
 
         for fname, candidates in field_candidates.items():
             # Sort candidates by weighted score descending
@@ -145,34 +146,85 @@ class FieldFusionEngine:
             best_candidate = candidates[0]
             best_field: ExtractedField = best_candidate["field"]
 
+            # Format source panel title e.g. "Front Panel"
+            raw_panel_type = best_candidate["panel_type"] or "front"
+            formatted_panel = f"{raw_panel_type.capitalize()} Panel" if not raw_panel_type.lower().endswith("panel") else raw_panel_type.capitalize()
+
             # Attach multi-panel metadata
             if best_field.metadata is None:
                 best_field.metadata = {}
 
             best_field.metadata["image_index"] = best_candidate["image_index"]
-            best_field.metadata["panel_type"] = best_candidate["panel_type"]
+            best_field.metadata["panel_type"] = formatted_panel
+            best_field.metadata["source_panel"] = formatted_panel
             best_field.metadata["source_filename"] = best_candidate["filename"]
             best_field.metadata["all_panel_sources"] = [
-                {"image_index": c["image_index"], "panel_type": c["panel_type"], "confidence": c["field"].confidence}
+                {
+                    "image_index": c["image_index"],
+                    "panel_type": f"{c['panel_type'].capitalize()} Panel",
+                    "value": c["field"].normalized_value,
+                    "raw_value": c["field"].raw_value,
+                    "confidence": c["field"].confidence,
+                    "bbox": c["field"].bbox
+                }
                 for c in candidates
             ]
 
-            # Cross-validate / boost confidence if detected consistently on multiple panels
-            if len(candidates) > 1:
-                best_field.confidence = min(0.99, best_field.confidence + 0.05)
-                best_field.detection_method = f"{best_field.detection_method}+MULTI_PANEL"
+            # Cross-Panel Conflict Detection:
+            # Check if different panels have conflicting non-empty normalized values
+            unique_values = {}
+            for c in candidates:
+                norm_v = (c["field"].normalized_value or "").strip()
+                if norm_v:
+                    p_name = f"{c['panel_type'].capitalize()} Panel"
+                    if norm_v not in unique_values:
+                        unique_values[norm_v] = []
+                    unique_values[norm_v].append(p_name)
+
+            if len(unique_values) > 1:
+                conflict_summary = " vs ".join(
+                    [f"{', '.join(panels)}: {val}" for val, panels in unique_values.items()]
+                )
+                logger.warning(f"Cross-panel conflict detected for field '{fname}': {conflict_summary}")
+                
+                conflict_entry = {
+                    "field_name": fname,
+                    "display_name": best_field.display_name,
+                    "conflict_summary": conflict_summary,
+                    "sources": best_field.metadata["all_panel_sources"]
+                }
+                conflicts_list.append(conflict_entry)
+                
+                best_field.has_conflict = True
+                best_field.conflict_entry = conflict_entry
+                best_field.source_panel = formatted_panel
+                best_field.metadata["has_conflict"] = True
+                best_field.metadata["conflict_entry"] = conflict_entry
+                best_field.detection_method = f"{best_field.detection_method}+CONFLICT_DETECTED"
+            else:
+                best_field.has_conflict = False
+                best_field.conflict_entry = None
+                best_field.source_panel = formatted_panel
+                best_field.metadata["has_conflict"] = False
+                if len(candidates) > 1:
+                    best_field.confidence = min(0.99, best_field.confidence + 0.05)
+                    best_field.detection_method = f"{best_field.detection_method}+MULTI_PANEL"
 
             fused_fields[fname] = best_field
             if best_field.raw_value and best_field.normalized_value:
                 raw_to_norm_map[best_field.raw_value] = best_field.normalized_value
 
         logger.info(
-            f"Multi-panel fusion complete: {len(fused_fields)} statutory declarations unified across {len(payloads)} panels."
+            f"Multi-panel fusion complete: {len(fused_fields)} statutory declarations unified across {len(payloads)} panels. "
+            f"Conflicts detected: {len(conflicts_list)}."
         )
 
-        return FieldNormalizationResult(
+        result = FieldNormalizationResult(
             category_id=product_category,
             fields=fused_fields,
             raw_to_normalized_map=raw_to_norm_map,
-            extracted_count=len(fused_fields)
+            extracted_count=len(fused_fields),
+            conflicts=conflicts_list
         )
+        return result
+

@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from app.schemas.extraction import FieldNormalizationResult, ExtractedField
 from app.schemas.cv import QualityAssessment
 from app.schemas.rule import (
@@ -11,14 +11,41 @@ from app.schemas.rule import (
     ProductCategorySchema
 )
 from app.services.rules.rule_loader import RuleLoader
+from app.services.extraction.dates_extractor import DatesExtractor
+from app.services.risk.anomaly_detector import AnomalyRiskEngine
 from app.core.config import settings
 from app.core.logging import logger
 
 class LegalComplianceRuleEngine:
     """
     Evaluates extracted label declarations against statutory Legal Metrology rules.
-    Guarantees explainability, confidence thresholds, and strict anti-hallucination policies.
+    Guarantees explainability, confidence thresholds, applicability verification,
+    cross-panel conflict resolution, and anti-hallucination policies.
     """
+
+    @classmethod
+    def _is_rule_applicable(
+        cls,
+        req: RuleRequirementSchema,
+        extraction_result: FieldNormalizationResult,
+        category_id: str
+    ) -> tuple[bool, str]:
+        """
+        Determines if a rule genuinely applies to the commodity instance.
+        Ensures 'Not Detected' does not become 'N/A' for mandatory applicable rules.
+        """
+        if getattr(req, "is_conditional", False):
+            cond = getattr(req, "applicability_condition", "")
+            if cond == "imported_only":
+                origin_field = extraction_result.fields.get("country_of_origin")
+                is_imported = origin_field and origin_field.normalized_value and origin_field.normalized_value.upper() != "INDIA"
+                if not is_imported:
+                    return False, "Applicable only to imported packaged commodities."
+            elif cond == "perishable_only":
+                if category_id not in ["food_and_beverages", "pharmaceuticals"]:
+                    return False, f"Expiry declaration not required for non-perishable category '{category_id}'."
+
+        return True, "Mandatory statutory declaration requirement."
 
     @classmethod
     def evaluate(
@@ -37,7 +64,6 @@ class LegalComplianceRuleEngine:
         
         # Check 1: Image Quality Guardrail
         if not quality_assessment.is_acceptable or quality_assessment.status == "FAIL":
-            # Image is too degraded for legal certainty
             reasons_str = "; ".join(quality_assessment.reasons) if quality_assessment.reasons else "Image quality too low for reliable OCR"
             
             for req in category_schema.rules:
@@ -49,10 +75,14 @@ class LegalComplianceRuleEngine:
                         field_name=req.field_name,
                         display_name=req.title,
                         is_mandatory=req.is_mandatory,
-                        status=LegalStatusEnum.UNABLE_TO_VERIFY,
+                        is_applicable=True,
+                        applicability_reason="Mandatory declaration",
+                        status=LegalStatusEnum.REVIEW,
                         detected_value=None,
                         raw_ocr_value=None,
                         confidence=None,
+                        source_panel=None,
+                        conflict_detected=False,
                         explanation=f"Unable to verify declaration due to image degradation ({reasons_str}).",
                         inspector_recommendation="Manual physical inspection required with higher-resolution, well-lit label capture.",
                         bbox=None,
@@ -77,18 +107,56 @@ class LegalComplianceRuleEngine:
                 overall_status=OverallComplianceStatus.UNABLE_TO_VERIFY,
                 compliance_score=0.0,
                 rule_checks=rule_checks,
-                violations=violations
+                violations=violations,
+                conflicts=[],
+                anomaly_signals=[]
             )
 
-        # Check 2: Evaluate each requirement against extracted fields
+        # Check 2: Evaluate Applicability & Declarations
         total_mandatory = 0
         passed_mandatory = 0
         total_confidence_sum = 0.0
         confidence_count = 0
 
+        # Run Dual-Date Check if both dates present
+        mfg_field = extraction_result.fields.get("mfg_date")
+        exp_field = extraction_result.fields.get("expiry_date")
+        date_consistency_result = None
+        if mfg_field and exp_field and mfg_field.normalized_value and exp_field.normalized_value:
+            date_consistency_result = DatesExtractor.validate_date_consistency(
+                mfg_field.normalized_value,
+                exp_field.normalized_value
+            )
+
         for req in category_schema.rules:
+            is_applicable, app_reason = cls._is_rule_applicable(req, extraction_result, category_id)
             field: Optional[ExtractedField] = extraction_result.fields.get(req.field_name)
-            
+
+            if not is_applicable:
+                rule_checks.append(
+                    RuleCheckResult(
+                        rule_id=req.rule_id,
+                        rule_title=req.title,
+                        legal_reference=req.legal_reference,
+                        field_name=req.field_name,
+                        display_name=req.title,
+                        is_mandatory=False,
+                        is_applicable=False,
+                        applicability_reason=app_reason,
+                        status=LegalStatusEnum.N_A,
+                        detected_value=field.normalized_value if field else None,
+                        raw_ocr_value=field.raw_value if field else None,
+                        confidence=field.confidence if field else None,
+                        source_panel=field.metadata.get("source_panel") if field and field.metadata else None,
+                        conflict_detected=False,
+                        explanation=f"Requirement not applicable: {app_reason}",
+                        inspector_recommendation="Non-applicable requirement under current category/origin configuration.",
+                        bbox=field.bbox if field else None,
+                        evidence_available=bool(field and field.bbox)
+                    )
+                )
+                continue
+
             if req.is_mandatory:
                 total_mandatory += 1
 
@@ -96,21 +164,36 @@ class LegalComplianceRuleEngine:
                 conf_pct = field.confidence * 100.0
                 total_confidence_sum += conf_pct
                 confidence_count += 1
+                source_panel = field.source_panel or field.metadata.get("source_panel") or field.metadata.get("panel_type") or "Front Panel"
+                has_conflict = bool(field.has_conflict or field.metadata.get("has_conflict", False))
 
-                if conf_pct >= req.min_confidence_pass:
+                if has_conflict:
+                    status = LegalStatusEnum.REVIEW
+                    conflict_summary = (field.conflict_entry.get("description") if field.conflict_entry else None) or field.metadata.get("conflict_entry", {}).get("conflict_summary", "Discrepancy across panels")
+                    explanation = f"⚠ Cross-panel conflict detected: {conflict_summary}. Human review required."
+                    recommendation = "Inspect front and back physical label evidence to resolve mismatched declarations."
+                elif req.field_name == "mfg_date" and date_consistency_result and not date_consistency_result["is_valid"]:
+                    status = LegalStatusEnum.FAIL
+                    explanation = date_consistency_result["explanation"]
+                    recommendation = "Check manufacturing date batch stamp."
+                elif req.field_name == "expiry_date" and date_consistency_result and date_consistency_result["status"] == "REVIEW":
+                    status = LegalStatusEnum.REVIEW
+                    explanation = date_consistency_result["explanation"]
+                    recommendation = "Verify shelf life and expiry period against manufacturer guidelines."
+                elif conf_pct >= req.min_confidence_pass:
                     status = LegalStatusEnum.PASS
-                    explanation = f"Required '{req.title}' detected with high confidence ({int(conf_pct)}%). Value matches statutory format."
+                    explanation = f"Required '{req.title}' detected with high confidence ({int(conf_pct)}%) on {source_panel}. Format valid."
                     recommendation = "Declaration verified compliant."
                     if req.is_mandatory:
                         passed_mandatory += 1
                 elif conf_pct >= req.min_confidence_warning:
-                    status = LegalStatusEnum.WARNING
-                    explanation = f"Declaration detected with moderate confidence ({int(conf_pct)}%). Low clarity or partial occlusion."
-                    recommendation = "Inspector should manually cross-verify the printed text against the product packaging."
+                    status = LegalStatusEnum.REVIEW
+                    explanation = f"Declaration detected with moderate confidence ({int(conf_pct)}%) on {source_panel}. Low clarity."
+                    recommendation = "Inspector should manually cross-verify the printed text against packaging."
                 else:
-                    status = LegalStatusEnum.UNCERTAIN
+                    status = LegalStatusEnum.REVIEW
                     explanation = f"Declaration detected with low confidence ({int(conf_pct)}%). OCR reading may be noisy."
-                    recommendation = "Manual verification required to confirm validity."
+                    recommendation = "Manual verification required in Review Queue."
 
                 rule_checks.append(
                     RuleCheckResult(
@@ -120,10 +203,14 @@ class LegalComplianceRuleEngine:
                         field_name=req.field_name,
                         display_name=field.display_name,
                         is_mandatory=req.is_mandatory,
+                        is_applicable=True,
+                        applicability_reason="Mandatory declaration requirement",
                         status=status,
                         detected_value=field.normalized_value,
                         raw_ocr_value=field.raw_value,
                         confidence=round(field.confidence, 4),
+                        source_panel=source_panel,
+                        conflict_detected=has_conflict,
                         explanation=explanation,
                         inspector_recommendation=recommendation,
                         bbox=field.bbox,
@@ -131,11 +218,11 @@ class LegalComplianceRuleEngine:
                     )
                 )
 
-                if status in [LegalStatusEnum.WARNING, LegalStatusEnum.UNCERTAIN]:
+                if status == LegalStatusEnum.FAIL or (status == LegalStatusEnum.REVIEW and has_conflict):
                     violations.append(
                         ViolationSummary(
                             field_name=req.field_name,
-                            severity="MEDIUM" if status == LegalStatusEnum.WARNING else "HIGH",
+                            severity="HIGH" if status == LegalStatusEnum.FAIL else "MEDIUM",
                             rule_id=req.rule_id,
                             legal_reference=req.legal_reference,
                             reason=explanation,
@@ -146,8 +233,8 @@ class LegalComplianceRuleEngine:
             else:
                 # Field was NOT detected in OCR
                 if req.is_mandatory:
-                    status = LegalStatusEnum.NOT_DETECTED
-                    explanation = f"No matching declaration found for mandatory field '{req.title}' in the provided label image."
+                    status = LegalStatusEnum.FAIL
+                    explanation = f"No matching declaration found for mandatory field '{req.title}' in the provided label images."
                     recommendation = req.recommendation_template
                     
                     violations.append(
@@ -161,7 +248,7 @@ class LegalComplianceRuleEngine:
                         )
                     )
                 else:
-                    status = LegalStatusEnum.NOT_APPLICABLE
+                    status = LegalStatusEnum.N_A
                     explanation = f"Optional field '{req.title}' not declared."
                     recommendation = "Non-mandatory field. No violation."
 
@@ -173,10 +260,14 @@ class LegalComplianceRuleEngine:
                         field_name=req.field_name,
                         display_name=req.title,
                         is_mandatory=req.is_mandatory,
+                        is_applicable=is_applicable,
+                        applicability_reason=app_reason,
                         status=status,
                         detected_value=None,
                         raw_ocr_value=None,
                         confidence=None,
+                        source_panel=None,
+                        conflict_detected=False,
                         explanation=explanation,
                         inspector_recommendation=recommendation,
                         bbox=None,
@@ -184,16 +275,21 @@ class LegalComplianceRuleEngine:
                     )
                 )
 
-        # Determine Overall Status
-        has_not_detected_mandatory = any(
-            c.status == LegalStatusEnum.NOT_DETECTED and c.is_mandatory for c in rule_checks
+        # Evaluate Risk Signals & Conflicts
+        conflicts_list = getattr(extraction_result, "_conflicts", [])
+        anomaly_signals = AnomalyRiskEngine.evaluate_risk_signals(
+            extraction_result,
+            quality_assessment,
+            conflicts=conflicts_list
         )
-        has_fails = any(c.status == LegalStatusEnum.FAIL for c in rule_checks)
-        has_warnings = any(c.status in [LegalStatusEnum.WARNING, LegalStatusEnum.UNCERTAIN] for c in rule_checks)
 
-        if has_not_detected_mandatory or has_fails:
+        # Determine Overall Status
+        has_fails = any(c.status in [LegalStatusEnum.FAIL, LegalStatusEnum.NOT_DETECTED] and c.is_mandatory for c in rule_checks)
+        has_reviews = any(c.status in [LegalStatusEnum.REVIEW, LegalStatusEnum.WARNING, LegalStatusEnum.UNCERTAIN] for c in rule_checks)
+
+        if has_fails:
             overall_status = OverallComplianceStatus.NON_COMPLIANT
-        elif has_warnings or quality_assessment.status == "WARNING":
+        elif has_reviews or quality_assessment.status == "WARNING" or len(conflicts_list) > 0:
             overall_status = OverallComplianceStatus.NEEDS_REVIEW
         else:
             overall_status = OverallComplianceStatus.COMPLIANT
@@ -209,7 +305,9 @@ class LegalComplianceRuleEngine:
             overall_status=overall_status,
             compliance_score=compliance_score,
             rule_checks=rule_checks,
-            violations=violations
+            violations=violations,
+            conflicts=conflicts_list,
+            anomaly_signals=anomaly_signals
         )
 
 def evaluate_compliance(
@@ -218,3 +316,4 @@ def evaluate_compliance(
     category_id: str = "packaged_commodity"
 ) -> ComplianceEvaluationResult:
     return LegalComplianceRuleEngine.evaluate(extraction_result, quality_assessment, category_id)
+

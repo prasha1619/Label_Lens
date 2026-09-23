@@ -39,6 +39,18 @@ def test_mrp_price_strip_with_unit_sale_price():
     assert field is not None
     assert field.normalized_value == "₹99"
 
+def test_mrp_snack_packet_with_unit_sale_price():
+    """MRP 30.00 must win over unit sale price Rs. 0.59 Per g."""
+    lines = [
+        make_line("MRP : 30.00", confidence=0.92, bbox=[10, 100, 150, 130]),
+        make_line("NET WT : 50.5g", confidence=0.95, bbox=[10, 140, 150, 170]),
+        make_line("BATCH NO : FABHFC4 B", confidence=0.90, bbox=[10, 180, 200, 210]),
+        make_line("USP / UNIT SALE PRICE : Rs. 0.59 Per g", confidence=0.96, bbox=[10, 220, 250, 250]),
+    ]
+    field = MRPExtractor.extract(lines)
+    assert field is not None
+    assert field.normalized_value == "₹30"
+
 def test_mrp_no_price_present():
     lines = [make_line("Manufactured by ABC Ltd Haridwar")]
     field = MRPExtractor.extract(lines)

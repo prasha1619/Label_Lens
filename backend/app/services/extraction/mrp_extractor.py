@@ -16,11 +16,12 @@ class MRPExtractor:
     7. Standalone currency with price fallback (e.g. 'Rs. 249.00', '₹ 249')
     """
 
-    # MRP header regex (handles OCR substitutions & noise: 'MaP', 'Mape', 'MaP=', 'MBP', 'MPP', 'M.R.P.', 'MR P', etc.)
+    # MRP header regex (handles English OCR noise + Hindi: 'अधिकतम खुदरा मूल्य', 'खुदरा मूल्य', 'एमआरपी', etc.)
     MRP_HEADER_REGEX = re.compile(
         r'(?:'
         r'\b(?:M\.?R\.?P\.?|M\.?A\.?P\.?|M\.?P\.?P\.?|M\.?B\.?P\.?|M\s*R\s*P|M\s*A\s*P|MAX(?:IMUM)?\s*RETAIL\s*PRICE|RETAIL\s*PRICE|SALE\s*PRICE|PRICE|RATE)\b|'
         r'\b(?:Mape|MaP=|Map|MRF|MRA|NRP|WRP)\b|'
+        r'(?:अधिकतम\s*खुदरा\s*मूल्य|खुदरा\s*मूल्य|एम\.?आर\.?पी\.?|एमआरपी|मूल्य|कीमत|दर)|'
         r'M\.?R\.?P[\s:\.\-=e,\(\)]+|Mape|MaP='
         r')',
         re.IGNORECASE
@@ -28,25 +29,33 @@ class MRPExtractor:
 
     # Unit sale price header regex (USP per ml/g/kg/unit)
     USP_HEADER_REGEX = re.compile(
-        r'(?:\bUSP\b|UNIT\s*SALE\s*PRICE|USP\s*(?:PER|POR|/)|PER\s*(?:ML|GM|G|KG|L|LTR|N|UNIT|PIECE)|POR\s*ML|PERML)',
+        r'(?:'
+        r'\b(?:USP|UNIT\s*SALE\s*PRICE|USP\s*(?:PER|POR|/))\b|'
+        r'(?:\b(?:PER|POR)\s*(?:ML|GM|G|KG|L|LTR|N|UNIT|PIECE)\b)|'
+        r'(?:POR\s*ML|PERML|PERG|PORG)|'
+        r'(?:\/\s*(?:ML|GM|G|KG|L|LTR|N|UNIT|PIECE)\b)|'
+        r'(?:प्रति\s*(?:ग्राम|किग्रा|मिली|लीटर|नग|इकाई))'
+        r')',
         re.IGNORECASE
     )
 
-    # Tax inclusivity fuzzy patterns (handles standard declarations and noisy OCR artifacts)
+    # Tax inclusivity fuzzy patterns (handles standard declarations, Hindi, and noisy OCR artifacts)
     TAX_INCLUSIVE_PATTERNS = [
         re.compile(r'(?:INCL\.?|INCLUSIVE|INCLD|INCI|INCT|UNCT|UNCL|ICL|NCL|ONCI|ONCL)[\s\w\.\(\)]*(?:OF\s*)?(?:ALL\s*)?(?:TAX|TARES|TANOB|TAXES|TARED|TAND|TANED)', re.IGNORECASE),
         re.compile(r'(?:INCL|ONCI|INCI)\.?\s*(?:OF\s*)?(?:ALL\s*)?TAX', re.IGNORECASE),
         re.compile(r'INCLUSIVE\s*(?:OF\s*)?(?:ALL\s*)?TAX', re.IGNORECASE),
         re.compile(r'ALL\s*TAXES?\s*INCL', re.IGNORECASE),
         re.compile(r'TAXES?\s*INCL', re.IGNORECASE),
-        re.compile(r'ELELLTANED|IONOD|DDTUES', re.IGNORECASE)
+        re.compile(r'ELELLTANED|IONOD|DDTUES', re.IGNORECASE),
+        re.compile(r'(?:सभी\s*करों?\s*सहित|कर\s*सहित|सभी\s*कर\s*शामिल)', re.IGNORECASE)
     ]
 
     # Currency symbols & prefixes
     CURRENCY_PREFIX_REGEX = re.compile(
-        r'(?:\b(?:RS|INR|RE)\.?|[₹`\*\?])\s*',
+        r'(?:\b(?:RS|INR|RE|रु\.?|रू\.?)\b\.?|[₹`\*\?रुरू])\s*',
         re.IGNORECASE
     )
+
 
     @classmethod
     def _is_tax_inclusive(cls, text: str) -> bool:
@@ -66,10 +75,10 @@ class MRPExtractor:
 
     @classmethod
     def _is_plausible_price(cls, val: float, text: str, is_near_mrp_header: bool = False) -> bool:
-        if val <= 0.5 or val > 50000:
+        if val <= 0.2 or val > 100000:
             return False
-        # Filter out numbers preceded by No./Art/Batch/Code/Item
-        if re.search(rf'(?:NO|ART|ITEM|BATCH|LOT|CODE|REF|MODEL)[\s:\.\-]*0*{int(val)}', text, re.IGNORECASE):
+        # Filter out numbers preceded by No./Art/Batch/Code/Item/Lic/FSSAI
+        if re.search(rf'(?:NO|ART|ITEM|BATCH|LOT|CODE|REF|MODEL|LIC|FSSAI)[\s:\.\-]*0*{int(val)}', text, re.IGNORECASE):
             return False
         # Filter out 4-digit calendar years unless explicitly prefixed by currency / MRP
         if val in [2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, 2031]:
@@ -96,7 +105,15 @@ class MRPExtractor:
             try:
                 p_val = float(m.group(1))
                 if cls._is_plausible_price(p_val, text, is_near_mrp_header=True):
-                    candidates.append({"price": p_val, "has_currency": True, "span": m.span()})
+                    # Check if followed immediately by unit (like /ml, /g, per g)
+                    trailing_sub = clean[m.span()[1]:min(len(clean), m.span()[1] + 15)]
+                    is_candidate_usp = bool(re.match(r'^\s*(?:\/|per|por)\s*(?:ml|gm|g|kg|l|ltr|n|unit|piece)\b', trailing_sub, re.IGNORECASE))
+                    candidates.append({
+                        "price": p_val,
+                        "has_currency": True,
+                        "span": m.span(),
+                        "is_usp": is_candidate_usp
+                    })
             except ValueError:
                 pass
 
@@ -110,7 +127,8 @@ class MRPExtractor:
                         "price": p_val,
                         "has_currency": False,
                         "span": combined_mrp_usp.span(),
-                        "usp": combined_mrp_usp.group(2)
+                        "usp": combined_mrp_usp.group(2),
+                        "is_usp": False
                     })
             except ValueError:
                 pass
@@ -122,7 +140,14 @@ class MRPExtractor:
                 p_val = float(m.group(1))
                 if cls._is_plausible_price(p_val, text, is_near_mrp_header=False):
                     if not any(abs(c["price"] - p_val) < 0.001 for c in candidates):
-                        candidates.append({"price": p_val, "has_currency": False, "span": m.span()})
+                        trailing_sub = clean[m.span()[1]:min(len(clean), m.span()[1] + 15)]
+                        is_candidate_usp = bool(re.match(r'^\s*(?:\/|per|por)\s*(?:ml|gm|g|kg|l|ltr|n|unit|piece)\b', trailing_sub, re.IGNORECASE))
+                        candidates.append({
+                            "price": p_val,
+                            "has_currency": False,
+                            "span": m.span(),
+                            "is_usp": is_candidate_usp
+                        })
             except ValueError:
                 pass
 
@@ -150,14 +175,14 @@ class MRPExtractor:
         full_text_combined = " ".join(l.text for l in lines)
         global_has_tax = cls._is_tax_inclusive(full_text_combined)
 
-        # Strategy 1: Flexible Single-line pattern
-        # Handles cases where tax text or words are placed between MRP and price:
-        # e.g., "MRP (Incl. of all taxes) Rs. 249.00", "MRP: Rs. 249.00 (Incl. of all taxes)"
+        # Strategy 1: Flexible Single-line pattern with MRP header
         for idx, line in enumerate(lines):
             text = line.text.strip()
             if cls.MRP_HEADER_REGEX.search(text):
                 prices = cls._extract_prices_from_line(text)
                 for p_info in prices:
+                    if p_info.get("is_usp") and not p_info.get("usp"):
+                        continue
                     p_val = p_info["price"]
                     has_tax = cls._is_tax_inclusive(text) or global_has_tax
                     candidates.append({
@@ -178,14 +203,20 @@ class MRPExtractor:
                 h_center_y = (header_bbox[1] + header_bbox[3]) / 2.0 if len(header_bbox) == 4 else 0
                 h_height = max(1, header_bbox[3] - header_bbox[1]) if len(header_bbox) == 4 else 20
 
-                # 2A: Scan adjacent lines vertically (e.g., next 1 to 7 lines below in 2-column or list layout)
+                # 2A: Scan adjacent lines vertically
                 for offset in range(1, 8):
                     if idx + offset < len(lines):
                         next_line = lines[idx + offset]
                         next_text = next_line.text.strip()
 
+                        # Stop if another major header begins
+                        if re.search(r'\b(?:MFD|EXP|BATCH|NET\s*WT|INGREDIENTS)\b', next_text, re.IGNORECASE):
+                            break
+
                         prices = cls._extract_prices_from_line(next_text)
                         for p_info in prices:
+                            if p_info.get("is_usp") and not p_info.get("usp"):
+                                continue
                             p_val = p_info["price"]
                             combined_raw = f"{text} {next_text}"
                             has_tax = cls._is_tax_inclusive(combined_raw) or global_has_tax
@@ -198,7 +229,6 @@ class MRPExtractor:
                             ] if (len(header_bbox) == 4 and len(next_line.bbox) == 4) else header_bbox
 
                             mean_conf = (line.confidence + next_line.confidence) / 2.0
-                            # Weight decays slightly with vertical line distance
                             dist_decay = 0.96 if offset == 1 else (0.90 if offset == 2 else 0.82)
 
                             candidates.append({
@@ -231,6 +261,8 @@ class MRPExtractor:
                         if is_same_row and is_to_right:
                             prices = cls._extract_prices_from_line(other_text)
                             for p_info in prices:
+                                if p_info.get("is_usp") and not p_info.get("usp"):
+                                    continue
                                 p_val = p_info["price"]
                                 combined_raw = f"{text} {other_text}"
                                 has_tax = cls._is_tax_inclusive(combined_raw) or global_has_tax
@@ -251,34 +283,35 @@ class MRPExtractor:
                                     "source": "SPATIAL_2_COLUMN"
                                 })
 
-        # Strategy 3: Currency Symbols Fallback (e.g., "₹ 249.00", "Rs. 249.00")
+        # Strategy 3: Standalone Currency Symbols Fallback (e.g., "₹ 249.00", "Rs. 249.00")
         for idx, line in enumerate(lines):
             text = line.text.strip()
-            if cls.CURRENCY_PREFIX_REGEX.search(text) and not cls.USP_HEADER_REGEX.search(text):
+            if cls.CURRENCY_PREFIX_REGEX.search(text):
                 prices = cls._extract_prices_from_line(text)
                 for p_info in prices:
+                    if p_info.get("is_usp"):
+                        continue
                     if p_info["has_currency"]:
                         p_val = p_info["price"]
                         has_tax = cls._is_tax_inclusive(text) or global_has_tax
                         candidates.append({
                             "price": p_val,
                             "raw_value": text,
-                            "confidence": min(0.99, round(line.confidence * 0.90, 4)),
+                            "confidence": min(0.99, round(line.confidence * 0.88, 4)),
                             "bbox": line.bbox,
                             "has_tax": has_tax,
                             "has_currency": True,
                             "source": "CURRENCY_SYMBOL"
                         })
 
-        # Strategy 4: structured declaration-table fallback. Some labels print a faint
-        # MRP caption beside a clear price; OCR may lose the caption entirely. Treat a
-        # price as MRP only when it occupies the row immediately above a recognised USP
-        # row in the same two-column declaration table. This avoids accepting arbitrary
-        # standalone numbers elsewhere on the label.
+        # Strategy 4: Table positional fallback
         for idx, price_line in enumerate(lines):
             if cls.USP_HEADER_REGEX.search(price_line.text):
                 continue
-            prices = [p for p in cls._extract_prices_from_line(price_line.text) if not p["has_currency"]]
+            # Exclude lines that are part of dates, batches, or timestamps (e.g. "14:25", "MFD: 17/06/26 14:25")
+            if re.search(r'\b(?:MFD|MFG|EXP|PKD|BATCH|B\.?\s*NO|\d{1,2}:\d{2})\b', price_line.text, re.IGNORECASE):
+                continue
+            prices = [p for p in cls._extract_prices_from_line(price_line.text) if not p["has_currency"] and not p.get("is_usp")]
             if not prices or len(price_line.bbox) != 4:
                 continue
 
@@ -286,8 +319,6 @@ class MRPExtractor:
                 usp_line = lines[next_idx]
                 if not cls.USP_HEADER_REGEX.search(usp_line.text) or len(usp_line.bbox) != 4:
                     continue
-                # A caption/value table has a short vertical distance and price value to
-                # the right of the caption. The MRP value should exceed the USP value.
                 row_gap = usp_line.bbox[1] - price_line.bbox[3]
                 if row_gap < -8 or row_gap > max(80, (price_line.bbox[3] - price_line.bbox[1]) * 3):
                     continue
@@ -296,6 +327,9 @@ class MRPExtractor:
                     if price_line.bbox[0] <= usp_line.bbox[0] + 20:
                         continue
                     if usp_prices and price_info["price"] <= max(p["price"] for p in usp_prices):
+                        continue
+                    # Ignore bare integers without decimal or currency
+                    if not re.search(r'\.\d{2}', price_line.text) and not any(c in price_line.text for c in ["₹", "Rs", "RS", "INR"]):
                         continue
                     candidates.append({
                         "price": price_info["price"],
@@ -307,33 +341,93 @@ class MRPExtractor:
                         "source": "TABLE_POSITIONAL_MRP"
                     })
 
+        # Strategy 5: Ground-Truth Unit Sale Price (USP) x Net Quantity Cross-Validation
+        usp_m = re.search(r'([0-9]+(?:\.[0-9]+)?)\s*\/\s*(?:ml|g|gm|kg|l|ltr|n|unit|piece)\b', full_text_combined, re.IGNORECASE)
+        expected_price: Optional[float] = None
+        if usp_m:
+            try:
+                u_val = float(usp_m.group(1))
+                # Use authoritative NetQuantityExtractor to avoid catching 'PER 100ml' table headers
+                from app.services.extraction.net_qty_extractor import NetQuantityExtractor
+                net_qty_field = NetQuantityExtractor.extract(lines)
+                q_val = None
+                if net_qty_field and net_qty_field.normalized_value:
+                    q_num_m = re.search(r'([0-9]+(?:\.[0-9]+)?)', net_qty_field.normalized_value)
+                    if q_num_m:
+                        q_val = float(q_num_m.group(1))
+
+                if u_val > 0 and q_val and q_val > 0:
+                    calculated = round(u_val * q_val, 2)
+                    if 1.0 <= calculated <= 5000.0:
+                        expected_price = calculated
+            except Exception:
+                pass
+
+        if expected_price is not None:
+            # Check if any candidate matches expected price or if candidates conflict wildly
+            has_matching_candidate = False
+            for c in candidates:
+                if abs(c["price"] - expected_price) < 0.5:
+                    c["confidence"] = min(0.99, c["confidence"] + 0.30)
+                    has_matching_candidate = True
+                elif c["source"] == "TABLE_POSITIONAL_MRP" and c["price"] > expected_price * 3:
+                    # Remove wildly conflicting table positional guesses (e.g. 425 vs 10)
+                    c["confidence"] = 0.0
+
+            # Filter out zeroed candidates
+            candidates = [c for c in candidates if c["confidence"] > 0.05]
+
+            # If no direct candidate matched, add the USP-derived Ground Truth price
+            if not has_matching_candidate:
+                usp_bbox = [0, 0, 100, 100]
+                for l in lines:
+                    if cls.USP_HEADER_REGEX.search(l.text) and len(l.bbox) == 4:
+                        usp_bbox = l.bbox
+                        break
+                candidates.append({
+                    "price": expected_price,
+                    "raw_value": f"USP: ₹{usp_m.group(1)}/ml x Qty: {q_val:g} ml = ₹{expected_price:g}",
+                    "confidence": 0.95,
+                    "bbox": usp_bbox,
+                    "has_tax": global_has_tax,
+                    "has_currency": True,
+                    "source": "USP_DERIVED_MRP"
+                })
+
         if not candidates:
             return None
 
-        # Prioritize and disambiguate candidates
+        # Check if we have standard product price candidates >= 5.0
+        has_standard_price = any(c["price"] >= 5.0 for c in candidates)
+
+        # Disambiguate candidates
         def score_candidate(c: Dict[str, Any]) -> float:
             score = c["confidence"]
-            if c["source"] == "SINGLE_LINE_HEADER":
-                score += 0.30
+            if c["source"] == "USP_DERIVED_MRP":
+                score += 0.60
+            elif c["source"] == "SINGLE_LINE_HEADER":
+                score += 0.50
             elif c["source"] == "VERTICAL_STACKED":
-                score += 0.25
+                score += 0.40
             elif c["source"] == "SPATIAL_2_COLUMN":
-                score += 0.20
+                score += 0.35
             elif c["source"] == "CURRENCY_SYMBOL":
                 score += 0.15
             elif c["source"] == "TABLE_POSITIONAL_MRP":
                 score += 0.10
 
             if c.get("has_currency"):
-                score += 0.10
+                score += 0.08
             if c.get("usp"):
                 score += 0.35
             if c.get("has_tax"):
                 score += 0.05
 
-            # Total retail price is typically greater than per-unit sale price
-            if c["price"] >= 10.0:
-                score += 0.05
+            # If this is a sub-rupee fraction (e.g. 0.59) and a standard pack price exists, heavily penalize it
+            if c["price"] < 1.0 and has_standard_price:
+                score -= 1.0
+            elif c["price"] >= 5.0:
+                score += 0.20
 
             return score
 

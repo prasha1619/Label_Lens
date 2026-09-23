@@ -42,6 +42,8 @@ class RuleLoader:
                             legal_reference=r["legal_reference"],
                             description=r["description"],
                             is_mandatory=r.get("is_mandatory", True),
+                            is_conditional=r.get("is_conditional", False),
+                            applicability_condition=r.get("applicability_condition"),
                             min_confidence_pass=r.get("min_confidence_pass", 70),
                             min_confidence_warning=r.get("min_confidence_warning", 50),
                             validation_regex=r.get("validation_regex"),

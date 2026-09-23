@@ -1,6 +1,6 @@
 export type OverallStatus = 'COMPLIANT' | 'NON_COMPLIANT' | 'NEEDS_REVIEW' | 'UNABLE_TO_VERIFY' | 'PENDING' | 'PROCESSING' | 'FAILED';
 
-export type CheckStatus = 'PASS' | 'FAIL' | 'WARNING' | 'NOT_DETECTED' | 'UNCERTAIN' | 'NOT_APPLICABLE' | 'UNABLE_TO_VERIFY';
+export type CheckStatus = 'PASS' | 'FAIL' | 'REVIEW' | 'N/A' | 'WARNING' | 'NOT_DETECTED' | 'UNCERTAIN' | 'NOT_APPLICABLE' | 'UNABLE_TO_VERIFY';
 
 export interface ImageRecord {
   id: string;
@@ -10,6 +10,8 @@ export interface ImageRecord {
   file_size_bytes: number;
   panel_type?: string;
   image_index?: number;
+  package_id?: string;
+  bbox?: [number, number, number, number];
   width?: number;
   height?: number;
   mime_type: string;
@@ -28,6 +30,8 @@ export interface ExtractedField {
   normalized_value?: string;
   unit?: string;
   confidence: number;
+  source_panel?: string;
+  has_conflict?: boolean;
   detection_method: string;
   bbox?: [number, number, number, number];
   is_detected: boolean;
@@ -41,10 +45,14 @@ export interface RuleCheckResult {
   field_name: string;
   display_name: string;
   is_mandatory: boolean;
+  is_applicable?: boolean;
+  applicability_reason?: string;
   status: CheckStatus;
   detected_value?: string;
   raw_ocr_value?: string;
   confidence?: number;
+  source_panel?: string;
+  conflict_detected?: boolean;
   explanation: string;
   inspector_recommendation?: string;
   bbox?: [number, number, number, number];
@@ -58,6 +66,44 @@ export interface ViolationSummary {
   legal_reference?: string;
   reason: string;
   recommendation: string;
+}
+
+export interface ConflictItem {
+  field_name: string;
+  display_name: string;
+  conflict_summary: string;
+  sources: Array<{
+    image_index?: number;
+    panel_type: string;
+    value?: string;
+    raw_value?: string;
+    confidence?: number;
+    bbox?: [number, number, number, number];
+    filename?: string;
+  }>;
+}
+
+export interface ReviewDecision {
+  field_name: string;
+  action: string;
+  confirmed_value: string;
+  source_panel?: string;
+  reviewer_name: string;
+  reviewer_id?: string;
+  note?: string;
+  timestamp: string;
+  original_ai_value?: string;
+  final_verified_value: string;
+}
+
+export interface AnomalySignal {
+  signal_type: string;
+  severity: 'HIGH' | 'MEDIUM' | 'LOW';
+  label: string;
+  title: string;
+  description: string;
+  recommended_action: string;
+  evidence_sources?: Array<Record<string, any>>;
 }
 
 export interface OCRLineInfo {
@@ -76,6 +122,8 @@ export interface OCRSummary {
 
 export interface InspectionResponse {
   id: string;
+  package_id?: string;
+  parent_scan_id?: string;
   product_name?: string;
   product_category: string;
   overall_status: OverallStatus;
@@ -88,11 +136,14 @@ export interface InspectionResponse {
   warning_checks: number;
   undetected_checks: number;
   uncertain_checks: number;
+  review_checks_count?: number;
+  na_checks_count?: number;
   cv_model_version?: string;
   ocr_version?: string;
   rule_set_version?: string;
   processing_time_ms?: number;
   error_message?: string;
+  is_offline_synced?: boolean;
   created_at: string;
   updated_at: string;
   image?: ImageRecord;
@@ -101,10 +152,23 @@ export interface InspectionResponse {
   detected_fields: ExtractedField[];
   compliance_checks: RuleCheckResult[];
   violations: ViolationSummary[];
+  conflicts?: ConflictItem[];
+  review_decisions?: ReviewDecision[];
+  anomaly_signals?: AnomalySignal[];
+}
+
+export interface MultiPackageScanResponse {
+  scan_id: string;
+  total_packages: number;
+  overall_verdict: string;
+  annotated_overview_url?: string;
+  packages: InspectionResponse[];
 }
 
 export interface InspectionListItem {
   id: string;
+  package_id?: string;
+  parent_scan_id?: string;
   product_name?: string;
   product_category: string;
   overall_status: OverallStatus;
@@ -113,6 +177,7 @@ export interface InspectionListItem {
   total_checks: number;
   passed_checks: number;
   failed_checks: number;
+  has_conflicts?: boolean;
   created_at: string;
   original_filename?: string;
   annotated_image_available: boolean;
@@ -146,3 +211,4 @@ export interface DemoSample {
   description: string;
   scenario: string;
 }
+

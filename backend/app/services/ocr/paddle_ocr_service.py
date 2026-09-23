@@ -19,9 +19,20 @@ class PaddleOCRService:
     def _init_engine(self):
         try:
             from paddleocr import PaddleOCR
-            self.ocr_engine = PaddleOCR(lang=self.lang, enable_mkldnn=False)
+            # Initialize with specified language (supports en, hi)
+            # Disable heavy document unwarping (UVDoc) and orientation classifiers for fast live inspection
+            try:
+                self.ocr_engine = PaddleOCR(
+                    lang=self.lang,
+                    enable_mkldnn=False,
+                    use_doc_unwarping=False,
+                    use_doc_orientation_classify=False,
+                    use_textline_orientation=False
+                )
+            except TypeError:
+                self.ocr_engine = PaddleOCR(lang=self.lang, enable_mkldnn=False)
             self._is_ready = True
-            logger.info("PaddleOCR engine initialized successfully.")
+            logger.info(f"PaddleOCR ({self.lang}) engine initialized successfully.")
         except ImportError:
             logger.info("paddleocr module not installed.")
             self._is_ready = False
@@ -32,6 +43,7 @@ class PaddleOCRService:
     @property
     def engine_name(self) -> str:
         return f"PaddleOCR ({self.lang})"
+
 
     def is_available(self) -> bool:
         return self._is_ready and self.ocr_engine is not None

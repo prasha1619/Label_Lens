@@ -40,12 +40,11 @@ class LabelFieldExtractor:
             raw_to_norm_map[qty_field.raw_value] = qty_field.normalized_value
 
         # 3. Extract Dates (Mfg / Expiry)
-        mfg_field = DatesExtractor.extract_mfg_date(lines)
+        mfg_field, exp_field = DatesExtractor.extract_all_dates(lines)
         if mfg_field:
             fields["mfg_date"] = mfg_field
             raw_to_norm_map[mfg_field.raw_value] = mfg_field.normalized_value
 
-        exp_field = DatesExtractor.extract_expiry_date(lines)
         if exp_field:
             fields["expiry_date"] = exp_field
             raw_to_norm_map[exp_field.raw_value] = exp_field.normalized_value

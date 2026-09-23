@@ -93,6 +93,52 @@ export const inspectionService = {
     });
   },
 
+  async submitReview(
+    id: string,
+    fieldName: string,
+    confirmedValue: string,
+    action: string = 'CONFIRM_VALUE',
+    sourcePanel?: string,
+    reviewerName?: string,
+    note?: string
+  ): Promise<InspectionResponse> {
+    return request<InspectionResponse>(`/inspections/${id}/review`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        field_name: fieldName,
+        action,
+        confirmed_value: confirmedValue,
+        source_panel: sourcePanel,
+        reviewer_name: reviewerName || 'Statutory Inspector',
+        note: note || 'Human verification decision recorded'
+      }),
+    });
+  },
+
+  async uploadMultiPackageScan(
+    file: File,
+    productCategory: string = 'packaged_commodity'
+  ): Promise<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('product_category', productCategory);
+    formData.append('is_demo', 'false');
+
+    return request<any>('/inspections/multi-package-scan', {
+      method: 'POST',
+      body: formData,
+    });
+  },
+
+  async getScanPackages(scanId: string): Promise<InspectionResponse[]> {
+    return request<InspectionResponse[]>(`/inspections/scan/${scanId}/packages`);
+  },
+
+  async getEvidence(id: string): Promise<any> {
+    return request<any>(`/inspections/${id}/evidence`);
+  },
+
   getReportDownloadUrl(id: string): string {
     return `${API_BASE}/inspections/${id}/report`;
   },
@@ -105,4 +151,5 @@ export const inspectionService = {
     return `${API_BASE}/inspections/${id}/image?${params.toString()}`;
   }
 };
+
 

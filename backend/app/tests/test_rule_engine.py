@@ -32,7 +32,7 @@ def test_rule_engine_unable_to_verify_on_degraded_image():
     assert result.overall_status == OverallComplianceStatus.UNABLE_TO_VERIFY
     assert result.compliance_score == 0.0
     assert len(result.violations) > 0
-    assert any(c.status == LegalStatusEnum.UNABLE_TO_VERIFY for c in result.rule_checks)
+    assert any(c.status in (LegalStatusEnum.REVIEW, LegalStatusEnum.UNABLE_TO_VERIFY) for c in result.rule_checks)
 
 def test_rule_engine_compliant_when_all_mandatory_fields_present():
     quality = make_quality(status="PASS", is_acceptable=True)

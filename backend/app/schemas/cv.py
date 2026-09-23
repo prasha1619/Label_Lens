@@ -33,3 +33,19 @@ class CVDetectionResult(BaseModel):
     model_version: str
     regions: List[DetectionRegion] = Field(default_factory=list)
     annotated_image_url: Optional[str] = None
+
+class DetectedPackage(BaseModel):
+    package_id: str = Field(..., description="Unique package identifier, e.g., Package #1")
+    package_index: int = Field(..., description="0-indexed package sequence")
+    bbox: List[int] = Field(..., description="[x1, y1, x2, y2] in full frame")
+    confidence: float = Field(default=1.0, ge=0.0, le=1.0)
+    label_class: str = Field(default="packaged_commodity")
+    cropped_image_path: Optional[str] = Field(None, description="Path to isolated package crop image")
+    crop_width: Optional[int] = None
+    crop_height: Optional[int] = None
+
+class MultiPackageDetectionResult(BaseModel):
+    total_detected: int = Field(default=1)
+    packages: List[DetectedPackage] = Field(default_factory=list)
+    annotated_frame_path: Optional[str] = None
+

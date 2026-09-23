@@ -39,6 +39,14 @@ class Inspection(Base):
     processing_time_ms = Column(Float, nullable=True)
     error_message = Column(Text, nullable=True)
     
+    # Multi-Package, Conflict & Review Extensions
+    package_id = Column(String(100), default="Package #1", index=True)
+    parent_scan_id = Column(String(36), nullable=True, index=True)
+    conflicts = Column(JSON, default=list)
+    review_decisions = Column(JSON, default=list)
+    anomaly_signals = Column(JSON, default=list)
+    is_offline_synced = Column(Boolean, default=False)
+
     created_at = Column(DateTime, default=utc_now, index=True)
     updated_at = Column(DateTime, default=utc_now, onupdate=utc_now)
 
@@ -62,6 +70,8 @@ class ImageRecord(Base):
     inspection_id = Column(String(36), ForeignKey("inspections.id", ondelete="CASCADE"), index=True)
     panel_type = Column(String(50), default="front")  # front, back, side, top, general
     image_index = Column(Integer, default=0)
+    package_id = Column(String(100), nullable=True)
+    bbox = Column(JSON, nullable=True)
     
     original_filename = Column(String(255), nullable=False)
     file_path = Column(String(500), nullable=False)
@@ -110,6 +120,8 @@ class DetectedField(Base):
     normalized_value = Column(Text, nullable=True)
     unit = Column(String(50), nullable=True)  # g, ml, kg, INR, etc.
     confidence = Column(Float, nullable=False)
+    source_panel = Column(String(100), nullable=True)
+    has_conflict = Column(Boolean, default=False)
     detection_method = Column(String(50), default="OCR_REGEX")  # YOLO, OCR_REGEX, FUZZY, NLP
     bbox = Column(JSON, nullable=True)  # [x1, y1, x2, y2]
     metadata_info = Column(JSON, default=dict)
@@ -127,12 +139,15 @@ class ComplianceCheck(Base):
     legal_reference = Column(String(255), nullable=True)  # e.g., "Rule 6(1)(e), Legal Metrology (PC) Rules 2011"
     field_name = Column(String(100), nullable=False)
     is_mandatory = Column(Boolean, default=True)
+    is_applicable = Column(Boolean, default=True)
     
     status = Column(String(50), nullable=False)  
-    # PASS, FAIL, WARNING, NOT_DETECTED, UNCERTAIN, NOT_APPLICABLE, UNABLE_TO_VERIFY
+    # PASS, FAIL, REVIEW, N/A, WARNING, NOT_DETECTED, UNCERTAIN, NOT_APPLICABLE, UNABLE_TO_VERIFY
     
     detected_value = Column(Text, nullable=True)
     confidence = Column(Float, nullable=True)
+    source_panel = Column(String(100), nullable=True)
+    conflict_detected = Column(Boolean, default=False)
     explanation = Column(Text, nullable=False)
     inspector_recommendation = Column(Text, nullable=True)
     bbox = Column(JSON, nullable=True)
@@ -153,3 +168,4 @@ class Violation(Base):
     recommendation = Column(Text, nullable=False)
 
     inspection = relationship("Inspection", back_populates="violations")
+

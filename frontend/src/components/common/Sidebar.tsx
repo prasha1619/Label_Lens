@@ -13,7 +13,8 @@ import {
   HelpCircle,
   UserRound,
   ShieldCheck,
-  ArrowRight
+  ArrowRight,
+  Glasses
 } from 'lucide-react';
 import labelLensLogo from '../../assets/labellens-logo.png';
 
@@ -35,6 +36,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const mainNavItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'new-inspection', label: 'Scan & Verify', icon: ScanLine },
+    { id: 'ar-inspect', label: 'AR Inspect', icon: Glasses, badge: 'NEW' },
     { id: 'products', label: 'Products', icon: Package },
     { id: 'licensees', label: 'Licensee Management', icon: Users },
     { id: 'history', label: 'Inspections', icon: ClipboardCheck },
@@ -102,11 +104,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                     isActive
                       ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-600/30'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                      : item.id === 'ar-inspect'
+                        ? 'text-cyan-300 hover:text-white hover:bg-cyan-900/30 border border-cyan-500/20'
+                        : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : item.id === 'ar-inspect' ? 'text-cyan-400' : 'text-slate-400'}`} />
                   <span>{item.label}</span>
+                  {'badge' in item && item.badge && !isActive && (
+                    <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30">{item.badge}</span>
+                  )}
                 </button>
               );
             })}

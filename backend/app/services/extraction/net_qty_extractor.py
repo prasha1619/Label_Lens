@@ -14,43 +14,49 @@ class NetQuantityExtractor:
         "g": "g", "gm": "g", "gms": "g", "gram": "g", "grams": "g",
         "kg": "kg", "kgs": "kg", "kilo": "kg", "kilogram": "kg", "kilograms": "kg",
         "ml": "ml", "m.l.": "ml", "m.l": "ml", "millilitre": "ml", "millilitres": "ml", "milliliter": "ml",
-        "mi": "ml", "m|": "ml", "m1": "ml", "@l": "ml", "mi": "ml", "ml.": "ml", "m1.": "ml",
+        "mi": "ml", "m|": "ml", "m1": "ml", "@l": "ml", "ml.": "ml", "m1.": "ml",
         "l": "L", "lt": "L", "ltr": "L", "ltrs": "L", "liter": "L", "litre": "L", "litres": "L",
         "n": "N", "u": "Units", "unit": "Units", "units": "Units", "pc": "Pieces", "pcs": "Pieces", "piece": "Pieces", "pieces": "Pieces",
-        "m": "m", "meter": "m", "metre": "m", "meters": "m", "cm": "cm", "mm": "mm"
+        "m": "m", "meter": "m", "metre": "m", "meters": "m", "cm": "cm", "mm": "mm",
+        # Hindi units
+        "ग्राम": "g", "ग्रा": "g", "किग्रा": "kg", "कि.ग्रा.": "kg", "किलोग्राम": "kg",
+        "मिली": "ml", "मि.ली.": "ml", "मिलीलीटर": "ml", "लीटर": "L", "ली": "L",
+        "नग": "N", "संख्या": "N", "इकाई": "Units", "मीटर": "m", "सेमी": "cm"
     }
 
     QTY_HEADER_REGEX = re.compile(
         r'(?:'
-        r'\b(?:NET\s*(?:WT\.?|WEIGHT|QTY\.?|QUANTITY|VOL\.?|VOLUME|CONTENT(?:S)?)|NET|CONTENT(?:S)?)\b[\s:\.\-\{\}\(\)]*'
+        r'\b(?:NET\s*(?:WT\.?|WEIGHT|QTY\.?|QUANTITY|VOL\.?|VOLUME|CONTENT(?:S)?)|NET|CONTENT(?:S)?)\b[\s:\.\-\{\}\(\)]*|'
+        r'(?:शुद्ध\s*मात्रा|मात्रा|शुद्ध\s*वजन|कुल\s*वजन|नेट\s*मात्रा|शुद्ध\s*सामग्री)[\s:\.\-\{\}\(\)]*'
         r')',
         re.IGNORECASE
     )
 
     # Dual declaration pattern: e.g. "100 ml (98.3 g)" or "100ml (98.3g)"
     DUAL_PATTERN = re.compile(
-        r'([0-9]+(?:\.[0-9]+)?)\s*(MLS?|ML|MI|M1|LTRS?|LTR|L|GMS?|GM|G|KGS?|KG)\s*[\(\{\[]\s*([0-9]+(?:\.[0-9]+)?)\s*(GMS?|GM|G|KGS?|KG|MLS?|ML|MI|M1)\s*[\)\}\]]',
+        r'([0-9]+(?:\.[0-9]+)?)\s*(MLS?|ML|MI|M1|LTRS?|LTR|L|GMS?|GM|G|KGS?|KG|मिली|लीटर|ग्राम|किग्रा)\s*[\(\{\[]\s*([0-9]+(?:\.[0-9]+)?)\s*(GMS?|GM|G|KGS?|KG|MLS?|ML|MI|M1|ग्राम|किग्रा|मिली|लीटर)\s*[\)\}\]]',
         re.IGNORECASE
     )
 
     # Patterns matching net quantity declarations
     PATTERNS = [
-        # Net Qty / Net Weight / Net Content: 180 ml / 1.5 kg / 2 N
+        # Net Qty / Net Weight / Net Content: 180 ml / 1.5 kg / 2 N / 500 ग्राम
         re.compile(
-            r'(?:NET\s*(?:WT\.?|WEIGHT|QTY\.?|QUANTITY|VOL\.?|VOLUME|CONTENT(?:S)?|\(WHEN\s*PACKED\))?)[\s:\.\-\{\}\(\)]*([0-9]+(?:\.[0-9]+)?)\s*(GMS?|GM|G|KGS?|KG|MLS?|ML|MI|M1|LTRS?|LTR|LT|L|PCS?|PIECES?|UNITS?|UNIT|N|U|@L)\b',
+            r'(?:NET\s*(?:WT\.?|WEIGHT|QTY\.?|QUANTITY|VOL\.?|VOLUME|CONTENT(?:S)?|\(WHEN\s*PACKED\))?|शुद्ध\s*मात्रा|मात्रा|शुद्ध\s*वजन|नेट\s*मात्रा)?[\s:\.\-\{\}\(\)]*([0-9]+(?:\.[0-9]+)?)\s*(GMS?|GM|G|KGS?|KG|MLS?|ML|MI|M1|LTRS?|LTR|LT|L|PCS?|PIECES?|UNITS?|UNIT|N|U|@L|ग्राम|ग्रा|किग्रा|कि\.ग्रा\.|किलोग्राम|मिली|मि\.ली\.|मिलीलीटर|लीटर|ली|नग|संख्या)\b',
             re.IGNORECASE
         ),
         # Multi-pack quantity: 2 x 100 g / 4 x 50 ml
         re.compile(
-            r'(?:NET\s*(?:QTY|WT|WEIGHT)?)?[\s:\.]*([0-9]+)\s*[xX*]\s*([0-9]+(?:\.[0-9]+)?)\s*(GMS?|GM|G|KGS?|KG|MLS?|ML|MI|M1|LTRS?|LTR|LT|L|PCS?|UNITS?|N)\b',
+            r'(?:NET\s*(?:QTY|WT|WEIGHT)?)?[\s:\.]*([0-9]+)\s*[xX*]\s*([0-9]+(?:\.[0-9]+)?)\s*(GMS?|GM|G|KGS?|KG|MLS?|ML|MI|M1|LTRS?|LTR|LT|L|PCS?|UNITS?|N|ग्राम|किग्रा|मिली|लीटर)\b',
             re.IGNORECASE
         ),
-        # Standalone numeric with standard metrology unit: 500 g / 250 ml / 1 kg
+        # Standalone numeric with standard metrology unit: 500 g / 250 ml / 1 kg / 500 ग्राम
         re.compile(
-            r'\b([0-9]+(?:\.[0-9]+)?)\s*(GMS?|GM|G|KGS?|KG|MLS?|ML|MI|LTRS?|LTR|LT|L|PCS?|PIECES?|UNITS?|N)\b',
+            r'\b([0-9]+(?:\.[0-9]+)?)\s*(GMS?|GM|G|KGS?|KG|MLS?|ML|MI|LTRS?|LTR|LT|L|PCS?|PIECES?|UNITS?|N|ग्राम|ग्रा|किग्रा|मिली|लीटर|नग)\b',
             re.IGNORECASE
         )
     ]
+
 
     @classmethod
     def _clean_ocr_noise(cls, text: str) -> str:
@@ -98,8 +104,8 @@ class NetQuantityExtractor:
                     v2 = float(v2_str)
                     u1 = cls.UNIT_NORMALIZATION_MAP.get(u1_raw.lower(), u1_raw.lower())
                     u2 = cls.UNIT_NORMALIZATION_MAP.get(u2_raw.lower(), u2_raw.lower())
-                    v1_fmt = f"{v1:g}" if v1.is_integer() else f"{v1:.2f}"
-                    v2_fmt = f"{v2:g}" if v2.is_integer() else f"{v2:.2f}"
+                    v1_fmt = f"{v1:g}"
+                    v2_fmt = f"{v2:g}"
                     norm_val = f"{v1_fmt} {u1} ({v2_fmt} {u2})"
 
                     return ExtractedField(
@@ -131,9 +137,9 @@ class NetQuantityExtractor:
                 val = float(multi_match.group(2))
                 raw_unit = multi_match.group(3).lower()
                 norm_unit = cls.UNIT_NORMALIZATION_MAP.get(raw_unit, raw_unit)
-                val_str = f"{val:g}" if val.is_integer() else f"{val:.2f}"
+                val_str = f"{val:g}"
                 total_val = count * val
-                total_str = f"{total_val:g}" if total_val.is_integer() else f"{total_val:.2f}"
+                total_str = f"{total_val:g}"
                 normalized_val = f"{count} x {val_str} {norm_unit} (Total: {total_str} {norm_unit})"
 
                 return ExtractedField(
@@ -173,7 +179,7 @@ class NetQuantityExtractor:
                         continue
 
                     norm_unit = cls.UNIT_NORMALIZATION_MAP.get(raw_unit, raw_unit)
-                    clean_val = f"{val_float:g}" if val_float.is_integer() else f"{val_float:.2f}"
+                    clean_val = f"{val_float:g}"
                     normalized_val = f"{clean_val} {norm_unit}"
 
                     # Pattern 0 (explicit Net Qty keyword) is given higher confidence weight
@@ -215,8 +221,8 @@ class NetQuantityExtractor:
                                 v2 = float(v2_str)
                                 u1 = cls.UNIT_NORMALIZATION_MAP.get(u1_raw.lower(), u1_raw.lower())
                                 u2 = cls.UNIT_NORMALIZATION_MAP.get(u2_raw.lower(), u2_raw.lower())
-                                v1_fmt = f"{v1:g}" if v1.is_integer() else f"{v1:.2f}"
-                                v2_fmt = f"{v2:g}" if v2.is_integer() else f"{v2:.2f}"
+                                v1_fmt = f"{v1:g}"
+                                v2_fmt = f"{v2:g}"
                                 norm_val = f"{v1_fmt} {u1} ({v2_fmt} {u2})"
                                 return ExtractedField(
                                     field_name="net_quantity",
@@ -241,7 +247,7 @@ class NetQuantityExtractor:
                                 val_float = float(val_str)
                                 if 0 < val_float <= 50000:
                                     norm_unit = cls.UNIT_NORMALIZATION_MAP.get(raw_unit, raw_unit)
-                                    clean_val = f"{val_float:g}" if val_float.is_integer() else f"{val_float:.2f}"
+                                    clean_val = f"{val_float:g}"
                                     normalized_val = f"{clean_val} {norm_unit}"
                                     mean_conf = (line.confidence + next_line.confidence) / 2.0
                                     conf = min(0.99, round(mean_conf * 0.95, 4))

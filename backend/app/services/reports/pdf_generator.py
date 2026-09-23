@@ -348,13 +348,14 @@ class CompliancePDFReportGenerator:
 
                 story.append(Spacer(1, 6))
 
-        # 5. Declarations & Compliance Matrix
+        # 5. Declarations & Compliance Matrix with Source Panels
         story.append(Paragraph("Mandatory Declarations & Compliance Checks", section_heading))
         
         checks_data = [
             [
                 Paragraph("<b>Declaration / Field</b>", bold_label),
                 Paragraph("<b>Detected Value</b>", bold_label),
+                Paragraph("<b>Source Panel</b>", bold_label),
                 Paragraph("<b>Status</b>", bold_label),
                 Paragraph("<b>Conf.</b>", bold_label),
                 Paragraph("<b>Legal Reference & Reason</b>", bold_label)
@@ -362,21 +363,30 @@ class CompliancePDFReportGenerator:
         ]
 
         for check in inspection.compliance_checks:
-            stat_color = colors.HexColor("#10B981") if check.status == "PASS" else (
-                colors.HexColor("#EF4444") if check.status in ["FAIL", "NOT_DETECTED"] else colors.HexColor("#F59E0B")
-            )
+            stat_str = str(check.status).upper()
+            if stat_str == "PASS":
+                stat_color = colors.HexColor("#10B981")
+            elif stat_str in ["FAIL", "NOT_DETECTED"]:
+                stat_color = colors.HexColor("#EF4444")
+            elif stat_str in ["REVIEW", "WARNING", "UNCERTAIN"]:
+                stat_color = colors.HexColor("#F59E0B")
+            else:
+                stat_color = colors.HexColor("#64748B")
+
             conf_str = f"{int(check.confidence * 100)}%" if check.confidence else "—"
             det_val = sanitize_pdf_text(check.detected_value) or "<i>[Not Detected]</i>"
+            source_p = sanitize_pdf_text(check.source_panel or "Front Panel")
             
             checks_data.append([
                 Paragraph(f"<b>{sanitize_pdf_text(check.rule_title)}</b>", body_style),
                 Paragraph(det_val, body_style),
-                Paragraph(f"<font color='{stat_color.hexval()}'><b>{check.status}</b></font>", body_style),
+                Paragraph(f"<font size=7.5>{source_p}</font>", body_style),
+                Paragraph(f"<font color='{stat_color.hexval()}'><b>{stat_str}</b></font>", body_style),
                 Paragraph(conf_str, body_style),
                 Paragraph(f"<font size=7.5><b>{sanitize_pdf_text(check.legal_reference or '')}</b><br/>{sanitize_pdf_text(check.explanation)}</font>", body_style)
             ])
 
-        checks_table = Table(checks_data, colWidths=[115, 105, 60, 45, 195])
+        checks_table = Table(checks_data, colWidths=[105, 95, 70, 50, 40, 160])
         checks_table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#E2E8F0")),
             ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#CBD5E1")),
@@ -385,9 +395,62 @@ class CompliancePDFReportGenerator:
             ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor("#F8FAFC")])
         ]))
         story.append(checks_table)
-        story.append(Spacer(1, 10))
+        story.append(Spacer(1, 8))
 
-        # 6. Violations & Inspector Recommendations
+        # 6. Cross-Panel Conflicts & Human Verification Trail
+        if getattr(inspection, "conflicts", None):
+            story.append(Paragraph("Cross-Panel Discrepancies & Conflict Signals", section_heading))
+            conf_data = [
+                [
+                    Paragraph("<b>Attribute</b>", bold_label),
+                    Paragraph("<b>Conflict Summary</b>", bold_label),
+                    Paragraph("<b>Recommended Action</b>", bold_label)
+                ]
+            ]
+            for conf in inspection.conflicts:
+                conf_data.append([
+                    Paragraph(f"<b>{sanitize_pdf_text(conf.get('display_name', conf.get('field_name')))}</b>", body_style),
+                    Paragraph(f"<font color='#B91C1C'>{sanitize_pdf_text(conf.get('conflict_summary', 'Discrepancy across panels'))}</font>", body_style),
+                    Paragraph("Physical inspection required in Review Queue.", body_style)
+                ])
+            conf_tbl = Table(conf_data, colWidths=[120, 240, 160])
+            conf_tbl.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#FEF3C7")),
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#FCD34D")),
+                ('PADDING', (0, 0), (-1, -1), 3.5),
+                ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+            ]))
+            story.append(conf_tbl)
+            story.append(Spacer(1, 8))
+
+        if getattr(inspection, "review_decisions", None):
+            story.append(Paragraph("Human-in-the-Loop Verification & Audit Trail", section_heading))
+            rev_data = [
+                [
+                    Paragraph("<b>Field</b>", bold_label),
+                    Paragraph("<b>Action / Decision</b>", bold_label),
+                    Paragraph("<b>Verified Value</b>", bold_label),
+                    Paragraph("<b>Reviewer & Timestamp</b>", bold_label)
+                ]
+            ]
+            for rev in inspection.review_decisions:
+                rev_data.append([
+                    Paragraph(f"<b>{sanitize_pdf_text(rev.get('field_name', '').replace('_', ' ').title())}</b>", body_style),
+                    Paragraph(f"<font color='#059669'><b>{sanitize_pdf_text(rev.get('action', 'CONFIRM_VALUE'))}</b></font>", body_style),
+                    Paragraph(sanitize_pdf_text(rev.get('confirmed_value', '—')), body_style),
+                    Paragraph(f"<font size=7.5>{sanitize_pdf_text(rev.get('reviewer_name', 'Inspector'))}<br/>{rev.get('timestamp', '')[:19]}</font>", body_style)
+                ])
+            rev_tbl = Table(rev_data, colWidths=[110, 110, 140, 160])
+            rev_tbl.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#D1FAE5")),
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#6EE7B7")),
+                ('PADDING', (0, 0), (-1, -1), 3.5),
+                ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+            ]))
+            story.append(rev_tbl)
+            story.append(Spacer(1, 8))
+
+        # 7. Violations & Inspector Recommendations
         if inspection.violations:
             story.append(Paragraph("Identified Deficiencies & Remedial Action", section_heading))
             viol_data = [
@@ -414,17 +477,19 @@ class CompliancePDFReportGenerator:
                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
             ]))
             story.append(viol_table)
-            story.append(Spacer(1, 10))
+            story.append(Spacer(1, 8))
 
-        # 7. Audit & Pipeline Metadata
+        # 8. Audit & Pipeline Metadata
         audit_text = (
-            f"<b>Pipeline Audit Trace:</b> CV Model: <code>{inspection.cv_model_version or 'YOLO11-CV'}</code> | "
+            f"<b>Pipeline Audit Trace:</b> Package: <code>{getattr(inspection, 'package_id', 'Package #1')}</code> | "
+            f"CV Model: <code>{inspection.cv_model_version or 'YOLO11-CV'}</code> | "
             f"OCR Engine: <code>{inspection.ocr_version or 'PaddleOCR/EasyOCR'}</code> | "
             f"Rule Set: <code>{inspection.rule_set_version or 'LM-2026.1'}</code> | "
             f"Latency: <code>{inspection.processing_time_ms or 0:.0f} ms</code>"
         )
         story.append(Paragraph(audit_text, subtitle_style))
         story.append(Spacer(1, 6))
+
 
         # 8. Statutory Legal Disclaimer
         disclaimer_box = [

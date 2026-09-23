@@ -3,6 +3,7 @@ import {
   ClipboardList, 
   ShieldCheck, 
   AlertTriangle, 
+  HelpCircle,
   Users, 
   ArrowUp, 
   ArrowDown 
@@ -14,6 +15,7 @@ import { RecentInspectionsList } from '../components/dashboard/RecentInspections
 import { DistrictHeatmap } from '../components/dashboard/DistrictHeatmap';
 import { RecentAlertsCard } from '../components/dashboard/RecentAlertsCard';
 import { BottomStatsBar } from '../components/dashboard/BottomStatsBar';
+import { OfflineSyncBanner } from '../components/common/OfflineSyncBanner';
 import { inspectionService } from '../services/inspectionService';
 import { DashboardMetrics } from '../types/inspection';
 import { useAuth } from '../auth/AuthContext';
@@ -39,7 +41,6 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   const [metrics, setMetrics] = useState<DashboardMetrics | null>(null);
   const [metricsError, setMetricsError] = useState(false);
 
-
   useEffect(() => {
     let active = true;
     inspectionService.getDashboardMetrics()
@@ -52,36 +53,36 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     {
       title: 'Total Inspections',
       value: metrics?.total_inspections.toLocaleString() ?? '—',
-      trend: 'Saved reports',
+      trend: 'Saved audits',
       isPositive: true,
       icon: ClipboardList,
       iconBg: 'bg-gradient-to-br from-purple-500/20 to-indigo-600/30 text-purple-400 border border-purple-500/30',
       trendColor: 'text-purple-400',
     },
     {
-      title: 'Compliant Products',
+      title: 'Compliant (PASS)',
       value: metrics?.compliant_count.toLocaleString() ?? '—',
-      trend: 'Passed audits',
+      trend: 'Passed statutory rules',
       isPositive: true,
       icon: ShieldCheck,
-      iconBg: 'bg-gradient-to-br from-blue-500/20 to-cyan-600/30 text-blue-400 border border-blue-500/30',
-      trendColor: 'text-blue-400',
+      iconBg: 'bg-gradient-to-br from-emerald-500/20 to-teal-600/30 text-emerald-400 border border-emerald-500/30',
+      trendColor: 'text-emerald-400',
     },
     {
-      title: 'Non-Compliant',
+      title: 'Non-Compliant (FAIL)',
       value: metrics?.non_compliant_count.toLocaleString() ?? '—',
-      trend: 'Require action',
-      isPositive: false, // Decreased non-compliance is good, shows down arrow
+      trend: 'Violations flagged',
+      isPositive: false,
       icon: AlertTriangle,
-      iconBg: 'bg-gradient-to-br from-teal-500/20 to-emerald-600/30 text-teal-400 border border-teal-500/30',
-      trendColor: 'text-teal-400',
+      iconBg: 'bg-gradient-to-br from-rose-500/20 to-red-600/30 text-rose-400 border border-rose-500/30',
+      trendColor: 'text-rose-400',
     },
     {
-      title: 'Average Compliance',
-      value: metrics ? `${metrics.average_compliance_score}%` : '—',
-      trend: 'Across reports',
+      title: 'Review Required',
+      value: metrics?.needs_review_count?.toLocaleString() ?? '0',
+      trend: 'Human-in-the-loop',
       isPositive: true,
-      icon: Users,
+      icon: HelpCircle,
       iconBg: 'bg-gradient-to-br from-amber-500/20 to-yellow-600/30 text-amber-400 border border-amber-500/30',
       trendColor: 'text-amber-400',
     },
@@ -89,6 +90,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
   return (
     <div className="space-y-6 animate-fadeIn pb-6">
+      {/* Offline sync status banner */}
+      <OfflineSyncBanner />
+
       {/* Top Greeting Header */}
       <div className="space-y-1">
         <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
@@ -100,7 +104,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           <span className="inline-block animate-bounce">👋</span>
         </h1>
         <p className="text-xs sm:text-sm text-slate-400 font-medium">
-          Welcome to LabelLens - Legal Metrology Compliance Dashboard
+          Welcome to LabelLens - Legal Metrology Compliance & Regulatory Inspection System
         </p>
       </div>
 
@@ -121,17 +125,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                   {item.value}
                 </div>
                 <div className="flex items-center space-x-1 mt-1.5">
-                  {item.isPositive ? (
-                    <span className="text-[11px] font-semibold text-purple-400 flex items-center">
-                      <ArrowUp className="w-3 h-3 mr-0.5 inline" />
-                      {item.trend}
-                    </span>
-                  ) : (
-                    <span className="text-[11px] font-semibold text-teal-400 flex items-center">
-                      <ArrowDown className="w-3 h-3 mr-0.5 inline" />
-                      {item.trend}
-                    </span>
-                  )}
+                  <span className={`text-[11px] font-semibold ${item.trendColor}`}>
+                    {item.trend}
+                  </span>
                 </div>
               </div>
 
